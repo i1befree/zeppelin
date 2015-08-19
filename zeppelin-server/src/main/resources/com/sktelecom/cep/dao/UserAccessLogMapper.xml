@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.UserAccessLogDao">
+
+    <resultMap id="UserAccessLogMap" type="com.sktelecom.cep.vo.UserAccessLog">
+        <result property="loginDate" column="login_date" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="email" column="email" />
+        <result property="tel" column="tel" />
+        <result property="userGrpCd" column="user_grp_cd" />
+        <result property="cnt" column="cnt" />
+    </resultMap>
+
+
+    <insert id="create" parameterType="com.sktelecom.cep.vo.UserAccessLog">
+        INSERT INTO user_access_log (login_date, id, name, email, tel, user_grp_cd)
+        SELECT now(), id, name, email, tel, user_grp_cd
+        FROM user
+        WHERE id = #{id}
+    </insert>
+
+    <select id="getList" resultMap="UserAccessLogMap" parameterType="com.sktelecom.cep.vo.UserAccessLog">
+        SELECT login_date, id, name, email, tel, user_grp_cd
+        FROM user_access_log
+        WHERE 1 = 1
+        <if test="start != null and start != ''">
+            AND login_date <![CDATA[ >= ]]>
+            STR_TO_DATE(#{start}, '%Y%m%d%H%i%s')
+        </if>
+        <if test="end != null and end != ''">
+            AND login_date <![CDATA[ <= ]]>
+            STR_TO_DATE(#{end}, '%Y%m%d%H%i%s')
+        </if>
+        <if test="query != null and query != ''">
+            AND (id like #{query} OR name like #{query})
+        </if>
+        ORDER BY login_date DESC
+        LIMIT #{beginRowNum}, #{rowsPerPage}
+    </select>
+
+    <select id="getListCount" resultType="long" parameterType="com.sktelecom.cep.vo.UserAccessLog">
+        SELECT count(login_date)
+        FROM user_access_log
+        WHERE 1 = 1
+        <if test="start != null and start != ''">
+            AND login_date <![CDATA[ >= ]]>
+            STR_TO_DATE(#{start}, '%Y%m%d%H%i%s')
+        </if>
+        <if test="end != null and end != ''">
+            AND login_date <![CDATA[ <= ]]>
+            STR_TO_DATE(#{end}, '%Y%m%d%H%i%s')
+        </if>
+        <if test="query != null and query != ''">
+            AND (id like #{query} OR name like #{query})
+        </if>
+    </select>
+
+</mapper>

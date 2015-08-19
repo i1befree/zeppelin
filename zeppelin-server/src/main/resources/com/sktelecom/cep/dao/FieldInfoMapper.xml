@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.FieldInfoDao">
+
+    <resultMap id="FieldInfoMap" type="com.sktelecom.cep.vo.FieldInfo">
+        <!-- 실제 DB컬럼과 매핑 -->
+        <result property="resourceId" column="resource_id" />
+        <result property="fieldId" column="field_id" />
+        <result property="fieldName" column="field_name" />
+        <result property="dataType" column="data_type" />
+        <result property="createDate" column="create_date" /> 
+    </resultMap>
+
+    <insert id="create" parameterType="com.sktelecom.cep.vo.FieldInfo">
+        INSERT INTO field_info(resource_id, field_id, field_name, data_type, create_date)
+        VALUES (#{resourceId}, #{fieldId}, #{fieldName}, #{dataType}, #{createDate})
+    </insert>
+
+    <delete id="deleteByResourceId" parameterType="com.sktelecom.cep.vo.FieldInfo">
+        DELETE FROM field_info
+        WHERE resource_id = #{resourceId}
+    </delete>
+
+    <select id="getListByResourceId" resultMap="FieldInfoMap" parameterType="com.sktelecom.cep.vo.FieldInfo">
+        SELECT resource_id, field_id, field_name, data_type, create_date
+        FROM field_info
+        WHERE resource_id = #{resourceId}
+        ORDER BY create_date 
+    </select>
+
+</mapper>

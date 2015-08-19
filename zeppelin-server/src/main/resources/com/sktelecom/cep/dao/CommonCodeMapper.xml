@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.CommonCodeDao">
+
+    <resultMap id="CommonCodeMap" type="com.sktelecom.cep.vo.CommonCode">
+        <result property="code" column="code" />
+        <result property="codeVal" column="code_val" />
+        <result property="codeDesc" column="code_desc" />
+    </resultMap>
+	
+    <insert id="create" parameterType="com.sktelecom.cep.vo.CommonCode">
+        INSERT INTO common_code(code, code_val, code_desc)
+        VALUES (#{code},#{codeVal},#{codeDesc})        
+    </insert>
+
+    <select id="getInfo" parameterType="com.sktelecom.cep.vo.CommonCode" resultMap="CommonCodeMap">
+        SELECT code, code_val, code_desc
+        FROM common_code
+        WHERE code = #{code}
+    </select>
+    
+    <update id="update" parameterType="com.sktelecom.cep.vo.CommonCode">
+        UPDATE common_code
+        SET code_val = #{codeVal},
+        code_desc = #{codeDesc}
+        WHERE code = #{code}
+    </update>
+    
+    <delete id="delete" parameterType="com.sktelecom.cep.vo.CommonCode">
+        DELETE FROM common_code
+        WHERE code = #{code}
+    </delete>
+    
+    <select id="getList" resultMap="CommonCodeMap" parameterType="com.sktelecom.cep.vo.CommonCode">
+        SELECT code, code_val, code_desc
+        FROM common_code
+        LIMIT #{beginRowNum}, #{rowsPerPage} 
+    </select>
+
+    <select id="getListCount" resultType="long" parameterType="com.sktelecom.cep.vo.CommonCode">
+        SELECT COUNT(code)
+        FROM common_code
+    </select>
+    
+    <!-- code_val로부터 code값 호출 -->
+    <select id="getType" resultType="java.lang.String" parameterType="com.sktelecom.cep.vo.CommonCode">
+		SELECT code
+		FROM common_code
+		WHERE code_val=#{typeCheck}
+	</select>
+</mapper>

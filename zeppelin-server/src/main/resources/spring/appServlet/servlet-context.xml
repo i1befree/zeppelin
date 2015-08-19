@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- cache-period="0" : 브라우저 캐시를 사용하지 않도록 한다. -->
+	<resources cache-period="0" mapping="/*.html" location="/" />
+
+	<beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<!-- ViewResolver 우선순위 설정 -->
+		<beans:property name="order" value="1" />
+		<beans:property name="defaultViews">
+			<beans:list>
+				<beans:bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<beans:property name="prefixJson" value="false"></beans:property>
+				</beans:bean>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<!-- <exclude-mapping path="/**" /> grunt 포트9000 으로 디자인 테스트시 적용 -->
+			<exclude-mapping path="/login" />
+			<exclude-mapping path="/logout" />
+      <exclude-mapping path="/getUserSession" />
+      <exclude-mapping path="/notify" />
+			<exclude-mapping path="/exception/**" />
+			
+			<beans:bean class="com.sktelecom.cep.interceptor.LoginCheckInterceptor" />
+		</interceptor>
+	</interceptors>
+
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></beans:bean>
+	<context:component-scan base-package="com.sktelecom.cep.controller" />
+
+</beans:beans>

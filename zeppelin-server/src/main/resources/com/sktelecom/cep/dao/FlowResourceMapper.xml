@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.FlowResourceDao">
+
+    <resultMap id="FlowResourceDetailMap" type="com.sktelecom.cep.vo.FlowResource">
+        <!-- 실제 DB컬럼과 매핑 -->
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type_1" column="type_1" />
+        <result property="type_2" column="type_2" />        
+        <result property="resource_desc" column="resource_desc" />
+        <collection property="properties" column="id" select="getResourcePropertiesInfo"/>
+    </resultMap>    
+	<resultMap id="FlowResourcePropertyMap" type="com.sktelecom.cep.vo.FlowResourceProperty">
+        <!-- 실제 DB컬럼과 매핑 -->
+        <result property="id" column="id" />
+        <result property="resource_key" column="resource_key" />
+        <result property="resource_value" column="resource_value" />
+    </resultMap>
+	<!-- 프로퍼티를 포함하는 리소스 정보를 조회한다. -->
+    <select id="getResourceDetailInfo" parameterType="com.sktelecom.cep.vo.FlowResource" resultMap="FlowResourceDetailMap">
+        SELECT id, name, type_1, type_2, resource_desc
+        FROM resource
+        WHERE id = #{id}
+    </select>
+	
+	<!-- 리소스에 해당하는 프로퍼티들을 조회한다. -->
+    <select id="getResourcePropertiesInfo" parameterType="com.sktelecom.cep.vo.FlowResource" resultMap="FlowResourcePropertyMap">
+        SELECT id, resource_key, resource_value
+        FROM resource_properties
+        WHERE id = #{id}
+    </select>
+
+	<!-- 타입에 해당하는 리소스목록을 조회한다. 단 프로퍼티들은 조회하지 않는다. -->
+	<resultMap id="FlowResourceMap" type="com.sktelecom.cep.vo.FlowResource">
+        <!-- 실제 DB컬럼과 매핑 -->
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="type_1" column="type_1" />
+        <result property="type_2" column="type_2" />        
+        <result property="resource_desc" column="resource_desc" />
+    </resultMap>    
+    <select id="getResourceList" parameterType="com.sktelecom.cep.vo.FlowResource" resultMap="FlowResourceMap">
+        SELECT id, name, type_1, type_2, resource_desc
+        FROM resource
+        WHERE type_1 = #{type_1} 
+        <if test="type_2 != null and type_2 != ''">
+            AND type_2 = #{type_2} 
+        </if>       
+    </select>
+    
+    <!-- 클러스터 목록 조회 -->
+    <resultMap id="FlowClusterMap" type="com.sktelecom.cep.vo.FlowCluster">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="ip" column="ip" />
+        <result property="port" column="port" />        
+        <result property="cluster_desc" column="cluster_desc" />
+    </resultMap>    
+    <select id="getClusterList" resultMap="FlowClusterMap">
+        SELECT id, name, ip, port, cluster_desc
+        FROM cluster  
+    </select>
+
+</mapper>

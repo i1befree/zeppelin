@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.ResourcePropertyDao">
+
+    <resultMap id="ResourcePropertyMap" type="com.sktelecom.cep.vo.ResourceProperty">
+        <!-- 실제 DB컬럼과 매핑 -->
+        <result property="resourceId" column="resource_id" />
+        <result property="propertyKey" column="property_key" />
+        <result property="propertyValue" column="property_value" />
+    </resultMap>
+
+    <insert id="create" parameterType="com.sktelecom.cep.vo.ResourceProperty">
+        INSERT INTO resource_property(resource_id, property_key, property_value)
+        VALUES (#{resourceId}, #{propertyKey}, #{propertyValue})
+    </insert>
+
+    <delete id="deleteByResourceId" parameterType="com.sktelecom.cep.vo.ResourceProperty">
+        DELETE FROM resource_property
+        WHERE resource_id = #{resourceId}
+    </delete>
+
+    <select id="getListByResourceId" resultMap="ResourcePropertyMap" parameterType="com.sktelecom.cep.vo.ResourceProperty">
+        SELECT resource_id, property_key, property_value
+        FROM resource_property
+        WHERE resource_id = #{resourceId}
+    </select>
+
+</mapper>

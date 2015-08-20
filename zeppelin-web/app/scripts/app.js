@@ -129,6 +129,10 @@ angular
       .when('/', {
         templateUrl: 'views/main.html'
       })
+      .when('/workspace/:workspaceId', {
+        templateUrl: 'views/workspace.html',
+        controller: 'WorkspaceCtrl'
+      })
       .when('/notebook/:noteId', {
         templateUrl: 'views/notebooks.html',
         controller: 'NotebookCtrl'
@@ -153,9 +157,15 @@ angular
         redirectTo: '/'
       });
   })
-  .run(function (Authentication, Application, $rootScope, $location, RouteFilter) {
+  .run(function (Authentication, Application, $rootScope, $location, RouteFilter, $timeout) {
     Authentication.requestUser().then(function() {
       Application.makeReady();
+      $timeout(function() {
+        console.info('Authentication.exists()', Authentication.exists());
+        if(Authentication.exists()) {
+          $rootScope.$emit('getTreeWorkspace', {});
+        }
+      }, 100);      
     });
     $rootScope.$on('$locationChangeStart', function(scope, next, current) {
       if ($location.path() === '/') return;

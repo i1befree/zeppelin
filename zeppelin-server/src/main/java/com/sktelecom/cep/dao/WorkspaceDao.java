@@ -67,5 +67,13 @@ public interface WorkspaceDao {
    */
   long getListCount(Workspace workspace);
 
+  /**
+   * 타입에 의한 작업공간 목록 조회.
+   * 
+   * @param Workspace
+   * @return
+   */
+  List<Workspace> getListByType(Workspace workspace);
+  
 
 }

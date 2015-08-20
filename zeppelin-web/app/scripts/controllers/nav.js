@@ -26,13 +26,25 @@
 angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootScope, $routeParams, $location, Authentication) {
   /** Current list of notes (ids) */
   $scope.notes = [];
+  $scope.workspaceMenu = [];
   $('#notebook-list').perfectScrollbar({suppressScrollX: true});
 
   /** Set the new menu */
   $scope.$on('setNoteMenu', function(event, notes) {
       $scope.notes = notes;
   });
+  
+  $scope.$on('setWorkspaceMenu', function(event, workspaceMenu) {
+    $scope.workspaceMenu = workspaceMenu;
+    console.info('$scope.workspaceMenu', $scope.workspaceMenu);
 
+    $('.menu-tree-icon').on({"click":function(e){
+      console.info('dropdown-menu .menu-tree-icon', e);
+      e.stopPropagation();
+    }});
+
+  });
+  
   var loadNotes = function() {
     $rootScope.$emit('sendNewEvent', {op: 'LIST_NOTES'});
   };
@@ -40,12 +52,29 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
 
   /** Create a new note */
   $scope.createNewNote = function() {
-    $rootScope.$emit('sendNewEvent', {op: 'NEW_NOTE', data:{userId: Authentication.getId()}});
+    var workspaceId;
+    angular.forEach($scope.workspaceMenu, function(item, index) {
+      if(item.type === 'P' && item.pId === 'ROOT') {
+        angular.forEach(item.nodes, function(node, i) {
+          if(node.name === 'DEFAULT') {
+            workspaceId = node.workspaceId;
+          }
+        });
+      }
+    });
+    console.info('create notebook workspaceId', workspaceId);
+    $rootScope.$emit('sendNewEvent', {op: 'NEW_NOTE', data:{userId: Authentication.getId(), workspaceId:workspaceId}});
   };
 
   /** Check if the note url is equal to the current note */
   $scope.isActive = function(noteId) {
     if ($routeParams.noteId === noteId) {
+      return true;
+    }
+    return false;
+  };
+  $scope.isActiveWorkspace = function(workspaceId) {
+    if ($routeParams.workspaceId === workspaceId) {
       return true;
     }
     return false;
@@ -72,7 +101,7 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
     var credentials = $scope.login;
     Authentication.login(credentials).then(function(result) {
       if (result.rsCode === 'SUCCESS') {
-        
+        $rootScope.$emit('getTreeWorkspace', {op: 'NEW_NOTE', userId: Authentication.getId()});
       } else {
         alert(result.rsMessage);
       }

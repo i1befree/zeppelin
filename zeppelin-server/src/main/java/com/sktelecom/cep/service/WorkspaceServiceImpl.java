@@ -52,13 +52,18 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   @Override
   public List<Workspace> getList(Workspace workspace) {
     List<Workspace> WorkspaceList = new ArrayList<Workspace>();
-    long totalCount = WorkspaceDao.getListCount(workspace);
-    if (totalCount > 0) {
-      WorkspaceList = WorkspaceDao.getList(workspace);
-      if (WorkspaceList != null && WorkspaceList.size() > 0) {
-        WorkspaceList.get(0).setTotalCount(totalCount);
-      }
-    }
+    workspace.setType("P");
+    List<Workspace> personalList = WorkspaceDao.getListByType(workspace);
+    WorkspaceList.addAll(personalList);
+    
+    workspace.setType("S");
+    List<Workspace> sharedList = WorkspaceDao.getListByType(workspace);
+    WorkspaceList.addAll(sharedList);
+    
+    workspace.setType("G");
+    List<Workspace> globalList = WorkspaceDao.getListByType(workspace);
+    WorkspaceList.addAll(globalList);
+    
     return WorkspaceList;
   }
 

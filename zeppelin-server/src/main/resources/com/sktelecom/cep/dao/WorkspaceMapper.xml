@@ -50,5 +50,14 @@
         SELECT count(workspace_id)
         FROM workspace
     </select>
+    
+    <select id="getListByType" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
+        SELECT w.workspace_id, w.name, w.type, w.p_id, w.user_id, w.create_date, w.update_date
+        FROM workspace w
+        WHERE type = #{type}
+        <if test="userId != null and userId != ''">
+          AND (w.user_id = #{userId} or p_id = 'ROOT')
+        </if>
+    </select>
 
 </mapper>

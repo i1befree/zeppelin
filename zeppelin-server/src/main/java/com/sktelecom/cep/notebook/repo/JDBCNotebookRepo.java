@@ -64,12 +64,13 @@ public class JDBCNotebookRepo implements NotebookRepo {
 
   @Override
   public List<NoteInfo> list() throws IOException {
-    List<NoteInfo> infos = jdbcTemplate.query("select note_id, note_content, user_id from notebook", new RowMapper<NoteInfo>() {
+    List<NoteInfo> infos = jdbcTemplate.query("select note_id, note_name, note_content, user_id from notebook", new RowMapper<NoteInfo>() {
       public NoteInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
         NoteInfo info = null;
         try {
           info = getNoteInfo(rs.getString("note_content"));
           info.setUserId(rs.getString("user_id"));
+          //info.setName(rs.getString("note_name"));
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -101,12 +102,13 @@ public class JDBCNotebookRepo implements NotebookRepo {
   @Override
   public Note get(String noteId) throws IOException {
     try {
-      Note note = jdbcTemplate.queryForObject("select note_id, note_content, user_id from notebook where note_id = ?", new Object[] { noteId }, new RowMapper<Note>() {
+      Note note = jdbcTemplate.queryForObject("select note_id, note_name, note_content, user_id from notebook where note_id = ?", new Object[] { noteId }, new RowMapper<Note>() {
         public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
           Note note = null;
           try {
             note = getNote(rs.getString("note_content"));
             note.setUserId(rs.getString("user_id"));
+            //note.setName(rs.getString("note_name"));
           } catch (IOException e) {
             e.printStackTrace();
           }
@@ -128,9 +130,12 @@ public class JDBCNotebookRepo implements NotebookRepo {
 
     Note orgNote = get(note.id());
     if (orgNote == null) {
-      jdbcTemplate.update("insert into notebook(note_id, note_content, user_id) values (?, ?, ?)", note.id(), json, note.getUserId());
+      if (note.getName() == null) {
+        note.setName("Note " + note.id());
+      }
+      jdbcTemplate.update("insert into notebook(note_id, note_name, note_content, user_id) values (?, ?, ?, ?)", note.id(), note.getName(), json, note.getUserId());
     } else {
-      jdbcTemplate.update("update notebook set note_content = ? where note_id = ?", json, note.id());
+      jdbcTemplate.update("update notebook set note_content = ?, note_name = ? where note_id = ?", json, note.getName(), note.id());
     }
   }
 

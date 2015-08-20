@@ -8,7 +8,8 @@ angular.module('zeppelinWebApp')
     return !Authentication.exists();
   }, '/');
 
-  RouteFilter.register('user', [ '/notebook/:noteId',
+  RouteFilter.register('user', [ '/workspace/:workspaceId',
+                                 '/notebook/:noteId',
                                  '/notebook/:noteId/paragraph/:paragraphId?',
                                  '/userUpdate' ], function() {
     return Authentication.exists();

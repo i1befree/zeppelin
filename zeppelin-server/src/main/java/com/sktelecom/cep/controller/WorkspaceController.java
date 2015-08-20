@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.WorkspaceService;
+import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
 
 /**
@@ -134,7 +136,8 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public List<Workspace> getList(@RequestBody Workspace workspace, HttpSession session) {
-
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    workspace.setUserId(userSession.getId());
     List<Workspace> resultList = workspaceService.getList(workspace);
     return resultList;
   }

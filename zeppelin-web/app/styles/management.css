@@ -120,3 +120,62 @@
   width: 250px;
 }
 
+.workspace_tree_ol {
+  list-style:none; 
+  padding-left: 20px;
+}
+.workspace_tree_root {
+	font-size: 1.25em;
+	font-weight: 500;
+  margin-top: 10px;
+}
+
+/* bootstrap customization for scrollable dropdown menu */
+.dropdown-menu > .scrollbar-container > li div {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+.dropdown-menu > .scrollbar-container > li div a {
+  color: #333;
+}
+.dropdown-menu > .scrollbar-container > li div:hover,
+.dropdown-menu > .scrollbar-container > li div:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+
+.dropdown-menu > .scrollbar-container > .active div,
+.dropdown-menu > .scrollbar-container > .active div:hover,
+.dropdown-menu > .scrollbar-container > .active div:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #428bca;
+  outline: 0;
+}
+
+@media (max-width: 767px) {
+  .navbar-nav .open .dropdown-menu > .scrollbar-container > li div {
+    padding: 5px 15px 5px 25px;
+    line-height: 20px;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > li div {
+    color: #777;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > li div:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > li div:focus {
+    color: #fff;
+    background-color: transparent;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > .active div,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > .active div:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .scrollbar-container > .active div:focus {
+    color: #fff;
+    background-color: #080808;
+  }
+}

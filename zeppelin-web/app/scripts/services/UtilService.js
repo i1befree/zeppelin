@@ -36,6 +36,33 @@ angular.module('zeppelinWebApp').factory('UtilService', function($http, $q, $fil
     });
     return asyncJob.promise;
   }
+
+  function unflatten(arr) {
+    var tree = [],
+        mappedArr = {},
+        arrElem,
+        mappedElem;
+    // First map the nodes of the array to an object -> create a hash table.
+    for(var i = 0, len = arr.length; i < len; i++) {
+      arrElem = arr[i];
+      mappedArr[arrElem.workspaceId] = arrElem;
+      mappedArr[arrElem.workspaceId]['nodes'] = [];
+    }
+    for (var id in mappedArr) {
+      if (mappedArr.hasOwnProperty(id)) {
+        mappedElem = mappedArr[id];
+        // If the element is not at the root level, add it to its parent array of children.
+        if (mappedElem.pId !== 'ROOT') {
+          mappedArr[mappedElem['pId']]['nodes'].push(mappedElem);
+        }
+        // If the element is at the root level, add it to first level elements array.
+        else {
+          tree.push(mappedElem);
+        }
+      }
+    }
+    return tree;
+  }  
   
   return {
     isUndefined : function(value) {
@@ -56,7 +83,9 @@ angular.module('zeppelinWebApp').factory('UtilService', function($http, $q, $fil
 
     httpGet : function(uri) {
       return promiseHttp('GET', uri);
-    }
+    },
+    
+    unflatten : unflatten
 
   };
 

@@ -23,7 +23,7 @@
  * @author anthonycorbacho
  */
 angular.module('zeppelinWebApp')
-        .controller('MainCtrl', function($scope, WebSocket, $rootScope, $window) {
+        .controller('MainCtrl', function($scope, WebSocket, $rootScope, $window, UtilService, Authentication) {
   $rootScope.compiledScope = $scope.$new(true, $rootScope);  
   $scope.WebSocketWaitingList = [];
   $scope.connected = false;
@@ -115,6 +115,22 @@ angular.module('zeppelinWebApp')
       $scope.looknfeel = data;
       event.preventDefault();
     }
+  });
+
+  $rootScope.$on('getTreeWorkspace', function(event, data) {
+    console.info('getTreeWorkspace', event, data);
+
+    //test
+    $scope.mainTreeData = [{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"15634a90-0e8f-44e4-98e1-550be090a210","name":"Personal","type":"P","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"74f83e34-44c3-11e5-bb39-063b17d52e29","name":"DEFAULT","type":"P","pId":"15634a90-0e8f-44e4-98e1-550be090a210","userId":"bestmenbal","createDate":null,"updateDate":null,"nodes":[]}]},{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"f5697b8a-6fe0-4d0e-be26-3472b3c8e2eb","name":"Shared","type":"S","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[]},{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"79efbe48-8205-4a1c-91e3-051bb246b468","name":"Global","type":"G","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[]}];
+    $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
+    
+    
+//    UtilService.httpPost('/workspace/getList', {}).then(function(result) {
+//      $scope.mainTreeData = UtilService.unflatten(result);
+//      $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
+//    }, function(error) {
+//      alert(error);
+//    });
   });
 
 });

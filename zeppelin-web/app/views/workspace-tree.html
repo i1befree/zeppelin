@@ -1,0 +1,26 @@
+<!--
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div ng-class="{'workspace_tree_root': node.pId === 'ROOT'}">
+  <a ng-if="node.nodes && node.nodes.length > 0" data-toggle="collapse" data-target="#node_{{node.workspaceId}}">
+    <i ng-click="node.collapsed = !node.collapsed" class="indented tree-icon"
+       ng-class="{'glyphicon glyphicon-minus': node.collapsed,
+                  'glyphicon glyphicon-plus': !node.collapsed}"></i></a>
+  <a ng-if="node.nodes === undefined || node.nodes.length === 0">
+    <i class="icon-file glyphicon glyphicon-file"></i></a>
+    
+  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.workspaceId}}">{{node.name}}</a>  
+</div>
+<ol id="node_{{node.workspaceId}}" class="workspace_tree_ol collapse" ng-class="{'in': node.collapsed, 'out': !node.collapsed}">
+  <li ng-repeat="node in node.nodes" ng-include="'views/workspace-tree.html'"></li>
+</ol>

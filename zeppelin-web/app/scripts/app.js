@@ -20,7 +20,7 @@
   *
   * In the case of running the zeppelin-server normally,
   * the body of this function is just filler. It will be dynamically
-  * overridden with the AppScriptServlet from zeppelin-site.xml config value 
+  * overridden with the AppScriptServlet from zeppelin-site.xml config value
   * when the client requests the script.
   *
   * If the config value is not defined, it defaults to the HTTP port + 1
@@ -153,6 +153,10 @@ angular
         templateUrl: 'views/userMgr.html',
         controller: 'UserMgrCtrl'
       })
+      .when('/dataStore', {
+        templateUrl: 'views/dataStore.html',
+        controller: 'DataStoreCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -165,7 +169,7 @@ angular
         if(Authentication.exists()) {
           $rootScope.$emit('getTreeWorkspace', {});
         }
-      }, 100);      
+      }, 100);
     });
     $rootScope.$on('$locationChangeStart', function(scope, next, current) {
       if ($location.path() === '/') return;

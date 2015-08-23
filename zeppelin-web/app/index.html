@@ -96,9 +96,12 @@ limitations under the License.
 	              <li ng-if="Authentication.isAdmin()"><a href="#/userMgr">Account Management</a></li>
 	            </ul>
 	          </li>
+            <li ng-if="Authentication.isAdmin()">
+              <a href="#/dataStore">DataStore</a>
+            </li>
           </ul>
-          
-          <ul class="nav navbar-nav navbar-right">            
+
+          <ul class="nav navbar-nav navbar-right">
             <!-- <li class="server-status">
                 <i class="fa fa-circle" ng-class="{'server-connected':connected, 'server-disconnected':!connected }"></i>
                 <span ng-show="connected">Connected</span>
@@ -111,13 +114,13 @@ limitations under the License.
 	              <div class="form-group"><input type="password" style="width:130px;" placeholder="Password" class="form-control" name="passwd" ng-model="login.passwd" required></div>
 	              <button type="submit" class="btn btn-sm btn-primary" id="loginButton" data-loading-text="Login" >Login</button>
 	            </form>
-	          </li>  
+	          </li>
 	          <li ng-if="Authentication.exists()" >
 	            <form class="navbar-form" role="form" ng-submit="logoutForm()" style="height:34px;">
 	              <div class="form-group server-status">
 	                <span><i class="smaller-80 ace-icon glyphicon glyphicon-user"></i> <span ng-bind="Authentication.getName()"></span></span>
 	                <span>welcome</span>
-	              </div>  
+	              </div>
 	              <button type="submit" class="btn btn-sm" id="logoutButton">Logout</button>
 	            </form>
 	          </li>
@@ -200,11 +203,11 @@ limitations under the License.
     <script src="scripts/directives/dropdowninput.js"></script>
     <script src="scripts/directives/resizable.js"></script>
     <script src="scripts/directives/ngdelete.js"></script>
-    <script src="scripts/directives/popover-html-unsafe.js"></script>    
+    <script src="scripts/directives/popover-html-unsafe.js"></script>
     <script src="scripts/directives/byteLengthDirective.js"></script>
     <script src="scripts/directives/checkDirective.js"></script>
     <script src="scripts/directives/matchDirective.js"></script>
-    <script src="scripts/directives/ruleDirective.js"></script>    
+    <script src="scripts/directives/ruleDirective.js"></script>
     <script src="scripts/services/UserService.js"></script>
     <script src="scripts/services/UtilService.js"></script>
     <!-- endbuild -->

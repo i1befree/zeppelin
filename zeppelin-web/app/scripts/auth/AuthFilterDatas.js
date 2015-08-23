@@ -3,7 +3,7 @@
 angular.module('zeppelinWebApp')
 
 .run(function(RouteFilter, Authentication) {
-  
+
   RouteFilter.register('guest', [ '/' ], function() {
     return !Authentication.exists();
   }, '/');
@@ -19,7 +19,7 @@ angular.module('zeppelinWebApp')
     return Authentication.isNormal();
   }, '/');
 
-  RouteFilter.register('admin', [ '/interpreter', '/userMgr' ], function() {
+  RouteFilter.register('admin', [ '/interpreter', '/userMgr', '/dataStore' ], function() {
     return Authentication.isAdmin();
   }, '/');
 

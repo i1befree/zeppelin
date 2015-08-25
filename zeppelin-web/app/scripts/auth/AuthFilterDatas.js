@@ -9,6 +9,7 @@ angular.module('zeppelinWebApp')
   }, '/');
 
   RouteFilter.register('user', [ '/workspace/:workspaceId',
+                                 '/workspaceWizard/:workspaceId',
                                  '/notebook/:noteId',
                                  '/notebook/:noteId/paragraph/:paragraphId?',
                                  '/userUpdate' ], function() {
@@ -19,7 +20,12 @@ angular.module('zeppelinWebApp')
     return Authentication.isNormal();
   }, '/');
 
-  RouteFilter.register('admin', [ '/interpreter', '/userMgr', '/dataStore' ], function() {
+  RouteFilter.register('admin', [ '/interpreter', 
+                                  '/userMgr', 
+                                  '/datastore',
+                                  '/datastoreWizard/:datastoreId',
+                                  '/datasource',
+                                  '/datasourceWizard/:datasourceId'], function() {
     return Authentication.isAdmin();
   }, '/');
 

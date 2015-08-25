@@ -133,6 +133,26 @@ angular
         templateUrl: 'views/workspace.html',
         controller: 'WorkspaceCtrl'
       })
+      .when('/workspaceWizard/:workspaceId', {
+        templateUrl: 'views/workspaceWizard.html',
+        controller: 'WorkspaceWizardCtrl'
+      })
+      .when('/datastore', {
+        templateUrl: 'views/datastore.html',
+        controller: 'DatastoreCtrl'
+      })
+      .when('/datastoreWizard/:datastoreId', {
+        templateUrl: 'views/datastoreWizard.html',
+        controller: 'DatastoreWizardCtrl'
+      })
+      .when('/datasource', {
+        templateUrl: 'views/datasource.html',
+        controller: 'DatasourceCtrl'
+      })
+      .when('/datasourceWizard/:datasourceId', {
+        templateUrl: 'views/datasourceWizard.html',
+        controller: 'DatasourceWizardCtrl'
+      })
       .when('/notebook/:noteId', {
         templateUrl: 'views/notebooks.html',
         controller: 'NotebookCtrl'
@@ -165,7 +185,6 @@ angular
     Authentication.requestUser().then(function() {
       Application.makeReady();
       $timeout(function() {
-        console.info('Authentication.exists()', Authentication.exists());
         if(Authentication.exists()) {
           $rootScope.$emit('getTreeWorkspace', {});
         }

@@ -100,12 +100,19 @@ angular.module('zeppelinWebApp').factory('PathToRegexp', function PathToRegexp()
           // Map array parts into regexps and return their source. We also pass
           // the same keys and options instance into every generation to get
           // consistent matching groups before we join the sources together.
-          path = path.map(function(value) {
-              return pathtoRegexp(value, keys, options).source;
-          });
+//          path = path.map(function(value) {
+//              return pathtoRegexp(value, keys, options).source;
+//          });
+
 
           // Generate a new regexp instance by joining all the parts together.
-          return attachKeys(new RegExp('(?:' + path.join('|') + ')', flags), keys);
+					var regExpArray = [];
+					for(var i=0 ; i<path.length ; i++) {
+						var tmpPath = pathtoRegexp(path[i], keys, options).source;
+						console.info('tmpPath', tmpPath);
+						regExpArray.push(attachKeys(new RegExp(tmpPath, flags), keys));
+					}
+				return regExpArray;
       }
 
       // Alter the path string into a usable regexp.

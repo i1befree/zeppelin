@@ -16,6 +16,10 @@
   margin-top: -10px;
 }
 
+.management .row *[class^='col'] {
+  padding-right: 0px;
+}
+
 .form-horizontal .control-label.text-left {
     text-align: left;
 }

@@ -22,7 +22,7 @@ limitations under the License.
     </div>
   </div>
 </div>
-<div class="box width-full">
+<div class="box width-full management">
     <h3 class="title">Store Type > 접속 정보 > 접속 테스트 > 요약 정보 보기</h3>
     <div class="row">
       <div class="col-md-12">
@@ -94,20 +94,68 @@ limitations under the License.
 			<!-- 3step -->
       <div>
       step 3
+      	접속 성공하였습니다. 
+      	or 
+      	실패하였습니다. 접속 정보를 확인해주세요...
       </div>
       
       <!-- 4step -->
       <div>
       step 4
+	  		<b>Type</b>
+	  		<table class="table table-striped">
+	        <tr>
+	          <th style="width:200px;">type</th>
+	          <td>Database</td>
+	        </tr>
+	      </table>
+	      <b>접속정보</b>
+	      <table class="table table-striped">
+	        <tr>
+	          <th style="width:200px;">Name</th>
+	          <td>데이타베이스 접속정보</td>
+	        </tr>
+	        <tr>
+	          <th>Database</th>
+	          <td>Mysql</td>
+	        </tr>
+	        <tr>
+	          <th>Driver class</th>
+	          <td>com.mysql.jdbc.Driver</td>
+	        </tr>
+	        <tr>
+	          <th>username</th>
+	          <td>cep</td>
+	        </tr>
+	        <tr>
+	          <th>password</th>
+	          <td>!Cep@2015</td>
+	        </tr>
+	        <tr>
+	          <th>hostname</th>
+	          <td>52.68.186.228</td>
+	        </tr>
+	        <tr>
+	          <th>port</th>
+	          <td>3306</td>
+	        </tr>
+	        <tr>
+	          <th>URL</th>
+	          <td>jdbc:mysql://52.68.186.228:3306/cep?autoReconnect=true&useUnicode=true&characterEncoding=utf8</td>
+	        </tr>
+	      </table>
       </div>
       
 			<!-- Button S -->
 			<div class="btn-line text-right">
 				<button class="btn btn-white btn-default btn-bold" ng-click="createMode()">
-					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Prev
+					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Previous
 				</button>
 				<button class="btn btn-white btn-default btn-bold" ng-click="createMode()">
 					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Next
+				</button>
+				<button class="btn btn-white btn-default btn-bold" ng-click="createMode()">
+					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Complete
 				</button>
 				<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">
 					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Cancel

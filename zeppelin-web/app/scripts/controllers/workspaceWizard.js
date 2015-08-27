@@ -11,6 +11,8 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	
+	$scope.display = 'info';
+	
 	$scope.cancel = function() {
 		$location.path('/workspace');
 	}

@@ -26,6 +26,11 @@ limitations under the License.
 	<div class="row">
 	  <div class="col-md-4">   
 	    <div class="box">
+	    	<div class="pull-right">
+		    	<button class="btn btn-default" ng-click="create()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Create
+					</button>
+				</div>	
 	    	<h3 class="title">List</h3>
 	     	<!-- Table S -->
 				<table class="table table-striped table-hover">
@@ -64,18 +69,15 @@ limitations under the License.
 				</div>
 				<!-- Pagination E -->
 				      
-				<!-- Button S -->
-				<div class="btn-line text-right">
-					<button class="btn btn-white btn-default btn-bold" ng-click="create()">
-						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Create
-					</button>
-				</div>
-				<!-- Button E -->
-							      
 	    </div>
 	  </div>
 	  <div class="col-md-8">   
-	  	<div class="box" style="min-height:570px;">
+	  	<div class="box" style="min-height:540px;">
+	  		<div class="pull-right">
+		  		<button class="btn btn-default" ng-click="editMode()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Edit
+					</button>
+				</div>		
 	  		<h3 class="title">Detail Info</h3>
 	  		<b>Type</b>
 	  		<table class="table table-striped">

@@ -12,5 +12,8 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   $scope.create = function() {
 	  $location.path('/datasourceWizard/:');
   }
+  $scope.assignWorkspace = function() {
+	  $location.path('/datasourceWorkspace/:');
+  }
 });
 // / @endcond

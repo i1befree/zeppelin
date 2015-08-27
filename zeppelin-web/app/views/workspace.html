@@ -11,30 +11,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<!-- <div class="interpreterHead">
-  <div class="header">
-    <div class="row">
-      <div class="col-md-12">
-        <h3 class="new_h3" style="float:left">
-          Workspace
-        </h3>
-        <div class="btn-group pull-right" style="margin-top:10px;">
-				  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    Action <span class="caret"></span>
-				  </button>
-				  <ul class="dropdown-menu dropdown-menu-right">
-				    <li><a href="javascript:void(0);" ng-click="createNewNote()">Create Notebook</a></li>
-				    <li role="separator" class="divider"></li>
-				    <li><a href="javascript:void(0);" ng-click="manage()">Manage workspace</a></li>
-				    <li role="separator" class="divider"></li>
-				    <li><a href="#">Create Job</a></li>
-				    <li><a href="#">Manage Job</a></li>
-				  </ul>
-				</div>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div class="box width-full home">
 	<div class="header">
 		<h1 class="box-heading">
@@ -61,9 +37,9 @@ limitations under the License.
 				</thead>
 				<tbody>
 					<tr ng-repeat="info in notes" class="btn-link" ng-click="goNotebook(info)">
-						<td>{{info.name}}</td>
+						<td>{{info.noteName}}</td>
 						<td>{{info.userId}}</td>
-						<td>{{info.updateDate}}</td>
+						<td>{{info.updateDate | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
 					</tr>
 				</tbody>
 			</table>

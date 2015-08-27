@@ -7,16 +7,15 @@
  */
 'use strict';
 
-angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication) {
+angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication, UtilService) {
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
 	
 	$scope.notes = [];
-	
-	init();
+		
 	function init() {
-		$rootScope.$emit('sendNewEvent', {op: 'LIST_NOTES'});
+		$scope.getNotebookList(workspaceId);
 	}
 	
 	$scope.createNewNote = function() {    
@@ -24,15 +23,26 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.$on('setNoteMenu', function(event, notes) {
-  	$scope.notes = notes;
+  	//$scope.notes = notes;
+  	$scope.getNotebookList(workspaceId);
   });
+  
+  $scope.getNotebookList = function(pWorkspaceId) {
+  	UtilService.httpPost('/workspace/getNotebookList', {workspaceId: pWorkspaceId}).then(function(result) {
+  		$scope.notes = result;
+  	}, function(error) {
+  		alert(error);
+  	});
+  };
   
   $scope.manage = function() {
 	  $location.path('/workspaceWizard/1');
-  }
+  };
+  
   $scope.goNotebook = function(note) {    
-  	$location.path('/notebook/' + note.id);
+  	$location.path('/notebook/' + note.noteId);
   };
 
+  init();
 });
 // / @endcond

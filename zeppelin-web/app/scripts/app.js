@@ -153,6 +153,10 @@ angular
         templateUrl: 'views/datasourceWizard.html',
         controller: 'DatasourceWizardCtrl'
       })
+      .when('/datasourceWorkspace/:datasourceId', {
+        templateUrl: 'views/datasourceWorkspace.html',
+        controller: 'DatasourceWorkspaceCtrl'
+      })
       .when('/notebook/:noteId', {
         templateUrl: 'views/notebooks.html',
         controller: 'NotebookCtrl'

@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.Workspace;
 
 /**
@@ -55,5 +56,13 @@ public interface WorkspaceService {
    * @return
    */
   List<Workspace> getList(Workspace workspace);
+
+  /**
+   * 노트북 목록 조회.
+   * 
+   * @param workspace
+   * @return
+   */
+  List<Notebook> getNotebookList(Workspace workspace);
 
 }

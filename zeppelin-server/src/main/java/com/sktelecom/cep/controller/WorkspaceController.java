@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.WorkspaceService;
+import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
 
@@ -139,6 +140,21 @@ public class WorkspaceController {
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
     workspace.setUserId(userSession.getId());
     List<Workspace> resultList = workspaceService.getList(workspace);
+    return resultList;
+  }
+
+  /**
+   * 노트북 목록 조회.
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getNotebookList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Notebook> getNotebookList(@RequestBody Workspace workspace) {
+    List<Notebook> resultList = workspaceService.getNotebookList(workspace);
     return resultList;
   }
 

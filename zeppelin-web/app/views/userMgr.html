@@ -137,7 +137,7 @@
           <div class="form-group">
             <label for="userGrpCd" class="col-sm-4 control-label text-left">User Segmentation</label>
             <div class="col-sm-8" ng-class="{ 'has-error': userForm.userGrpCd.$invalid }">
-              <select class="form-control view_selsct" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-options="option.name as option.description for option in roles" required ng-disabled="!Authentication.isAdmin()"></select>
+              <select class="form-control view_selsct" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-options="option.name as option.code for option in roles" required ng-disabled="!Authentication.isAdmin()"></select>
             </div>
           </div>
 

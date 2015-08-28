@@ -56,7 +56,7 @@
     <div class="form-group">
       <label for="userGrpCd" class="col-sm-4 control-label text-left">User Segmentation</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.userGrpCd.$invalid }">
-        <select class="form-control" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-disabled="true" ng-options="option.name as option.description for option in roles" required></select>
+        <select class="form-control" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-disabled="true" ng-options="option.name as option.code for option in roles" required></select>
       </div>
     </div>
 

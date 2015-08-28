@@ -13,8 +13,9 @@
     </resultMap>
 
     <resultMap id="RoleMap" type="com.sktelecom.cep.vo.Role">
-        <result property="name" column="name" />
-        <result property="description" column="description" />
+        <result property="id" column="role_id" />
+        <result property="name" column="role_name" />
+        <result property="code" column="role_cd" />
     </resultMap>
 
     <insert id="create" parameterType="com.sktelecom.cep.vo.User">
@@ -74,7 +75,7 @@
     </select>
 
     <select id="getRole" resultMap="RoleMap">
-        SELECT name, description
+        SELECT role_id, role_name, role_cd
         FROM role
     </select>
 

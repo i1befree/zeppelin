@@ -4,8 +4,9 @@ package com.sktelecom.cep.vo;
  * Created by i1befree on 15. 8. 25..
  */
 public class Role {
+  private String id;
   private String name;
-  private String description;
+  private String code;
 
   public String getName() {
     return name;
@@ -15,11 +16,19 @@ public class Role {
     this.name = name;
   }
 
-  public String getDescription() {
-    return description;
+  public String getId() {
+    return id;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
   }
 }

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -64,13 +65,17 @@ public class JDBCNotebookRepo implements NotebookRepo {
 
   @Override
   public List<NoteInfo> list() throws IOException {
-    List<NoteInfo> infos = jdbcTemplate.query("select note_id, note_name, note_content, user_id from notebook", new RowMapper<NoteInfo>() {
+    StringBuffer sb = new StringBuffer();
+    sb.append("select nb.note_id, nb.note_name, nb.note_content, wo.own_user_id as user_id ");
+    sb.append("  from notebook nb ");
+    sb.append("       inner join workspace_object wo ON wo.wrkspc_obj_id = nb.note_id AND wo.obj_status != 'DROPPED' ");
+    List<NoteInfo> infos = jdbcTemplate.query(sb.toString(), new RowMapper<NoteInfo>() {
       public NoteInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
         NoteInfo info = null;
         try {
           info = getNoteInfo(rs.getString("note_content"));
           info.setUserId(rs.getString("user_id"));
-          //info.setName(rs.getString("note_name"));
+          info.setName(rs.getString("note_name"));
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -102,13 +107,18 @@ public class JDBCNotebookRepo implements NotebookRepo {
   @Override
   public Note get(String noteId) throws IOException {
     try {
-      Note note = jdbcTemplate.queryForObject("select note_id, note_name, note_content, user_id from notebook where note_id = ?", new Object[] { noteId }, new RowMapper<Note>() {
+      StringBuffer sb = new StringBuffer();
+      sb.append("select nb.note_id, nb.note_name, nb.note_content, wo.own_user_id as user_id ");
+      sb.append("  from notebook nb ");
+      sb.append("       inner join workspace_object wo on wo.wrkspc_obj_id = nb.note_id ");
+      sb.append(" where nb.note_id = ? ");
+      Note note = jdbcTemplate.queryForObject(sb.toString(), new Object[] { noteId }, new RowMapper<Note>() {
         public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
           Note note = null;
           try {
             note = getNote(rs.getString("note_content"));
             note.setUserId(rs.getString("user_id"));
-            //note.setName(rs.getString("note_name"));
+            note.setName(rs.getString("note_name"));
           } catch (IOException e) {
             e.printStackTrace();
           }
@@ -133,7 +143,11 @@ public class JDBCNotebookRepo implements NotebookRepo {
       if (note.getName() == null) {
         note.setName("Note " + note.id());
       }
-      jdbcTemplate.update("insert into notebook(note_id, note_name, note_content, user_id) values (?, ?, ?, ?)", note.id(), note.getName(), json, note.getUserId());
+      //share_type : ALL / ASSIGN / NONE
+      //obj_status : CREATED, SHARED, DROPPED
+      jdbcTemplate.update("insert into workspace_object(wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id) values (?, ?, ?, ?, ?, ?)", note.id(), "NOTEBOOK", "NONE", "CREATED", note.getUserId(), note.getUserId());
+      jdbcTemplate.update("insert into workspace_assign(wrkspc_id, wrkspc_obj_id, update_date, update_user_id) values (?, ?, NOW(), ?)", note.getWorkspaceId(), note.id(), note.getUserId());
+      jdbcTemplate.update("insert into notebook(note_id, note_name, note_content, update_date, update_user_id) values (?, ?, ?, NOW(), ?)", note.id(), note.getName(), json, note.getUserId());
     } else {
       jdbcTemplate.update("update notebook set note_content = ?, note_name = ? where note_id = ?", json, note.getName(), note.id());
     }
@@ -141,6 +155,7 @@ public class JDBCNotebookRepo implements NotebookRepo {
 
   @Override
   public void remove(String noteId) throws IOException {
-    jdbcTemplate.update("delete from notebook where note_id = ?", noteId);
+    //jdbcTemplate.update("delete from notebook where note_id = ?", noteId);
+    jdbcTemplate.update("update workspace_object set obj_status = ? where note_id = ?", "DROPPED", noteId);
   }
 }

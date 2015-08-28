@@ -49,6 +49,7 @@ public class Note implements Serializable, JobListener {
   private String name;
   private String id;
   private String userId;
+  private String workspaceId;
 
   Map<String, List<AngularObject>> angularObjects = new HashMap<String, List<AngularObject>>();
 
@@ -106,7 +107,15 @@ public class Note implements Serializable, JobListener {
   public void setUserId(String userId) {
     this.userId = userId;
   }
+  
+  public String getWorkspaceId() {
+    return workspaceId;
+  }
 
+  public void setWorkspaceId(String workspaceId) {
+    this.workspaceId = workspaceId;
+  }
+  
   public NoteInterpreterLoader getNoteReplLoader() {
     return replLoader;
   }

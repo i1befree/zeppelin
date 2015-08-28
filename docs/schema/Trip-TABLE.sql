@@ -148,7 +148,7 @@ CREATE TABLE trip.workspace
 	wrkspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
 	wrkspc_name varchar(100) NOT NULL COMMENT '워크스페이스',
 	description varchar(1000) COMMENT '설명',
-	wrkspc_type varbinary(10) NOT NULL COMMENT '워크스페이스 유형',
+	wrkspc_type varchar(10) NOT NULL COMMENT '워크스페이스 유형',
 	admin_user_id varchar(36) COMMENT '관리자ID',
 	update_date datetime NOT NULL COMMENT '변경시각',
 	update_user_id varchar(45) NOT NULL COMMENT '변경자ID',

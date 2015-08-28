@@ -1,7 +1,7 @@
 /* #﻿root 권한으로 생성 */
-CREATE DATABASE `trip` CHARACTER SET utf8 COLLATE utf8_general_ci; /*기본문자셋을 지정한 데이타베이스 생성*/
-GRANT ALL privileges ON trip.* TO `trip`@'%' IDENTIFIED BY '!Trip@2015'; /*유저생성과 권한부여*/
-GRANT ALL privileges ON trip.* TO `trip`@'locahost' IDENTIFIED BY '!Trip@2015';
+CREATE DATABASE trip CHARACTER SET utf8 COLLATE utf8_general_ci; /*기본문자셋을 지정한 데이타베이스 생성*/
+GRANT ALL privileges ON trip.* TO trip@'%' IDENTIFIED BY '!Trip@2015'; /*유저생성과 권한부여*/
+GRANT ALL privileges ON trip.* TO trip@'locahost' IDENTIFIED BY '!Trip@2015';
 FLUSH PRIVILEGES; /*위 작업들 적용완료*/
 
 
@@ -149,7 +149,7 @@ CREATE TABLE trip.workspace_assign
 (
 	wrkspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
 	wrkspc_obj_id varchar(36) NOT NULL COMMENT 'wrkspc_obj_id',
-	update_date datetime DEFAULT NOW(), SYSDATE() NOT NULL COMMENT '변경시각',
+	update_date datetime NOT NULL COMMENT '변경시각',
 	update_user_id varchar(45) NOT NULL COMMENT '변경자ID',
 	PRIMARY KEY (wrkspc_id, wrkspc_obj_id)
 ) ENGINE = InnoDB COMMENT = '워크스페이스 할당' DEFAULT CHARACTER SET utf8;
@@ -184,4 +184,4 @@ INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('5c9439ee-ca70-4878-
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('1eabc394-c29c-4a97-823c-770605d7aeaa','Workspace Admin','2');
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('d12b0fa9-3fad-4475-bac4-b3dcdfa623e6','User','3');
 INSERT INTO trip.workspace (wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id) VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', '', '', 'P', 'admin', NOW(), 'admin');
-INSERT INTO trip.user (`id`,`name`,`passwd`,`email`,`tel`,`user_grp_cd`,`update_user_id`,`update_date`) VALUES ('admin','관리자',sha1('tripadmin'),NULL,NULL,'1','admin',NOW());
+INSERT INTO trip.user (id,name,passwd,wrkspc_id,email,tel,user_grp_cd,update_user_id,update_date) VALUES ('admin','관리자',sha1('tripadmin'),'53af58da-d182-424f-bd3a-6c1cfb594535',NULL,NULL,'1','admin',NOW());

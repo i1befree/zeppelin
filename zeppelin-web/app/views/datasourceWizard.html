@@ -36,7 +36,6 @@ limitations under the License.
 						<td>
 							<select ng-model="datasourceType">
 								<option value="elasticsearch">Internal</option>
-								<option value="hdfs">HDFS</option>
 								<option value="database">Database</option>
 							</select>
 						</td>
@@ -47,22 +46,10 @@ limitations under the License.
 			
 			<!-- 2step -->
       <div>
-      	step 2
+      	지정된 default index 를 자동세팅되어서 보여준다.
+						index 선택은 없다.
       	<div ng-if="datasourceType === 'elasticsearch'" class="row">
 	      	<div class="col-md-6">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th style="width:200px;">Index</th>
-			        </tr>
-			        <tr>
-			          <td>Index1</td>
-			        </tr>
-			        <tr>
-			          <td>Index2</td>
-			        </tr>
-						</table>
-					</div>
-					<div class="col-md-6">
 						<table class="table table-striped table-hover">
 							<tr>
 			          <th style="width:200px;">Type</th>
@@ -84,19 +71,37 @@ limitations under the License.
 			        </tr>
 						</table>
 					</div>
-				</div>
-      	<div ng-if="datasourceType === 'hdfs'" class="row">
-	      	<div class="col-md-12">
+					<div class="col-md-6">
 						<table class="table table-striped table-hover">
 							<tr>
-			          <th style="width:200px;">Source path</th>
-			          <td><input type="file"></td>
+			          <th>field name</th>
+			          <th>field type</th>
+			        </tr>
+			        <tr>
+			          <th>field 1</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>field 2</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>field 3</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>field 4</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>field 5</th>
+			          <th>varchar</th>
 			        </tr>
 						</table>
 					</div>
 				</div>
       	<div ng-if="datasourceType === 'database'" class="row">
-	      	<div class="col-md-6">
+	      	<div class="col-md-4">
 						<table class="table table-striped table-hover">
 							<tr>
 			          <th style="width:200px;">Schema</th>
@@ -112,7 +117,7 @@ limitations under the License.
 			        </tr>
 						</table>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<table class="table table-striped table-hover">
 							<tr>
 			          <th style="width:200px;">Table</th>
@@ -132,8 +137,33 @@ limitations under the License.
 			        <tr>
 			          <td><input name="table" type="radio"> table5</td>
 			        </tr>
+						</table>
+					</div>
+					<div class="col-md-4">
+						<table class="table table-striped table-hover">
+							<tr>
+			          <th>column name</th>
+			          <th>column type</th>
+			        </tr>
 			        <tr>
-			          <td><input type="text"></td>
+			          <th>column 1</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>column 2</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>column 3</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>column 4</th>
+			          <th>varchar</th>
+			        </tr>
+			        <tr>
+			          <th>column 5</th>
+			          <th>varchar</th>
 			        </tr>
 						</table>
 					</div>

@@ -17,49 +17,49 @@
     <div class="form-group">
       <label for="name" class="col-sm-4 control-label text-left">Name</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.name.$invalid }">
-        <input type="text" class="form-control" ng-model="user.name" name="name" id="name" autofocus required ng-minlength="2" ng-maxlength="10"> 
-        <span class="text-danger" ng-show="userForm.name.$error.required"></small>이름을 입력하세요.</small></span> 
+        <input type="text" class="form-control" ng-model="user.name" name="name" id="name" autofocus required ng-minlength="2" ng-maxlength="10">
+        <span class="text-danger" ng-show="userForm.name.$error.required"></small>이름을 입력하세요.</small></span>
         <span class="text-danger" ng-show="userForm.name.$error.minlength || userForm.name.$error.maxlength"></small>2자 이상 10자 이하로 입력하세요.</small></span>
       </div>
     </div>
     <div class="form-group">
       <label for="passwd" class="col-sm-4 control-label text-left">Password</label>
-      <div class="col-sm-8" ng-class="{ 'has-error': userForm.passwd.$invalid }">    
-        <input type="password" class="form-control" ng-model="user.passwd" name="passwd" id="passwd" required rule-password ng-minlength="3" ng-maxlength="20"> 
-        <span class="text-danger" ng-show="userForm.passwd.$error.required"><small>패스워드를 입력하세요.</small></span> 
-        <span class="text-danger" ng-show="!userForm.passwd.$error.required && (userForm.passwd.$error.minlength || userForm.passwd.$error.maxlength)"><small>3자 이상 20자 이하로 입력하세요.</small></span> 
-        <span class="text-danger" ng-show="!userForm.passwd.$error.required && userForm.passwd.$error.rulePassword"><small>영문자, 숫자, 특수문자(_ ! @ # $ % ^ & * - .) 각각 하나 이상씩 입력하세요.</small></span>  
+      <div class="col-sm-8" ng-class="{ 'has-error': userForm.passwd.$invalid }">
+        <input type="password" class="form-control" ng-model="user.passwd" name="passwd" id="passwd" required rule-password ng-minlength="3" ng-maxlength="20">
+        <span class="text-danger" ng-show="userForm.passwd.$error.required"><small>패스워드를 입력하세요.</small></span>
+        <span class="text-danger" ng-show="!userForm.passwd.$error.required && (userForm.passwd.$error.minlength || userForm.passwd.$error.maxlength)"><small>3자 이상 20자 이하로 입력하세요.</small></span>
+        <span class="text-danger" ng-show="!userForm.passwd.$error.required && userForm.passwd.$error.rulePassword"><small>영문자, 숫자, 특수문자(_ ! @ # $ % ^ & * - .) 각각 하나 이상씩 입력하세요.</small></span>
       </div>
     </div>
     <div class="form-group">
       <label for="passwdConfirm" class="col-sm-4 control-label text-left">Password Confirm</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.passwdConfirm.$invalid }">
-        <input type="password" class="form-control" ng-model="user.passwdConfirm" name="passwdConfirm" id="passwdConfirm" required data-match="user.passwd"> 
+        <input type="password" class="form-control" ng-model="user.passwdConfirm" name="passwdConfirm" id="passwdConfirm" required data-match="user.passwd">
         <span class="text-danger" ng-show="!userForm.passwdConfirm.$error.required && userForm.passwdConfirm.$error.match"></small>비밀번호가 틀립니다.</small></span>
       </div>
     </div>
     <div class="form-group">
       <label for="email" class="col-sm-4 control-label text-left">Email</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.email.$invalid }">
-        <input type="email" class="form-control" ng-model="user.email" id="email" name="email"> 
+        <input type="email" class="form-control" ng-model="user.email" id="email" name="email">
         <span class="text-danger" ng-show="userForm.$error.email"></small>이메일 형식에 맞지 않습니다.</small></span>
       </div>
     </div>
     <div class="form-group">
       <label for="tel" class="col-sm-4 control-label text-left">Phone Number</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.tel.$invalid }">
-        <input type="text" class="form-control view" ng-model="user.tel" id="tel" name="tel" ng-maxlength="12" ng-pattern="/^[0-9]*$/"> 
-        <span class="text-danger" ng-show="userForm.tel.$error.pattern"></small>전화번호는 숫자를 입력하세요.</small></span> 
+        <input type="text" class="form-control view" ng-model="user.tel" id="tel" name="tel" ng-maxlength="12" ng-pattern="/^[0-9]*$/">
+        <span class="text-danger" ng-show="userForm.tel.$error.pattern"></small>전화번호는 숫자를 입력하세요.</small></span>
         <span class="text-danger" ng-show="userForm.tel.$error.maxlength"></small>12자 이하로 입력하세요.</small></span>
       </div>
     </div>
     <div class="form-group">
       <label for="userGrpCd" class="col-sm-4 control-label text-left">User Segmentation</label>
       <div class="col-sm-8" ng-class="{ 'has-error': userForm.userGrpCd.$invalid }">
-        <select class="form-control" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-disabled="true" ng-options="option.code as option.desc for option in userGroupCodeName" required></select>
+        <select class="form-control" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-disabled="true" ng-options="option.name as option.description for option in roles" required></select>
       </div>
     </div>
-		
+
 	  <!-- Button S -->
     <div class="form-group">
       <div class="col-sm-12 text-right">

@@ -99,4 +99,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     List<Notebook> notebookList = notebookDao.getListByWorkspaceId(workspace);
     return notebookList;
   }
+
+  @Override
+  public List<Notebook> getLastestNotebookListByUserId(String userId) {
+    User pUser = new User();
+    pUser.setId(userId);
+    List<Notebook> notebookList = notebookDao.getLastestNotebookListByUserId(pUser);
+    return notebookList;
+  }
 }

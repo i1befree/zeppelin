@@ -72,4 +72,11 @@ public interface WorkspaceService {
    */
   List<Notebook> getNotebookList(Workspace workspace);
 
+  /**
+   * 사용자의 최근 노트북 목록 조회
+   * @param userId
+   * @return
+   */
+  List<Notebook> getLastestNotebookListByUserId(String userId);
+
 }

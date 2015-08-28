@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     String wrkspcId = UUID.randomUUID().toString();
     Workspace workspace = new Workspace();
     workspace.setWrkspcId(wrkspcId);
-    workspace.setWrkspcName("PERSONAL");
+    workspace.setWrkspcName(user.getId());
     workspace.setDescription("Personal Workspace");
     workspace.setWrkspcType("PERSONAL");
     workspace.setAdminUserId(user.getId());

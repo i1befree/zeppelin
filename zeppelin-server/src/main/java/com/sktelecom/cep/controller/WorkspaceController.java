@@ -176,4 +176,18 @@ public class WorkspaceController {
     return resultList;
   }
 
+  /**
+   * 사용자의 최근 노트북들을 가져온다.
+   */
+  @RequestMapping(value = "/workspace/getLastestNotebookList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Notebook> getLastestNotebookList(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    List<Notebook> resultList = workspaceService.getLastestNotebookListByUserId(userSession.getId());
+    return resultList;
+  }
+
+  
+  
 }

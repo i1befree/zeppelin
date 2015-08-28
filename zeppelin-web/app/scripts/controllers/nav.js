@@ -101,7 +101,7 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
     var credentials = $scope.login;
     Authentication.login(credentials).then(function(result) {
       if (result.rsCode === 'SUCCESS') {
-        $rootScope.$emit('getTreeWorkspace', {op: 'NEW_NOTE', userId: Authentication.getId()});
+        $rootScope.$emit('getTreeWorkspace', {});
       } else {
         alert(result.rsMessage);
       }

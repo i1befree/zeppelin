@@ -28,7 +28,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   });
   
   $scope.getNotebookList = function(pWorkspaceId) {
-  	UtilService.httpPost('/workspace/getNotebookList', {workspaceId: pWorkspaceId}).then(function(result) {
+  	UtilService.httpPost('/workspace/getNotebookList', {wrkspcId: pWorkspaceId}).then(function(result) {
   		$scope.notes = result;
   	}, function(error) {
   		alert(error);
@@ -36,7 +36,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.manage = function() {
-	  $location.path('/workspaceWizard/1');
+	  $location.path('/workspaceWizard/' + workspaceId);
   };
   
   $scope.goNotebook = function(note) {    

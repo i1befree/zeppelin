@@ -114,7 +114,8 @@ public class Notebook {
 
     NoteUser noteUser = NoteUserContext.local.get();
     if (noteUser != null) {
-      note.setUserId(noteUser.getUserId() == null ? "" : noteUser.getUserId());      
+      note.setUserId(noteUser.getUserId() == null ? "" : noteUser.getUserId());
+      note.setWorkspaceId(noteUser.getWorkspaceId());
     }
     note.persist();
     return note;

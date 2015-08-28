@@ -6,8 +6,7 @@ package com.sktelecom.cep.common;
  * @author 박상민
  */
 public enum UserGroupCodeEnum {
-  MANAGER("1", "관리"), SPECIAL("2", "고급"), NORMAL("3", "일반"), MANAGER_LIMIT("4",
-      "특별");
+  MANAGER("1", "System admin"), SPECIAL("2", "Workspace admin"), NORMAL("3", "User");
 
   // 사용자그룹 값 
   private String value;

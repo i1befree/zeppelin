@@ -14,50 +14,43 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // / @endcond
 public class Workspace extends Paging {
 
-  private String workspaceId;
-  private String name;
-  private String type;
-  private String pId;
-  private String userId;
-  private Date createDate;
+  private String wrkspcId;
+  private String wrkspcName;
+  private String description;
+  private String wrkspcType;
+  private String adminUserId;
   private Date updateDate;
-  
-  
-  public String getUserId() {
-    return userId;
+  private String updateUserId;
+    
+  public String getWrkspcId() {
+    return wrkspcId;
   }
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setWrkspcId(String wrkspcId) {
+    this.wrkspcId = wrkspcId;
   }
-  public String getWorkspaceId() {
-    return workspaceId;
+  public String getWrkspcName() {
+    return wrkspcName;
   }
-  public void setWorkspaceId(String workspaceId) {
-    this.workspaceId = workspaceId;
+  public void setWrkspcName(String wrkspcName) {
+    this.wrkspcName = wrkspcName;
   }
-  public String getName() {
-    return name;
+  public String getDescription() {
+    return description;
   }
-  public void setName(String name) {
-    this.name = name;
+  public void setDescription(String description) {
+    this.description = description;
   }
-  public String getType() {
-    return type;
+  public String getWrkspcType() {
+    return wrkspcType;
   }
-  public void setType(String type) {
-    this.type = type;
+  public void setWrkspcType(String wrkspcType) {
+    this.wrkspcType = wrkspcType;
   }
-  public String getpId() {
-    return pId;
+  public String getAdminUserId() {
+    return adminUserId;
   }
-  public void setpId(String pId) {
-    this.pId = pId;
-  }
-  public Date getCreateDate() {
-    return createDate;
-  }
-  public void setCreateDate(Date createDate) {
-    this.createDate = createDate;
+  public void setAdminUserId(String adminUserId) {
+    this.adminUserId = adminUserId;
   }
   public Date getUpdateDate() {
     return updateDate;
@@ -65,6 +58,10 @@ public class Workspace extends Paging {
   public void setUpdateDate(Date updateDate) {
     this.updateDate = updateDate;
   }
-
-
+  public String getUpdateUserId() {
+    return updateUserId;
+  }
+  public void setUpdateUserId(String updateUserId) {
+    this.updateUserId = updateUserId;
+  }
 }

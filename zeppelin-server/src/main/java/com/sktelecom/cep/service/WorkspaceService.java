@@ -58,6 +58,13 @@ public interface WorkspaceService {
   List<Workspace> getList(Workspace workspace);
 
   /**
+   * 사용자와 관련된 작업공간 조회
+   * @param userId
+   * @return
+   */
+  List<Workspace> getListByUserId(String userId);
+
+  /**
    * 노트북 목록 조회.
    * 
    * @param workspace

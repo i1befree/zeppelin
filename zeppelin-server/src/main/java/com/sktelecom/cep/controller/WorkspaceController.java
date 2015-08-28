@@ -44,8 +44,8 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/create", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage create(@RequestBody Workspace workspace) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+  public SimpleResultMessage create(@RequestBody Workspace workspace, HttpSession session) {
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간이 존재 합니다.");
 
@@ -56,6 +56,8 @@ public class WorkspaceController {
       message.setRsMessage("작업공간이 존재 합니다.");
       return message;
     }
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    workspace.setUpdateUserId(userSession.getId());
     int resultInt = workspaceService.create(workspace);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -76,9 +78,11 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public SimpleResultMessage update(@RequestBody Workspace workspace, HttpSession session) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간 정보 수정을 실패하였습니다.");
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    workspace.setUpdateUserId(userSession.getId());
     int resultInt = workspaceService.update(workspace);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -98,7 +102,7 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public SimpleResultMessage delete(@RequestBody Workspace workspace) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간을 삭제 하였습니다.");
 
@@ -138,8 +142,22 @@ public class WorkspaceController {
   // / @endcond
   public List<Workspace> getList(@RequestBody Workspace workspace, HttpSession session) {
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUserId(userSession.getId());
+    workspace.setUpdateUserId(userSession.getId());
     List<Workspace> resultList = workspaceService.getList(workspace);
+    return resultList;
+  }
+
+  /**
+   * 사용자 아이디에 해당하는 작업공간 목록을 조회한다.
+   * @param session
+   * @return
+   */
+  @RequestMapping(value = "/workspace/getListByUserId", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Workspace> getListByUserId(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    List<Workspace> resultList = workspaceService.getListByUserId(userSession.getId());
     return resultList;
   }
 

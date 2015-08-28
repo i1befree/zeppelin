@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.NotebookDao;
+import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.vo.Notebook;
+import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
 
 /**
@@ -29,6 +31,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Inject
   private NotebookDao notebookDao;
+
+  @Inject
+  private UserDao userDao;
 
   @Override
   public int create(Workspace workspace) {
@@ -57,17 +62,34 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   @Override
   public List<Workspace> getList(Workspace workspace) {
     List<Workspace> WorkspaceList = new ArrayList<Workspace>();
-    workspace.setType("P");
+    workspace.setWrkspcType("PERSONAL");
     List<Workspace> personalList = workspaceDao.getListByType(workspace);
     WorkspaceList.addAll(personalList);
     
-    workspace.setType("S");
+    workspace.setWrkspcType("SHARED");
     List<Workspace> sharedList = workspaceDao.getListByType(workspace);
     WorkspaceList.addAll(sharedList);
     
-    workspace.setType("G");
-    List<Workspace> globalList = workspaceDao.getListByType(workspace);
-    WorkspaceList.addAll(globalList);
+    return WorkspaceList;
+  }
+  
+  @Override
+  public List<Workspace> getListByUserId(String userId) {
+    User pUser = new User();
+    pUser.setId(userId);
+    User user = userDao.getInfo(pUser);
+    
+    Workspace workspace = new Workspace();
+    workspace.setWrkspcId(user.getWrkspcId());
+    
+    List<Workspace> WorkspaceList = new ArrayList<Workspace>();
+    workspace.setWrkspcType("PERSONAL");
+    Workspace personal = workspaceDao.getInfo(workspace);
+    WorkspaceList.add(personal);
+    
+    workspace.setWrkspcType("SHARED");
+    List<Workspace> sharedList = workspaceDao.getListByType(workspace);
+    WorkspaceList.addAll(sharedList);
     
     return WorkspaceList;
   }

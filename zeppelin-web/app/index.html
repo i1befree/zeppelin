@@ -73,15 +73,21 @@ limitations under the License.
               <a href="#" class="dropdown-toggle">Workspace <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <div class="scrollbar-container">
-		              <li ng-repeat="node in workspaceMenu" ng-include="'views/workspace-menu.html'"></li>
+		              <li ng-repeat="node in mainTreeData">
+						        <div class="workspace_tree_root">
+										  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
+										  	<i class="icon-file glyphicon glyphicon-file"></i> Personal
+										  </a>  
+										</div>
+					        </li>
 		            </div>
 		          </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle">Notebook <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="javascript:void(0);" ng-click="createNewNote()"><i class="fa fa-plus"></i> Create new note</a></li>
-                <li class="divider"></li>
+                <!-- <li><a href="javascript:void(0);" ng-click="createNewNote()"><i class="fa fa-plus"></i> Create new note</a></li>
+                <li class="divider"></li> -->
                 <div id="notebook-list" class="scrollbar-container">
                   <li ng-repeat="note in notes | filter:{userId : Authentication.getId()} track by $index" ng-class="{'active' : isActive(note.id)}"><a href="#/notebook/{{note.id}}">{{note.name || 'Note ' + note.id}} </a></li>
 				        </div>

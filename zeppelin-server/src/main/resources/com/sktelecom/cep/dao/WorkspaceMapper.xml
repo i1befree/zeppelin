@@ -4,7 +4,7 @@
 <mapper namespace="com.sktelecom.cep.dao.WorkspaceDao">
 
     <resultMap id="WorkspaceMap" type="com.sktelecom.cep.vo.Workspace">
-        <result property="wkrspcId" column="wkrspc_id" />
+        <result property="wrkspcId" column="wrkspc_id" />
         <result property="wrkspcName" column="wrkspc_name" />
         <result property="description" column="description" />
         <result property="wrkspcType" column="wrkspc_type" />
@@ -14,8 +14,8 @@
     </resultMap>
 
     <insert id="create" parameterType="com.sktelecom.cep.vo.Workspace">
-        INSERT INTO workspace(wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id)
-        VALUES (#{wkrspcId}, #{wrkspcName}, #{description}, #{wrkspcType}, #{adminUserId}, NOW(), #{updateUserId})
+        INSERT INTO workspace(wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id)
+        VALUES (#{wrkspcId}, #{wrkspcName}, #{description}, #{wrkspcType}, #{adminUserId}, NOW(), #{updateUserId})
     </insert>
 
     <update id="update" parameterType="com.sktelecom.cep.vo.Workspace">
@@ -26,39 +26,36 @@
 	        ,admin_user_id = #{adminUserId}
 	        ,update_date = NOW()
 	        ,update_user_id = #{updateUserId}
-        WHERE wkrspc_id = #{wkrspcId}
+        WHERE wrkspc_id = #{wrkspcId}
     </update>
 
     <delete id="delete" parameterType="com.sktelecom.cep.vo.Workspace">
         DELETE FROM workspace
-        WHERE wkrspc_id = #{wkrspcId}
+        WHERE wrkspc_id = #{wrkspcId}
     </delete>
 
     <select id="getInfo" parameterType="com.sktelecom.cep.vo.Workspace" resultMap="WorkspaceMap">
-        SELECT wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
         FROM workspace
-        WHERE wkrspc_id = #{wkrspcId}
+        WHERE wrkspc_id = #{wrkspcId}
     </select>
 
     <select id="getList" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
         FROM workspace
         ORDER BY name
         LIMIT #{beginRowNum}, #{rowsPerPage}
     </select>
 
     <select id="getListCount" resultType="long" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT count(wkrspc_id)
+        SELECT count(wrkspc_id)
         FROM workspace
     </select>
     
     <select id="getListByType" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
-        FROM workspace w
-        WHERE type = #{type}
-        <if test="userId != null and userId != ''">
-          AND (w.user_id = #{userId} or p_id = 'ROOT')
-        </if>
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
+        FROM workspace
+        WHERE wrkspc_type = #{wrkspcType}
     </select>
 
 </mapper>

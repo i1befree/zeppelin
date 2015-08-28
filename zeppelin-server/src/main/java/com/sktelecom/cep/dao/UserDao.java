@@ -2,6 +2,7 @@ package com.sktelecom.cep.dao;
 
 import java.util.List;
 
+import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,5 +82,12 @@ public interface UserDao {
    * @return
    */
   long getListCount(User user);
+
+  /**
+   * 사용자 그룹 가져오기
+   *
+   * @return
+   */
+  List<Role> getRole();
 
 }

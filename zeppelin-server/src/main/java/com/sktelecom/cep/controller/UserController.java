@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -185,6 +186,16 @@ public class UserController {
       info.setUserGrpNm(UserGroupCodeEnum.getDescByValue(info.getUserGrpCd()));
     }
     return resultList;
+  }
+
+  /**
+   * 사용자 그룹 목록 가져오기
+   * @return
+   */
+  @RequestMapping(value = "/user/getRole", method = RequestMethod.POST)
+  @ResponseBody
+  public List<Role> getRole(){
+    return userService.getRole();
   }
 
 }

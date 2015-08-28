@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,11 @@ public class UserServiceImpl implements UserService {
       }
     }
     return userList;
+  }
+
+  @Override
+  public List<Role> getRole() {
+    return this.userDao.getRole();
   }
 
 }

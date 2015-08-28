@@ -20,6 +20,11 @@ angular.module('zeppelinWebApp').factory('UserService', function(UtilService) {
     // 사용자 정보 조회
     getUserInfo : function(requestData) {
       return UtilService.httpPost('/user/getInfo', requestData);
+    },
+
+    // 사용자 정보 조회
+    getRole : function() {
+      return UtilService.httpPost('/user/getRole', {});
     }
 
   };

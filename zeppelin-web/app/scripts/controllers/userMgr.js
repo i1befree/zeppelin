@@ -2,7 +2,7 @@
  * @ngdoc function
  * @name zeppelinWebApp.controller:UserMgrCtrl
  * @description # UserMgrCtrl 계정관리 - 사용자 정보 생성,수정,삭제,조회를 관리한다.
- * 
+ *
  * @author 박상민
  */
 'use strict';
@@ -10,19 +10,7 @@
 angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, UserService) {
 
   var initConfig = function() {
-    $scope.userGroupCodeName = [ {
-      code : '4',
-      desc : '특별 사용자'
-    }, {
-      code : '3',
-      desc : '일반 사용자'
-    }, {
-      code : '2',
-      desc : '고급 사용자'
-    }, {
-      code : '1',
-      desc : '관리 사용자'
-    } ];
+    $scope.roles = [ ];
 
     // 목록 페이징 처리 기본값 설정
     $scope.totalCount = 0; // 데이터 총 수
@@ -49,7 +37,16 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
     };
     UserService.getUserList(formData).then(function(result) {
       $scope.list = result;
-      $scope.totalCount = result[0] == undefined ? 0 : result[0].totalCount; 
+      $scope.totalCount = result[0] == undefined ? 0 : result[0].totalCount;
+    }, function(error) {
+      console.info(error);
+    });
+  };
+
+  $scope.getRole = function() {
+    UserService.getRole().then(function(result) {
+      console.log(result);
+      $scope.roles = result;
     }, function(error) {
       console.info(error);
     });
@@ -135,6 +132,7 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
     $rootScope.$emit('setLookAndFeel', 'default');
     initConfig();
     $scope.getList();
+    $scope.getRole();
   };
 
   init();

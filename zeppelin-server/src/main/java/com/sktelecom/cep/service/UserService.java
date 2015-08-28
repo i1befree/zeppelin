@@ -2,6 +2,7 @@ package com.sktelecom.cep.service;
 
 import java.util.List;
 
+import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,4 +73,9 @@ public interface UserService {
    */
   List<User> getList(User user);
 
+  /**
+   * 사용자 그룹 목록 가져오기.
+   * @return
+   */
+  List<Role> getRole();
 }

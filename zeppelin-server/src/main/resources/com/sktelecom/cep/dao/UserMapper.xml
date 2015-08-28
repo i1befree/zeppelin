@@ -12,6 +12,11 @@
         <result property="userGrpCd" column="user_grp_cd" />
     </resultMap>
 
+    <resultMap id="RoleMap" type="com.sktelecom.cep.vo.Role">
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+    </resultMap>
+
     <insert id="create" parameterType="com.sktelecom.cep.vo.User">
         INSERT INTO user(id, name, passwd, email, tel, user_grp_cd)
         VALUES (#{id}, #{name}, sha1(#{passwd}), #{email}, #{tel}, #{userGrpCd})
@@ -66,6 +71,11 @@
     <select id="getListCount" resultType="long" parameterType="com.sktelecom.cep.vo.User">
         SELECT count(id)
         FROM user
+    </select>
+
+    <select id="getRole" resultMap="RoleMap">
+        SELECT name, description
+        FROM role
     </select>
 
 </mapper>

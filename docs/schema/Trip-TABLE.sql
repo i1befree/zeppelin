@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS trip.role_grantee;
 DROP TABLE IF EXISTS trip.role;
 DROP TABLE IF EXISTS trip.workspace_share;
 DROP TABLE IF EXISTS trip.user;
+DROP TABLE IF EXISTS trip.user_access_log;
 DROP TABLE IF EXISTS trip.workspace_assign;
 DROP TABLE IF EXISTS trip.workspace;
 DROP TABLE IF EXISTS trip.workspace_object;
@@ -129,6 +130,17 @@ CREATE TABLE trip.user
 	update_date datetime NOT NULL COMMENT '변경시각',
 	PRIMARY KEY (id)
 ) ENGINE = InnoDB COMMENT = '사용자' DEFAULT CHARACTER SET utf8;
+
+
+CREATE TABLE trip.user_access_log (
+  	login_date datetime NOT NULL COMMENT '로그인일시',
+  	id varchar(45) NOT NULL COMMENT '아이디',
+  	name varchar(45) DEFAULT NULL COMMENT '이름',
+  	email varchar(100) DEFAULT NULL COMMENT '이메일',
+  	tel varchar(14) DEFAULT NULL COMMENT '전화번호',
+  	user_grp_cd varchar(10) DEFAULT NULL COMMENT '사용자그룹코드',
+  	PRIMARY KEY (login_date,id)
+) ENGINE=InnoDB COMMENT = '사용자 접속 로그' DEFAULT CHARACTER SET utf8;
 
 
 CREATE TABLE trip.workspace

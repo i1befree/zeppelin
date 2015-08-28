@@ -16,8 +16,8 @@ angular.module('zeppelinWebApp')
     return Authentication.exists();
   }, '/');
 
-  RouteFilter.register('normal', [], function() {
-    return Authentication.isNormal();
+  RouteFilter.register('workspaceAdmin', [], function() {
+    return Authentication.isWorkspaceAdmin();
   }, '/');
 
   RouteFilter.register('admin', [ '/interpreter', 

@@ -130,6 +130,14 @@ angular.module('zeppelinWebApp')
     
   	UtilService.httpPost('/workspace/getLastestNotebookList', {}).then(function(result) {
   		$scope.notes = result;
+  		
+  		var menuNotes = [];
+  		angular.forEach($scope.notes, function(item, index) {
+  			this.push({id: item.noteId, name: item.noteName});
+  		}, menuNotes);
+  		//nav menu 로 보낸다.
+  		$scope.$broadcast('setNoteMenu', menuNotes);
+  		
   	}, function(error) {
   		alert(error);
   	});

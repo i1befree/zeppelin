@@ -32,44 +32,38 @@ limitations under the License.
 					</button>
 				</div>	
 				<h3 class="title">List</h3>
-	     	<!-- Table S -->
-				<table class="table table-striped table-hover">
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="info in list" class="btn-link" ng-click="viewMode(info)">
-							<td>{{info.name}}</td>
-							<td>{{info.type}}</td>
-						</tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-					</tbody>
-				</table>
-				<!-- Table E -->
-			
-				<!-- Pagination S -->
-				<div id="pagingNav" class="text-center">
-					<pagination total-items="totalCount" ng-model="currentPage" ng-change="pageChanged()" max-size="maxPageSize" items-per-page="itemsPerPage" first-text="처음" previous-text="이전" next-text="다음" last-text="끝"></pagination>
+	     	<br/>
+	     	<div ng-style="{height: datatableContainerHeight}">
+		     	<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions">			
+						<colgroup>
+							<col width="50%">
+							<col width="50%">
+						</colgroup>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Type</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="info in list" class="btn-link" ng-click="viewMode(info)">
+								<td>{{info.name}}</td>
+								<td>{{info.type}}</td>
+							</tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
+						</tbody>
+					</table>
 				</div>
-				<!-- Pagination E -->
-				      
-	    </div>
+			</div>
 	  </div>
 	  <div class="col-md-8">   
 	  	<div class="box" style="min-height:540px;">

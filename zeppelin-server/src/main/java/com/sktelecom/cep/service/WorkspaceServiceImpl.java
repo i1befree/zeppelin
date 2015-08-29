@@ -15,6 +15,7 @@ import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Service 구현체.
@@ -106,5 +107,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     pUser.setId(userId);
     List<Notebook> notebookList = notebookDao.getLastestNotebookListByUserId(pUser);
     return notebookList;
+  }
+
+  @Override
+  public WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace) {
+    WorkspaceSummary info = workspaceDao.getWorkspaceSummaryInfo(workspace);
+    return info;
   }
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Dao.
@@ -74,6 +75,13 @@ public interface WorkspaceDao {
    * @return
    */
   List<Workspace> getListByType(Workspace workspace);
+
+  /**
+   * 작업공간의 요약정보 조회
+   * @param workspace
+   * @return
+   */
+  WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace);
   
 
 }

@@ -1,5 +1,6 @@
 package com.sktelecom.cep.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Controller.
@@ -188,6 +190,35 @@ public class WorkspaceController {
     return resultList;
   }
 
+  /**
+   * 작업공간 요약정보 조회
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getWorkspaceSummaryInfo", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public WorkspaceSummary getWorkspaceSummaryInfo(@RequestBody Workspace workspace) {
+    WorkspaceSummary workspaceSummary = workspaceService.getWorkspaceSummaryInfo(workspace);
+    return workspaceSummary;
+  }
+
+  /**
+   * 작업공간 접근 멤버들을 조회
+   * @param workspace
+   * @return
+   */
+  /// @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getWorkspaceMemberList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Notebook> getWorkspaceMemberList(@RequestBody Workspace workspace) {
+    
+    return new ArrayList<Notebook>();
+  }
+  
   
   
 }

@@ -38,27 +38,27 @@ limitations under the License.
 			<table class="table table-striped table-hover">
 				<tr>
 					<th style="width:200px;">Workspace Name</th>
-					<td>workspace 1</td>
+					<td>[{{workspaceInfo.wrkspcType}}] {{workspaceInfo.wrkspcName}}</td>
 				</tr>
 				<tr>
 					<th>Total of Notebooks</th>
-					<td>3</td>
+					<td>{{workspaceInfo.totalOfNotebooks}}</td>
 				</tr>
 				<tr>
 					<th>Total of Queries</th>
-					<td></td>
+					<td>{{workspaceInfo.totalOfQueries}}</td>
 				</tr>
 				<tr>
 					<th>Total of Datasources</th>
-					<td>7</td>
+					<td>{{workspaceInfo.totalOfDatasource}}</td>
 				</tr>
 				<tr>
 					<th>Members</th>
-					<td>12</td>
+					<td>{{workspaceInfo.totalOfMembers}}</td>
 				</tr>
 				<tr>
 					<th>Jobs</th>
-					<td></td>
+					<td>{{workspaceInfo.totalOfJobs}}</td>
 				</tr>
 			</table>
 		</div>

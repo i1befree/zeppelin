@@ -17,17 +17,34 @@ limitations under the License.
       <a href="#/workspace/{{workspaceId}}">Workspace</a> > Management
     </h1>
 	</div>
-	
+      
+  <!-- start of model -->
+	<div class="modal fade" id="memberModal">
+		<div class="modal-dialog">
+			<div class="modal-content" style="padding: 0px 10px;">
+				<!-- PageTitle S -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4>Add Member</h4>
+				</div>
+
+				<div ng-include="'views/user-select.html'"></div>
+				<br/>
+			</div>
+		</div>
+	</div>
+	<!-- end of model -->
+				
 	<div class="row">
 		<div class="col-md-4"> 
 			<h4>Actions</h4>
 			<div>
         <ul style="list-style-type: none;">
           <li>
-            <a style="text-decoration: none;" href="javascript:void(0);" ng-click="display='info'">기본정보</a>
+            <a style="text-decoration: none;" href="javascript:void(0);" ng-click="getWorkspaceSummaryInfo()">기본정보</a>
           </li>
           <li>
-            <a style="text-decoration: none;" href="javascript:void(0);" ng-click="display='member'">Members</a>
+            <a style="text-decoration: none;" href="javascript:void(0);" ng-click="getWorkspaceMemberList()">Members</a>
           </li>
         </ul>
       </div>
@@ -65,48 +82,31 @@ limitations under the License.
 		
 		<div class="col-md-8" ng-if="display == 'member'">
 	   	<h4>Members</h4>
-			<table class="table table-striped table-hover">
-				<colgroup>
-					<col width="20px;">
-					<col width="40%">
-					<col width="30%">
-					<col width="30%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th></th>
-						<th>Name</th>
-						<th>ID</th>
-						<th>Role</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름1</td><td>id1</td><td>role1</td></tr>
-					<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름2</td><td>id2</td><td>role2</td></tr>
-					<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름3</td><td>id3</td><td>role3</td></tr>
-				</tbody>
-			</table>
-			<div class="text-right">
-				<button class="btn btn-primary" data-toggle="modal" data-target="#memberModal" ng-click="getUserList()">Add</button>
+	   	<div ng-style="{height: datatableContainerHeight}">
+				<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions">
+	        <thead>
+	        	<tr>
+	            <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
+							<th>Name</th>
+							<th>ID</th>
+							<th>Role</th>
+	        	</tr>
+	        </thead>
+	        <tbody>
+	        	<tr ng-repeat="info in memberList">
+	        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
+	            <td>{{ info.userName }}</td>
+	            <td>{{ info.userId }}</td>
+	            <td>{{ info.roleName }}</td>
+	        	</tr>
+	        </tbody>
+	    	</table>
+    	</div>
+      <div class="text-right">
+				<button class="btn btn-primary" data-toggle="modal" data-target="#memberModal" ng-click="showMemberList()">Add</button>
         <button class="btn btn-default">Remove</button>
       </div>
-      
-      <!-- start of model -->
-			<div class="modal fade" id="memberModal">
-				<div class="modal-dialog">
-					<div class="modal-content" style="padding: 0px 10px;">
-						<!-- PageTitle S -->
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h4>Add Member</h4>
-						</div>
-		
-						<div ng-include="'views/user-select.html'"></div>
-						<br/>
-					</div>
-				</div>
-			</div>
-			<!-- end of model -->
+
 		</div>
 	</div>
 </div>	

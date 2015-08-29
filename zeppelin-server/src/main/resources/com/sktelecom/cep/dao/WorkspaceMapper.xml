@@ -23,7 +23,15 @@
         <result property="totalOfMembers" column="total_of_members" />
         <result property="totalOfJobs" column="total_of_jobs" />
     </resultMap>
-
+    
+		<resultMap id="WorkspaceMemberMap" type="com.sktelecom.cep.vo.WorkspaceMember">
+        <result property="wrkspcId" column="wrkspc_id" />
+        <result property="userId" column="id" />
+        <result property="userName" column="name" />
+        <result property="roleCd" column="user_grp_cd" />
+        <result property="roleName" column="role_name" />
+    </resultMap>
+    
     <insert id="create" parameterType="com.sktelecom.cep.vo.Workspace">
         INSERT INTO workspace(wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id)
         VALUES (#{wrkspcId}, #{wrkspcName}, #{description}, #{wrkspcType}, #{adminUserId}, NOW(), #{updateUserId})
@@ -91,6 +99,14 @@
 				       0 AS total_of_jobs  
         FROM workspace w
         WHERE wrkspc_id = #{wrkspcId}
+    </select>
+    
+    <select id="getWorkspaceMemberList" resultMap="WorkspaceMemberMap" parameterType="com.sktelecom.cep.vo.Workspace">
+        SELECT ws.wrkspc_id, u.id, u.name, u.user_grp_cd, r.role_name
+		      FROM workspace_share ws
+		           INNER JOIN user u ON u.id = ws.user_id
+		           INNER JOIN role r ON u.user_grp_cd = r.role_cd
+		     WHERE ws.wrkspc_id = #{wrkspcId}
     </select>
     
 </mapper>

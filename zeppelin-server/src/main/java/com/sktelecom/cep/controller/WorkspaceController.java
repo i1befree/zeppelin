@@ -1,6 +1,5 @@
 package com.sktelecom.cep.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +19,7 @@ import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
@@ -214,9 +214,9 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/getWorkspaceMemberList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Notebook> getWorkspaceMemberList(@RequestBody Workspace workspace) {
-    
-    return new ArrayList<Notebook>();
+  public List<WorkspaceMember> getWorkspaceMemberList(@RequestBody Workspace workspace) {
+    List<WorkspaceMember> list = workspaceService.getWorkspaceMemberList(workspace);
+    return list;
   }
   
   

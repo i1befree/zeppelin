@@ -11,7 +11,12 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
-	
+	$scope.dtOptions = {
+    paging: false,
+    searching: true,
+    scrollY: 350,
+    sDom: 'rt<i>'
+  };
 	$scope.notes = [];
 		
 	function init() {

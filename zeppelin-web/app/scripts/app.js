@@ -113,7 +113,8 @@ angular
     'ngDragDrop',
     'monospaced.elastic',
     'puElasticInput',
-    'xeditable'
+    'xeditable',
+    'datatables'
   ])
   .filter('breakFilter', function() {
     return function (text) {

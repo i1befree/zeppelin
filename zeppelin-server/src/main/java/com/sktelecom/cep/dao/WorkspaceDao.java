@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
@@ -82,6 +83,13 @@ public interface WorkspaceDao {
    * @return
    */
   WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace);
+
+  /**
+   * 작업공간을 공유하는 멤버 목록 조회
+   * @param workspace
+   * @return
+   */
+  List<WorkspaceMember> getWorkspaceMemberList(Workspace workspace);
   
 
 }

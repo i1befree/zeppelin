@@ -15,6 +15,7 @@ import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
@@ -113,5 +114,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   public WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace) {
     WorkspaceSummary info = workspaceDao.getWorkspaceSummaryInfo(workspace);
     return info;
+  }
+
+  @Override
+  public List<WorkspaceMember> getWorkspaceMemberList(Workspace workspace) {
+    List<WorkspaceMember> list = workspaceDao.getWorkspaceMemberList(workspace);
+    return list;
   }
 }

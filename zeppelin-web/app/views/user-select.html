@@ -11,31 +11,27 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<div ng-controller="userSelectCtrl">
-	<div>
-		검색: <input type="text">
-	</div>
-	<table class="table table-striped table-hover">
-		<colgroup>
-			<col width="20px;">
-			<col width="40%">
-			<col width="30%">
-			<col width="30%">
-		</colgroup>
-		<thead>
-			<tr>
-				<th></th>
-				<th>Name</th>
-				<th>ID</th>
-				<th>Role</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름1</td><td>id1</td><td>role1</td></tr>
-			<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름2</td><td>id2</td><td>role2</td></tr>
-			<tr ng-click="viewMode(info)"><td><input type="checkbox"></td><td>이름3</td><td>id3</td><td>role3</td></tr>
-		</tbody>
-	</table>
+<div ng-controller="UserSelectCtrl">
+	<div ng-style="{height: datatableContainerHeight}" style="margin-top: 5px;">
+		<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions" >
+	  	<thead>
+	     	<tr>
+	        <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
+					<th>Name</th>
+					<th>ID</th>
+					<th>Role</th>
+	     	</tr>
+	    </thead>
+	    <tbody>
+	     	<tr ng-repeat="info in memberList">
+	     		<td><input type="checkbox" ng-model="selected[info.id]" ng-click="toggleOne(selected)"></td>
+	        <td>{{ info.name }}</td>
+	        <td>{{ info.id }}</td>
+	        <td>{{ info.userGrpNm }}</td>
+	     	</tr>
+	    </tbody>
+	 	</table>
+ 	</div>
 	<div class="btn-line text-right">
 		<button class="btn btn-primary" ng-click="addMembers()">Add Members</button>
     <button class="btn btn-default">Cancel</button>

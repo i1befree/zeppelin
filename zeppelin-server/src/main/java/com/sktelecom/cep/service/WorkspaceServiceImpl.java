@@ -16,6 +16,7 @@ import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
+import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
@@ -120,5 +121,23 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   public List<WorkspaceMember> getWorkspaceMemberList(Workspace workspace) {
     List<WorkspaceMember> list = workspaceDao.getWorkspaceMemberList(workspace);
     return list;
+  }
+
+  @Override
+  public int insertMembers(List<WorkspaceShare> wsList) {
+    int resultInt = 0;
+    for (WorkspaceShare item : wsList) {
+      resultInt += workspaceDao.insertMembers(item);
+    }
+    return resultInt;
+  }
+
+  @Override
+  public int deleteMembers(List<WorkspaceShare> wsList) {
+    int resultInt = 0;
+    for (WorkspaceShare item : wsList) {
+      resultInt += workspaceDao.deleteMembers(item);
+    }
+    return resultInt;
   }
 }

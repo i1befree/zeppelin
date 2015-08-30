@@ -85,7 +85,28 @@ angular.module('zeppelinWebApp').factory('UtilService', function($http, $q, $fil
       return promiseHttp('GET', uri);
     },
     
-    unflatten : unflatten
+    unflatten : unflatten,
+    
+    toggleAll : function(selectAll, selectedItems, userId) {
+    	for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id) && id != userId) {
+          selectedItems[id] = selectAll;
+        }
+      }
+    },
+    
+    toggleOne : function($scope, selectedItems) {
+    	for (var id in selectedItems) {
+        if (selectedItems.hasOwnProperty(id)) {
+          if(!selectedItems[id]) {
+          	$scope.selectAll = false;
+          	return;
+          }
+        }
+      }
+    	$scope.selectAll = true;
+    }
+    
 
   };
 

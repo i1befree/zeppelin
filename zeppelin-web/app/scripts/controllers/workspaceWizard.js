@@ -7,7 +7,7 @@
  */
 'use strict';
 
-angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($scope, $route, $routeParams, $location, UtilService) {
+angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($scope, $rootScope, $route, $routeParams, $location, Authentication, UtilService) {
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	$scope.workspaceId = $routeParams.workspaceId;
@@ -15,19 +15,29 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
 	$scope.memberList = [];
 	$scope.datatableContainerHeight = 400;
 	$scope.dtOptions = {
-    paging: false,
+		paging: false,
     searching: true,
     scrollY: $scope.datatableContainerHeight - 65,
-    sDom: 'rt<i>',
-  };
+    sDom: 'rt<i>'
+	};
 	$scope.selected = {};
 	$scope.selectAll = false;
 	$scope.display = 'info';
 	
 	function init() {
 		$scope.getWorkspaceSummaryInfo();
-		//$scope.getWorkspaceMemberList($scope.workspaceId);
+
+		$rootScope.$on('initWorkspaceMemberList', function(event, args) {
+			$scope.workspaceInfo = {};
+			$scope.memberList = [];
+			$scope.selectAll = false;
+			$scope.getWorkspaceMemberList();
+		});
 	}
+	
+	$scope.getId = function() {
+		return $scope.workspaceId;
+	};
 	
 	$scope.getWorkspaceSummaryInfo = function() {
 		$scope.display = 'info';
@@ -47,22 +57,6 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   		return;
   	}
 		UtilService.httpPost('/workspace/getWorkspaceMemberList', {wrkspcId: $scope.workspaceId}).then(function(result) {
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
-			result.push({userName: 'name'});
 			$scope.memberList = result;
   		angular.forEach($scope.memberList, function(item, index) {
   			$scope.selected[item.userId] = false;
@@ -76,33 +70,46 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   	$scope.$emit('initUserSelectView', {});
   }
   
-  $scope.toggleAll = function(selectAll, selectedItems) {
-  	toggleAll(selectAll, selectedItems);
+  $scope.removeMembers = function() {
+  	var members = getCheckedMembers();
+  	console.info('members', members);
+  	UtilService.httpPost('/workspace/removeMembers', {members: members, wrkspcId: $scope.workspaceId}).then(function(result) {
+  		$scope.$emit('initWorkspaceMemberList', {});
+  	}, function(error) {
+  		alert(error);
+  	});
   };
   
-  $scope.toggleOne = function (selectedItems) {
-  	toggleOne($scope.selectAll, selectedItems);
-  };
-  
-  function toggleAll(selectAll, selectedItems) {
-  	for (var id in selectedItems) {
-      if (selectedItems.hasOwnProperty(id)) {
-        selectedItems[id] = selectAll;
-      }
-    }
-  }
-  
-  function toggleOne(selectAll, selectedItems) {
-  	for (var id in selectedItems) {
-      if (selectedItems.hasOwnProperty(id)) {
-        if(!selectedItems[id]) {
-        	selectAll = false;
-          return;
+  function getCheckedMembers() {
+  	var members = [];
+  	for (var id in $scope.selected) {
+      if ($scope.selected.hasOwnProperty(id)) {
+        if($scope.selected[id] === true) {
+        	members.push(id);
         }
       }
     }
-    selectAll = true;
+  	return members;
   }
+  
+  $scope.isRowChecked = function() {
+  	if(getCheckedMembers().length > 0) {
+  		return true;
+  	}
+  	return false;
+  };
+  
+  $scope.toggleAll = function(selectAll, selectedItems) {
+  	console.info('toggleAll $scope.selectAll', $scope.selectAll);
+  	UtilService.toggleAll(selectAll, selectedItems, Authentication.getUser().id);
+  	//console.info('toggleAll $scope.selectAll', $scope.selectAll);
+  };
+  
+  $scope.toggleOne = function (selectedItems) {
+  	UtilService.toggleOne($scope, selectedItems);
+  	console.info('toggleOne $scope.selectAll', $scope.selectAll);
+  };
+  
   
   init();	
 });

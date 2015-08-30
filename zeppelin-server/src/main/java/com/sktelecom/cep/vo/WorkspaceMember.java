@@ -1,5 +1,7 @@
 package com.sktelecom.cep.vo;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -21,6 +23,15 @@ public class WorkspaceMember {
   // role name 
   private String roleName;
   
+  private List<String> members;
+  
+  
+  public List<String> getMembers() {
+    return members;
+  }
+  public void setMembers(List<String> members) {
+    this.members = members;
+  }
   public String getRoleCd() {
     return roleCd;
   }

@@ -11,16 +11,18 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
-	$scope.dtOptions = {
-    paging: false,
-    searching: true,
-    scrollY: 350,
-    sDom: 'rt<i>'
-  };
 	$scope.notes = [];
-		
+	$scope.datatableContainerHeight = 400;
+	$scope.dtOptions = {
+		paging: false,
+    searching: true,
+    scrollY: $scope.datatableContainerHeight - 65,
+    sDom: 'rt<i>'
+	};
+			
 	function init() {
-		$scope.getNotebookList(workspaceId);
+		getNotebookList(workspaceId);
+		getDatasourceList(workspaceId);
 	}
 	
 	$scope.createNewNote = function() {    
@@ -29,16 +31,20 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   
   $scope.$on('setNoteMenu', function(event, notes) {
   	//$scope.notes = notes;
-  	$scope.getNotebookList(workspaceId);
+  	getNotebookList(workspaceId);
   });
   
-  $scope.getNotebookList = function(pWorkspaceId) {
+  function getNotebookList(pWorkspaceId) {
   	UtilService.httpPost('/workspace/getNotebookList', {wrkspcId: pWorkspaceId}).then(function(result) {
   		$scope.notes = result;
   	}, function(error) {
   		alert(error);
   	});
   };
+  
+  function getDatasourceList(pWorkspaceId) {
+  	$('#datasourceTable').DataTable($scope.datasourceTableOptions);
+  }
   
   $scope.manage = function() {
 	  $location.path('/workspaceWizard/' + workspaceId);

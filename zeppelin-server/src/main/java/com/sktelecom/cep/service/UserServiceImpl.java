@@ -15,6 +15,7 @@ import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.vo.Role;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceShare;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Service 구현체.
@@ -44,6 +45,12 @@ public class UserServiceImpl implements UserService {
     workspace.setAdminUserId(user.getId());
     workspace.setUpdateUserId(user.getId());
     workspaceDao.create(workspace);
+    
+    WorkspaceShare workspaceShare = new WorkspaceShare();
+    workspaceShare.setWrkspcId(wrkspcId);
+    workspaceShare.setUserId(user.getId());
+    workspaceShare.setUpdateUserId(user.getId());
+    workspaceDao.insertMembers(workspaceShare);
     
     user.setWrkspcId(wrkspcId);
     int resultInt = userDao.create(user);

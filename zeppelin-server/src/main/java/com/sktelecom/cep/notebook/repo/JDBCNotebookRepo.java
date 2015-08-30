@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -156,6 +155,6 @@ public class JDBCNotebookRepo implements NotebookRepo {
   @Override
   public void remove(String noteId) throws IOException {
     //jdbcTemplate.update("delete from notebook where note_id = ?", noteId);
-    jdbcTemplate.update("update workspace_object set obj_status = ? where note_id = ?", "DROPPED", noteId);
+    jdbcTemplate.update("update workspace_object set obj_status = ? where wrkspc_obj_id = ?", "DROPPED", noteId);
   }
 }

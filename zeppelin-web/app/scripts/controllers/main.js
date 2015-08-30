@@ -62,7 +62,8 @@ angular.module('zeppelinWebApp')
     if (op === 'NOTE') {
       $scope.$broadcast('setNoteContent', data.note);
     } else if (op === 'NOTES_INFO') {
-      $scope.$broadcast('setNoteMenu', data.notes);
+      //$scope.$broadcast('setNoteMenu', data.notes);
+    	getLastestNotebookList();
     } else if (op === 'PARAGRAPH') {
       $scope.$broadcast('updateParagraph', data);
     } else if (op === 'PROGRESS') {
@@ -116,18 +117,25 @@ angular.module('zeppelinWebApp')
       event.preventDefault();
     }
   });
-
+  
   $rootScope.$on('getTreeWorkspace', function(event, data) {
     console.info('getTreeWorkspace', event, data);
     
-    UtilService.httpPost('/workspace/getListByUserId', {}).then(function(result) {
+    getListByUserId();
+    getLastestNotebookList();
+  });
+  
+  function getListByUserId() {
+  	UtilService.httpPost('/workspace/getListByUserId', {}).then(function(result) {
       //$scope.mainTreeData = UtilService.unflatten(result);
     	$scope.mainTreeData = result;
       $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
     }, function(error) {
       alert(error);
     });
-    
+  }
+  
+  function getLastestNotebookList() {
   	UtilService.httpPost('/workspace/getLastestNotebookList', {}).then(function(result) {
   		$scope.notes = result;
   		
@@ -141,7 +149,6 @@ angular.module('zeppelinWebApp')
   	}, function(error) {
   		alert(error);
   	});
-  	
-  });
+  }
 
 });

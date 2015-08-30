@@ -109,4 +109,15 @@
 		     WHERE ws.wrkspc_id = #{wrkspcId}
     </select>
     
+    <insert id="insertMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
+        INSERT INTO workspace_share(wrkspc_id, user_id, update_date, update_user_id)
+        VALUES (#{wrkspcId}, #{userId}, NOW(), #{updateUserId})
+    </insert>
+    
+    <delete id="deleteMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
+        DELETE FROM workspace_share
+        WHERE wrkspc_id = #{wrkspcId}
+          AND user_id = #{userId}
+    </delete>
+    
 </mapper>

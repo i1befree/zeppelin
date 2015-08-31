@@ -9,19 +9,38 @@
 
 angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $route, $routeParams, $location) {
 
-	$scope.datatableContainerHeight = 430;
-	$scope.dtOptions = {
-    paging: false,
-    searching: true,
-    scrollY: $scope.datatableContainerHeight - 95,
-    sDom: '<f>rt<i>',
-  };
+	$scope.datasource = {};
+	$scope.gridOptionsForDatasource = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : false,
+    enableRowHeaderSelection : true,
+    onRegisterApi : function(gridApi){
+      gridApi.selection.on.rowSelectionChanged($scope, function(row){
+      	console.info('row', row);
+      });
+    },
+		columnDefs : [
+		  {name:'name'    , displayName: 'Name', enableColumnMenu: false},
+		  {name:'type', displayName: 'Type', enableColumnMenu: false}
+		]	
+	};	
+	
+	$scope.gridOptionsForDatasource.data = [{name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'},
+	                                        {name:'name1', type:'type1'}
+	                                        ];
 	
 	$scope.create = function() {
-	  $location.path('/datasourceWizard/:');
+	  $location.path('/datasourceWizard');
   }
   $scope.assignWorkspace = function() {
-	  $location.path('/datasourceWorkspace/:');
+	  $location.path('/datasourceWorkspace/' + $scope.datasource.datasourceId);
   }
 });
 // / @endcond

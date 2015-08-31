@@ -12,14 +12,32 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
 	$scope.notes = [];
-	$scope.datatableContainerHeight = 400;
-	$scope.dtOptions = {
-		paging: false,
-    searching: true,
-    scrollY: $scope.datatableContainerHeight - 65,
-    sDom: 'rt<i>'
+	$scope.gridOptionsForNotebook = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : false,
+    enableRowHeaderSelection : false,
+    onRegisterApi : function(gridApi){
+      gridApi.selection.on.rowSelectionChanged($scope, function(row){
+      	$scope.goNotebook(row.entity);
+      });
+    },
+		columnDefs : [
+		  {name:'noteName'    , displayName: '노트명', enableColumnMenu: false},
+		  {name:'createUserId', displayName: '생성자', enableColumnMenu: false},
+		  {name:'updateDate'  , displayName: '최종수정 일시', cellFilter: 'date : "yyyy-MM-dd HH:mm:ss"', enableColumnMenu: false}
+		]	
+	};	
+	$scope.gridOptionsForDatasource = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : false,
+    enableRowHeaderSelection : false,
+		columnDefs : [
+		  {name:'name'    , displayName: 'Datasource', enableColumnMenu: false}
+		]	
 	};
-			
+		
 	function init() {
 		getNotebookList(workspaceId);
 		getDatasourceList(workspaceId);
@@ -37,13 +55,19 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   function getNotebookList(pWorkspaceId) {
   	UtilService.httpPost('/workspace/getNotebookList', {wrkspcId: pWorkspaceId}).then(function(result) {
   		$scope.notes = result;
+  		$scope.gridOptionsForNotebook.data = $scope.notes;
   	}, function(error) {
   		alert(error);
   	});
   };
   
   function getDatasourceList(pWorkspaceId) {
-  	$('#datasourceTable').DataTable($scope.datasourceTableOptions);
+  	var datasources = [
+  	  {name: 'Datasource 1'},
+  	  {name: 'Datasource 2'},
+  	  {name: 'Datasource 3'}
+  	];
+		$scope.gridOptionsForDatasource.data = datasources;
   }
   
   $scope.manage = function() {

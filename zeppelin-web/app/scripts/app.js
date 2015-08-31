@@ -107,14 +107,15 @@ angular
     'angular-websocket',
     'ui.ace',
     'ui.bootstrap',
-    'ui.sortable',
+    'as.sortable',
     'uiGmapgoogle-maps',
     'ngTouch',
     'ngDragDrop',
     'monospaced.elastic',
     'puElasticInput',
     'xeditable',
-    'datatables'
+    'ui.grid',
+    'ui.grid.selection'
   ])
   .filter('breakFilter', function() {
     return function (text) {
@@ -150,7 +151,7 @@ angular
         templateUrl: 'views/datasource.html',
         controller: 'DatasourceCtrl'
       })
-      .when('/datasourceWizard/:datasourceId', {
+      .when('/datasourceWizard', {
         templateUrl: 'views/datasourceWizard.html',
         controller: 'DatasourceWizardCtrl'
       })

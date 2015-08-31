@@ -21,27 +21,9 @@ limitations under the License.
 				<h4>Add Member</h4>
 			</div>
 
-			<div ng-style="{height: datatableContainerHeight}" style="margin-top: 5px;">
-				<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions" >
-			  	<thead>
-			     	<tr>
-			        <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
-							<th>Name</th>
-							<th>ID</th>
-							<th>Role</th>
-			     	</tr>
-			    </thead>
-			    <tbody>
-			     	<tr ng-repeat="info in memberList">
-			     		<td><input type="checkbox" ng-model="selected[info.id]" ng-click="toggleOne(selected)"></td>
-			        <td>{{ info.name }}</td>
-			        <td>{{ info.id }}</td>
-			        <td>{{ info.userGrpNm }}</td>
-			     	</tr>
-			    </tbody>
-			 	</table>
-		 	</div>
+			<div ui-grid="gridOptionsForUser" ui-grid-selection style="width:575px; height:300px;" />
 
+	   	<br/>
 			<div class="text-right">
 				<button class="btn btn-primary" ng-click="addMembers()">Add Members</button>
 		    <button class="btn btn-default" ng-click="close()">Cancel</button>

@@ -32,37 +32,9 @@ limitations under the License.
 					</button>
 				</div>	
 				<h3 class="title">List</h3>
+				
 	     	<br/>
-	     	<div ng-style="{height: datatableContainerHeight}">
-		     	<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions">			
-						<colgroup>
-							<col width="50%">
-							<col width="50%">
-						</colgroup>
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Type</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="info in list" class="btn-link" ng-click="viewMode(info)">
-								<td>{{info.name}}</td>
-								<td>{{info.type}}</td>
-							</tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-							<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						</tbody>
-					</table>
-				</div>
+	     	<div ui-grid="gridOptionsForDatasource" ui-grid-selection style="width:100%; height:400px;" />
 			</div>
 	  </div>
 	  <div class="col-md-8">   

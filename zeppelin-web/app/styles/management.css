@@ -16,6 +16,14 @@
   margin-top: -10px;
 }
 
+.stepWizard {
+	font-weight: normal;
+}
+.stepActive {
+	color: blue;
+	font-weight: bold;
+}
+
 .management .row *[class^='col'] {
   padding-right: 0px;
 }

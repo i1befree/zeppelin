@@ -23,212 +23,213 @@ limitations under the License.
   </div>
 </div>
 <div class="box width-full management">
-   <h3 class="title">source Type > 접속 정보 > 접속 테스트 > 요약 정보 보기</h3>
-   <div class="row">
-     <div class="col-md-12">
+  <h3 class="title">
+   	<label class="stepWizard" ng-class="{stepActive: wizardCurrentStep == 1}">Store Type</label>
+   	> 
+   	<label class="stepWizard" ng-class="{stepActive: wizardCurrentStep == 2}">choice source</label>
+   	> 
+   	<label class="stepWizard" ng-class="{stepActive: wizardCurrentStep == 3}">기본 정보</label>
+   	> 
+   	<label class="stepWizard" ng-class="{stepActive: wizardCurrentStep == 4}">요약 정보 보기</label>
+  </h3>
+  <div class="row">
+    <div class="col-md-12">
       <!-- 1step -->
-      <div>
-      step 1
-	     	<!-- Table S -->
-				<table class="table table-striped table-hover">
-					<tr>
-						<th style="width:200px;">DataStore Type</th>
-						<td>
-							<select ng-model="datasourceType">
-								<option value="elasticsearch">Internal</option>
-								<option value="database">Database</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-				<!-- Table E -->
-			</div>
+      <div ng-switch on="wizardCurrentStep">
+	     	<div ng-switch-when="1">
+		     	<table class="table table-striped table-hover">
+						<tr>
+							<th style="width:200px;">DataStore</th>
+							<td>
+								<select ng-model="datasource.datstoreId" ng-change="selectDatastore()">
+									<option ng-repeat="option in datastoreList" value="{{option.datstoreId}}">[{{option.datstoreType}}] {{option.datstoreName}}</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
 			
-			<!-- 2step -->
-      <div>
-      	지정된 default index 를 자동세팅되어서 보여준다.
-						index 선택은 없다.
-      	<div ng-if="datasourceType === 'elasticsearch'" class="row">
-	      	<div class="col-md-6">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th style="width:200px;">Type</th>
-			        </tr>
-			        <tr>
-			          <td><input name="type" type="radio"> type1</td>
-			        </tr>
-			        <tr>
-			          <td><input name="type" type="radio"> type2</td>
-			        </tr>
-			        <tr>
-			          <td><input name="type" type="radio"> type3</td>
-			        </tr>
-			        <tr>
-			          <td><input name="type" type="radio"> type4</td>
-			        </tr>
-			        <tr>
-			          <td><input name="type" type="radio"> type5</td>
-			        </tr>
-						</table>
+				<div ng-switch-when="2">
+	      	<div ng-if="datastore.datstoreType == 'Internal'" class="row">
+		      	<div class="col-md-6">
+							<table class="table table-striped table-hover">
+								<tr>
+				          <th style="width:200px;">Type</th>
+				        </tr>
+				        <tr>
+				          <td><input name="type" type="radio"> type1</td>
+				        </tr>
+				        <tr>
+				          <td><input name="type" type="radio"> type2</td>
+				        </tr>
+				        <tr>
+				          <td><input name="type" type="radio"> type3</td>
+				        </tr>
+				        <tr>
+				          <td><input name="type" type="radio"> type4</td>
+				        </tr>
+				        <tr>
+				          <td><input name="type" type="radio"> type5</td>
+				        </tr>
+							</table>
+						</div>
+						<div class="col-md-6">
+							<table class="table table-striped table-hover">
+								<tr>
+				          <th>field name</th>
+				          <th>field type</th>
+				        </tr>
+				        <tr>
+				          <th>field 1</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>field 2</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>field 3</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>field 4</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>field 5</th>
+				          <th>varchar</th>
+				        </tr>
+							</table>
+						</div>
 					</div>
-					<div class="col-md-6">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th>field name</th>
-			          <th>field type</th>
-			        </tr>
-			        <tr>
-			          <th>field 1</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>field 2</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>field 3</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>field 4</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>field 5</th>
-			          <th>varchar</th>
-			        </tr>
-						</table>
-					</div>
-				</div>
-      	<div ng-if="datasourceType === 'database'" class="row">
-	      	<div class="col-md-4">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th style="width:200px;">Schema</th>
-			        </tr>
-			        <tr>
-			          <td>schema1</td>
-			        </tr>
-			        <tr>
-			          <td>schema2</td>
-			        </tr>
-			        <tr>
-			          <td>schema3</td>
-			        </tr>
-						</table>
-					</div>
-					<div class="col-md-4">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th style="width:200px;">Table</th>
-			        </tr>
-			        <tr>
-			          <td><input name="table" type="radio"> table1</td>
-			        </tr>
-			        <tr>
-			          <td><input name="table" type="radio"> table2</td>
-			        </tr>
-			        <tr>
-			          <td><input name="table" type="radio"> table3</td>
-			        </tr>
-			        <tr>
-			          <td><input name="table" type="radio"> table4</td>
-			        </tr>
-			        <tr>
-			          <td><input name="table" type="radio"> table5</td>
-			        </tr>
-						</table>
-					</div>
-					<div class="col-md-4">
-						<table class="table table-striped table-hover">
-							<tr>
-			          <th>column name</th>
-			          <th>column type</th>
-			        </tr>
-			        <tr>
-			          <th>column 1</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>column 2</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>column 3</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>column 4</th>
-			          <th>varchar</th>
-			        </tr>
-			        <tr>
-			          <th>column 5</th>
-			          <th>varchar</th>
-			        </tr>
-						</table>
+	      	<div ng-if="datastore.datstoreType == 'RDB'" class="row">
+		      	<div class="col-md-4">
+							<table class="table table-striped table-hover">
+								<tr>
+				          <th style="width:200px;">Schema</th>
+				        </tr>
+				        <tr>
+				          <td>schema1</td>
+				        </tr>
+				        <tr>
+				          <td>schema2</td>
+				        </tr>
+				        <tr>
+				          <td>schema3</td>
+				        </tr>
+							</table>
+						</div>
+						<div class="col-md-4">
+							<table class="table table-striped table-hover">
+								<tr>
+				          <th style="width:200px;">Table</th>
+				        </tr>
+				        <tr>
+				          <td><input name="table" type="radio"> table1</td>
+				        </tr>
+				        <tr>
+				          <td><input name="table" type="radio"> table2</td>
+				        </tr>
+				        <tr>
+				          <td><input name="table" type="radio"> table3</td>
+				        </tr>
+				        <tr>
+				          <td><input name="table" type="radio"> table4</td>
+				        </tr>
+				        <tr>
+				          <td><input name="table" type="radio"> table5</td>
+				        </tr>
+							</table>
+						</div>
+						<div class="col-md-4">
+							<table class="table table-striped table-hover">
+								<tr>
+				          <th>column name</th>
+				          <th>column type</th>
+				        </tr>
+				        <tr>
+				          <th>column 1</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>column 2</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>column 3</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>column 4</th>
+				          <th>varchar</th>
+				        </tr>
+				        <tr>
+				          <th>column 5</th>
+				          <th>varchar</th>
+				        </tr>
+							</table>
+						</div>
 					</div>
 				</div>
-			</div>
-		
-			<!-- 3step -->
-      <div>
-      step 3
-      	<div class="row">
-		      <div class="col-md-12">
-		      	<table class="table table-striped table-hover">
-							<tr>
-			          <th style="width:200px;">DataSource Name</th>
-			          <td><input type="text"></td>
-			        </tr>
-			        <tr>
-			          <th>Description</th>
-			          <td><input type="text"></td>
-			        </tr>
-						</table>
-					</div>
-	      </div>
-	    </div>  
-      
-      <!-- 4step -->
-      <div>
-      step 4
-	      <div class="row">
-		      <div class="col-md-12">
-			      <table class="table table-striped">
-			        <tr>
-			          <th>DataSource Name</th>
-			          <td>국제전화</td>
-			        </tr>
-			        <tr>
-			          <th style="width:200px;">DataStore Type</th>
-			          <td>Internal</td>
-			        </tr>
-			        <tr>
-			          <th>Container</th>
-			          <td>schema</td>
-			        </tr>
-			        <tr>
-			          <th>source</th>
-			          <td>table</td>
-			        </tr>
-			        <tr>
-			          <th>Description</th>
-			          <td></td>
-			        </tr>
-			      </table>
+			
+				<!-- 3step -->
+	      <div ng-switch-when="3">
+	      	<div class="row">
+			      <div class="col-md-12">
+			      	<table class="table table-striped table-hover">
+								<tr>
+				          <th style="width:200px;">DataSource Name</th>
+				          <td><input type="text"></td>
+				        </tr>
+				        <tr>
+				          <th>Description</th>
+				          <td><input type="text"></td>
+				        </tr>
+							</table>
+						</div>
 		      </div>
-		    </div> 
+		    </div>  
+	      
+	      <!-- 4step -->
+	      <div ng-switch-when="4">
+		      <div class="row">
+			      <div class="col-md-12">
+				      <table class="table table-striped">
+				        <tr>
+				          <th>DataSource Name</th>
+				          <td>국제전화</td>
+				        </tr>
+				        <tr>
+				          <th style="width:200px;">DataStore Type</th>
+				          <td>Internal</td>
+				        </tr>
+				        <tr>
+				          <th>Container</th>
+				          <td>schema</td>
+				        </tr>
+				        <tr>
+				          <th>source</th>
+				          <td>table</td>
+				        </tr>
+				        <tr>
+				          <th>Description</th>
+				          <td></td>
+				        </tr>
+				      </table>
+			      </div>
+			    </div> 
+		    </div>
 	    </div>
 	      
 			<!-- Button S -->
 			<div class="btn-line text-right">
-				<button class="btn btn-white btn-default btn-bold" ng-click="previous()">
+				<button class="btn btn-white btn-default btn-bold" ng-click="previous()" ng-show="wizardCurrentStep > 1" >
 					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Previous
 				</button>
-				<button class="btn btn-white btn-default btn-bold" ng-click="next()">
+				<button class="btn btn-white btn-default btn-bold" ng-click="next()" ng-show="wizardCurrentStep < wizardStepCount" >
 					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Next
 				</button>
-				<button class="btn btn-white btn-default btn-bold" ng-click="createMode()">
+				<button class="btn btn-white btn-default btn-bold" ng-click="complete()" ng-show="wizardCurrentStep === wizardStepCount" >
 					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Complete
 				</button>
 				<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">

@@ -16,7 +16,7 @@ limitations under the License.
     <div class="row">
       <div class="col-md-12">
         <h3 class="new_h3" style="float:left">
-          Datasource 생성
+          <a href="#/datasource">Datasource</a> > Create
         </h3>
       </div>
     </div>
@@ -103,71 +103,17 @@ limitations under the License.
 						</div>
 					</div>
 	      	<div ng-if="datastore.datstoreType == 'RDB'" class="row">
-		      	<div class="col-md-4">
-							<table class="table table-striped table-hover">
-								<tr>
-				          <th style="width:200px;">Schema</th>
-				        </tr>
-				        <tr>
-				          <td>schema1</td>
-				        </tr>
-				        <tr>
-				          <td>schema2</td>
-				        </tr>
-				        <tr>
-				          <td>schema3</td>
-				        </tr>
-							</table>
+		      	<div class="col-md-3">
+							<h4>Schema</h4>
+							<div ui-grid="gridOptionsForSchema" ui-grid-selection style="width:100%; height:400px;" />							
 						</div>
-						<div class="col-md-4">
-							<table class="table table-striped table-hover">
-								<tr>
-				          <th style="width:200px;">Table</th>
-				        </tr>
-				        <tr>
-				          <td><input name="table" type="radio"> table1</td>
-				        </tr>
-				        <tr>
-				          <td><input name="table" type="radio"> table2</td>
-				        </tr>
-				        <tr>
-				          <td><input name="table" type="radio"> table3</td>
-				        </tr>
-				        <tr>
-				          <td><input name="table" type="radio"> table4</td>
-				        </tr>
-				        <tr>
-				          <td><input name="table" type="radio"> table5</td>
-				        </tr>
-							</table>
+						<div class="col-md-3">
+							<h4>Table</h4>
+							<div ui-grid="gridOptionsForTable" ui-grid-selection style="width:100%; height:400px;" />	
 						</div>
-						<div class="col-md-4">
-							<table class="table table-striped table-hover">
-								<tr>
-				          <th>column name</th>
-				          <th>column type</th>
-				        </tr>
-				        <tr>
-				          <th>column 1</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>column 2</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>column 3</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>column 4</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>column 5</th>
-				          <th>varchar</th>
-				        </tr>
-							</table>
+						<div class="col-md-6">
+							<h4>Column</h4>
+							<div ui-grid="gridOptionsForColumn" ui-grid-selection style="width:100%; height:400px;" />	
 						</div>
 					</div>
 				</div>
@@ -221,6 +167,7 @@ limitations under the License.
 		    </div>
 	    </div>
 	      
+			<br/>
 			<!-- Button S -->
 			<div class="btn-line text-right">
 				<button class="btn btn-white btn-default btn-bold" ng-click="previous()" ng-show="wizardCurrentStep > 1" >

@@ -7,14 +7,14 @@
  */
 'use strict';
 
-angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $route, $routeParams, $location) {
+angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $route, $routeParams, $location, UtilService) {
 
 	$scope.datasource = {};
 	$scope.gridOptionsForDatasource = {
 		showGridFooter: true,	
 		enableRowSelection: true,
 		multiSelect : false,
-    enableRowHeaderSelection : true,
+    enableRowHeaderSelection : false,
     onRegisterApi : function(gridApi){
       gridApi.selection.on.rowSelectionChanged($scope, function(row){
       	console.info('row', row);
@@ -26,15 +26,18 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
 		]	
 	};	
 	
-	$scope.gridOptionsForDatasource.data = [{name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'},
-	                                        {name:'name1', type:'type1'}
+	$scope.gridOptionsForDatasource.data = [{name:'name1', type:'Internal'},
+	                                        {name:'name2', type:'Internal'},
+	                                        {name:'name3', type:'RDB'},
+	                                        {name:'name4', type:'Internal'},
+	                                        {name:'name5', type:'RDB'},
+	                                        {name:'name6', type:'Internal'},
+	                                        {name:'name7', type:'RDB'},
+	                                        {name:'name8', type:'RDB'}
 	                                        ];
+	function init() {
+		
+	}
 	
 	$scope.create = function() {
 	  $location.path('/datasourceWizard');
@@ -42,5 +45,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   $scope.assignWorkspace = function() {
 	  $location.path('/datasourceWorkspace/' + $scope.datasource.datasourceId);
   }
+      
+  init();
 });
 // / @endcond

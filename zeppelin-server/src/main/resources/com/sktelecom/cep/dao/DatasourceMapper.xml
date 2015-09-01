@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.DatasourceDao">
+
+    <resultMap id="DatasourceMap" type="com.sktelecom.cep.vo.Datasource">
+        <result property="datasourceId" column="datasource_id" />
+        <result property="datstoreId" column="datstore_id" />
+        <result property="datsrcName" column="datsrc_name" />
+        <result property="containerName" column="container_name" />
+        <result property="srcObjName" column="src_obj_name" />
+        <result property="description" column="description" />
+        <result property="updateDate" column="update_date" />
+        <result property="updateUserId" column="update_user_id" />
+    </resultMap>
+  
+    <insert id="create" parameterType="com.sktelecom.cep.vo.Datasource">
+        INSERT INTO datasource(datasource_id, datstore_id, datsrc_name, container_name, src_obj_name, description, update_date, update_user_id)
+        VALUES (#{datasourceId}, #{datstoreId}, #{datsrcName}, #{containerName}, #{srcObjName}, #{description}, NOW(), #{updateUserId})
+    </insert>
+
+    <select id="getList" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Datasource">
+        SELECT datasource_id, datstore_id, datsrc_name, container_name, src_obj_name, description, update_date, update_user_id
+        FROM datasource
+        ORDER BY update_date DESC
+    </select>
+
+</mapper>

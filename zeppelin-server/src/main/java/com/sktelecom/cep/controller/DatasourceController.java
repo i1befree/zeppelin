@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sktelecom.cep.common.CepConstant;
+import com.sktelecom.cep.common.SimpleResultMessage;
+import com.sktelecom.cep.service.DatasourceService;
 import com.sktelecom.cep.service.WorkspaceService;
+import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
@@ -41,7 +44,32 @@ public class DatasourceController {
   @Inject
   private WorkspaceService workspaceService;
 
+  @Inject
+  private DatasourceService datasourceService;
 
+  /**
+   * datasource 생성.
+   * 
+   * @param user
+   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/datasoruce/create", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public SimpleResultMessage create(@RequestBody Datasource datasource, HttpSession session) {
+    SimpleResultMessage message = new SimpleResultMessage("FAIL", "데이타소스 생성을 실패하였습니다.");
+
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    datasource.setUpdateUserId(userSession.getId());
+    int resultInt = datasourceService.create(datasource);
+    if (resultInt > 0) {
+      message.setRsCode("SUCCESS");
+      message.setRsMessage("데이타소스를 생성하였습니다.");
+    }
+    return message;
+  }
+  
   /**
    * datasource 목록 조회.
    * 
@@ -77,6 +105,7 @@ public class DatasourceController {
       
       DatabaseMetaData metadata = connection.getMetaData();
       
+      boolean isSchema = false;
       ResultSet schemaRs = metadata.getSchemas();
       while (schemaRs.next()) {
         LayoutSchema info = new LayoutSchema();
@@ -85,6 +114,7 @@ public class DatasourceController {
       }
       schemaRs.close();
       if (schemas.size() == 0) {
+        isSchema = true;
         ResultSet catelogRs = metadata.getCatalogs();
         while (catelogRs.next()) {
           LayoutSchema info = new LayoutSchema();
@@ -96,7 +126,12 @@ public class DatasourceController {
 
       for (LayoutSchema schema : schemas) {
         List<LayoutTable> tables = new ArrayList<LayoutTable>();
-        ResultSet tableRs = metadata.getTables(schema.getName(), schema.getName(), "", null);
+        ResultSet tableRs = null;
+        if (isSchema) {
+          tableRs = metadata.getTables("", schema.getName(), "", null);
+        } else {
+          tableRs = metadata.getTables(schema.getName(), "", "", null);
+        }
         while (tableRs.next()) {
           LayoutTable table = new LayoutTable();
           table.setName(tableRs.getString("TABLE_NAME"));

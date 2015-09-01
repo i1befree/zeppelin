@@ -54,7 +54,7 @@ public class DatasourceController {
    * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
    */
   // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/datasoruce/create", method = RequestMethod.POST)
+  @RequestMapping(value = "/datasource/create", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
   public SimpleResultMessage create(@RequestBody Datasource datasource, HttpSession session) {
@@ -78,20 +78,35 @@ public class DatasourceController {
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/datasoruce/getList", method = RequestMethod.POST)
+  @RequestMapping(value = "/datasource/getList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Workspace> getList(@RequestBody Workspace workspace, HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUpdateUserId(userSession.getId());
-    List<Workspace> resultList = workspaceService.getList(workspace);
+  public List<Datasource> getList(@RequestBody Datasource datasource) {
+    List<Datasource> resultList = datasourceService.getList(datasource);
     return resultList;
   }
- 
-  @RequestMapping(value = "/datasoruce/loadDatasourceMetadata", method = RequestMethod.POST)
+  
+  /**
+   * Workspace 목록 조회.
+   * 
+   * @param Workspace
+   * @param session
+   * @return List<Workspace>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/datasource/getWorkspaceList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<LayoutSchema> loadDatasourceMetadata() throws Exception {
+  public List<Workspace> getWorkspaceList(@RequestBody Workspace workspace) {
+    List<Workspace> resultList = datasourceService.getWorkspaceList(workspace);
+    return resultList;
+  }
+  
+ 
+  @RequestMapping(value = "/datasource/loadDatasourceMetadata", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<LayoutSchema> loadDatasourceMetadata(@RequestBody Datasource datasource) throws Exception {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     String DRIVER = "com.mysql.jdbc.Driver";
@@ -105,7 +120,7 @@ public class DatasourceController {
       
       DatabaseMetaData metadata = connection.getMetaData();
       
-      boolean isSchema = false;
+      boolean isSchema = true;
       ResultSet schemaRs = metadata.getSchemas();
       while (schemaRs.next()) {
         LayoutSchema info = new LayoutSchema();
@@ -114,7 +129,7 @@ public class DatasourceController {
       }
       schemaRs.close();
       if (schemas.size() == 0) {
-        isSchema = true;
+        isSchema = false;
         ResultSet catelogRs = metadata.getCatalogs();
         while (catelogRs.next()) {
           LayoutSchema info = new LayoutSchema();
@@ -128,9 +143,9 @@ public class DatasourceController {
         List<LayoutTable> tables = new ArrayList<LayoutTable>();
         ResultSet tableRs = null;
         if (isSchema) {
-          tableRs = metadata.getTables("", schema.getName(), "", null);
+          tableRs = metadata.getTables(null, schema.getName(), null, new String[] {"TABLE"});
         } else {
-          tableRs = metadata.getTables(schema.getName(), "", "", null);
+          tableRs = metadata.getTables(schema.getName(), null, null, new String[] {"TABLE"});
         }
         while (tableRs.next()) {
           LayoutTable table = new LayoutTable();

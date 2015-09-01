@@ -11,10 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.WorkspaceAssignDao;
-import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.dao.WorkspaceObjectDao;
 import com.sktelecom.cep.vo.Datasource;
-import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
@@ -29,9 +28,6 @@ public class DatasourceServiceImpl implements DatasourceService {
 
   @Inject
   private DatasourceDao datasourceDao;
-  
-  @Inject
-  private WorkspaceDao workspaceDao;
   
   @Inject
   private WorkspaceObjectDao workspaceObjectDao;
@@ -61,12 +57,6 @@ public class DatasourceServiceImpl implements DatasourceService {
   public List<Datasource> getList(Datasource datasource) {
     List<Datasource> datasourceList = datasourceDao.getList(datasource);
     return datasourceList;
-  }
-
-  @Override
-  public List<Workspace> getWorkspaceList(Workspace workspace) {
-    List<Workspace> list = workspaceDao.getList(workspace);
-    return list;
   }
   
 }

@@ -93,7 +93,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	}
 	
   function getLayoutSchemaList() {
-  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datstoreId}).then(function(result) {
+  	UtilService.httpPost('/datasoruce/loadDatasourceMetadata', {}).then(function(result) {
   		$scope.schema = result;
   		$scope.gridOptionsForSchema.data = $scope.schema;
   	}, function(error) {
@@ -173,7 +173,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	};
 	
 	$scope.complete = function() {
-    if(confirm('완료 하시겠습니까?')) {
+    if(!confirm('완료 하시겠습니까?')) {
     	var jsonData = angular.copy($scope.datasource);
     	UtilService.httpPost('/datasource/create', jsonData).then(function(result) {
     		if (result.rsCode === 'SUCCESS') {

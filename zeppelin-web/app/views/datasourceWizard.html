@@ -103,11 +103,11 @@ limitations under the License.
 						</div>
 					</div>
 	      	<div ng-if="datastore.datstoreType == 'RDB'" class="row">
-		      	<div class="col-md-2">
+		      	<div class="col-md-3">
 							<h4>Schema</h4>
 							<div ui-grid="gridOptionsForSchema" ui-grid-selection style="width:100%; height:400px;" />							
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<h4>Table</h4> 
 							<div ui-grid="gridOptionsForTable" ui-grid-selection style="width:100%; height:400px;" />
 							<span class="text-danger" ng-show="isOrNullUndefinedEmpty(datasource.srcObjName)">하나의 테이블을 선택하세요.</span>	

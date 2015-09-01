@@ -62,7 +62,7 @@
     <select id="getList" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
         SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
         FROM workspace
-        ORDER BY update_date DESC
+        ORDER BY name
         LIMIT #{beginRowNum}, #{rowsPerPage}
     </select>
 

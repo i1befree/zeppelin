@@ -40,10 +40,10 @@ limitations under the License.
 	  <div class="col-md-8">   
 	  	<div class="box" style="min-height:540px;">
 	  		<div class="pull-right">
-		  		<button class="btn btn-default" ng-click="assignWorkspace()" ng-disabled="!datasource.datasourceId">
+		  		<button class="btn btn-default" ng-click="assignWorkspace()">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Assign to Workspace
 					</button>
-					<button class="btn btn-default" ng-click="editMode()" ng-disabled="!datasource.datasourceId">
+					<button class="btn btn-default" ng-click="editMode()">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Edit
 					</button>
 	  		</div>
@@ -53,30 +53,30 @@ limitations under the License.
 	  		<table class="table table-striped">
 	        <tr>
 	          <th style="width:200px;">DataStore Type</th>
-	          <td>{{datasource.datstoreType}}</td>
+	          <td>Internal</td>
 	        </tr>
 	        <tr>
-	          <th>DataSource Name</th>
-	          <td>{{datasource.datsrcName}}</td>
+	          <th>Source Name</th>
+	          <td>국제전화</td>
 	        </tr>
 	        <tr>
 	          <th>Container</th>
-	          <td>{{datasource.containerName}}</td>
+	          <td>schema</td>
 	        </tr>
 	        <tr>
 	          <th>source</th>
-	          <td>{{datasource.srcObjName}}</td>
+	          <td>table</td>
 	        </tr>
 	        <tr>
 	          <th>Description</th>
-	          <td>{{datasource.description}}</td>
+	          <td></td>
 	        </tr>
 	      </table>
-	      <div ng-if="isEditMode">
-          <button type="button" class="btn btn-primary" ng-click="update()" >
+	      <div>
+          <button type="submit" class="btn btn-primary">
             Save
           </button>
-          <button type="button" class="btn btn-default" ng-click="cancel()" >
+          <button type="button" class="btn btn-default">
             Cancel
           </button>
         </div>

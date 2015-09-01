@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.Workspace;
 
 /**
  * datasource관리 - datasource CRUD 담당 Service.
@@ -32,5 +33,11 @@ public interface DatasourceService {
    */
   List<Datasource> getList(Datasource datasource);
 
+  /**
+   * workspace 목록 조회
+   * @param workspace
+   * @return
+   */
+  List<Workspace> getWorkspaceList(Workspace workspace);
 
 }

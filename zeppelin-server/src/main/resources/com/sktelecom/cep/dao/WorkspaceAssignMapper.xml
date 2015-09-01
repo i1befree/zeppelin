@@ -11,7 +11,7 @@
     </resultMap>
 
     <insert id="create" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
-        INSERT INTO WorkspaceAssign(wrkspc_id, wrkspc_obj_id, update_date, update_user_id)
+        INSERT INTO workspace_assign(wrkspc_id, wrkspc_obj_id, update_date, update_user_id)
         VALUES (#{wrkspcId}, #{wrkspcObjId}, NOW(), #{updateUserId})
     </insert>
 

@@ -17,28 +17,31 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
     enableRowHeaderSelection : false,
     onRegisterApi : function(gridApi){
       gridApi.selection.on.rowSelectionChanged($scope, function(row){
-      	console.info('row', row);
+      	if(row.isSelected) {
+      		$scope.datasource = row.entity;
+      	} else {
+      		$scope.datasource = {};
+      	}	
       });
     },
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false},
-		  {name:'type', displayName: 'Type', enableColumnMenu: false}
+		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false},
+		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
 		]	
 	};	
 	
-	$scope.gridOptionsForDatasource.data = [{name:'name1', type:'Internal'},
-	                                        {name:'name2', type:'Internal'},
-	                                        {name:'name3', type:'RDB'},
-	                                        {name:'name4', type:'Internal'},
-	                                        {name:'name5', type:'RDB'},
-	                                        {name:'name6', type:'Internal'},
-	                                        {name:'name7', type:'RDB'},
-	                                        {name:'name8', type:'RDB'}
-	                                        ];
 	function init() {
-		
+		getDatasourceList();
 	}
 	
+  function getDatasourceList() {
+  	UtilService.httpPost('/datasource/getList', {}).then(function(result) {
+  		$scope.gridOptionsForDatasource.data = result;
+  	}, function(error) {
+  		alert(error);
+  	});
+  };
+  
 	$scope.create = function() {
 	  $location.path('/datasourceWizard');
   }

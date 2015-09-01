@@ -28,45 +28,8 @@ limitations under the License.
      	<div class="row">
       	<div class="col-xs-5">
 					<h5><input type="checkbox"> Set to all workspace</h5>
-   
-					<div ng-style="{height: datatableContainerHeight}">
-						<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions">			
-							<thead>
-			        	<tr>
-			            <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
-									<th>Workspace</th>
-									<th>Type</th>
-			        	</tr>
-			        </thead>
-			        <tbody>
-				        <tr ng-repeat="info in datasourceList">
-									<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>{{info.datasourceName}}</td>
-									<td>Type</td>
-								</tr>
-	        			<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+   				<div ui-grid="gridOptionsForWorkspace" ui-grid-selection style="width:100%; height:400px;" />
+	   	
 				</div>
 				<div class="col-xs-2 text-center">
 					<br/><br/><br/><br/><br/><br/>
@@ -76,63 +39,24 @@ limitations under the License.
 					<br/><br/><br/>
 					<button class="btn btn-white btn-default btn-bold">
 						&lt;
-					</button>
+					</button>      
 				</div>
 				<div class="col-xs-5">
 					<h4>Assigned Workspace</h4>
-					<div ng-style="{height: datatableContainerHeight}">
-						<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions1">		
-							<thead>
-			        	<tr>
-			            <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
-									<th>Workspace</th>
-									<th>Type</th>
-			        	</tr>
-			        </thead>
-			        <tbody>
-	        			<tr ng-repeat="info in datasourceList">
-									<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>{{info.datasourceName}}</td>
-									<td>Type</td>
-								</tr>
-	        			<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-								<tr>
-			        		<td><input type="checkbox" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-									<td>Workspace1</td>
-									<td>Type</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<div ui-grid="gridOptionsForAssignedWorkspace" ui-grid-selection style="width:100%; height:400px;" />
+	   	
 				</div>
 			</div>
-	
-	      
-			<!-- Button S -->
-			<div class="btn-line text-right">
-				<button class="btn btn-white btn-default btn-bold" ng-click="save()">
-					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Save
-				</button>
-				<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">
-					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Cancel
-				</button>
+			<div class="row">
+				<div class="btn-line text-center">
+					<button class="btn btn-white btn-default btn-bold" ng-click="save()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Save
+					</button>
+					<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Cancel
+					</button>
+				</div>
 			</div>
-			<!-- Button E -->
-					      
     </div>
   </div>
 </div> 

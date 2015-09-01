@@ -22,8 +22,22 @@ public class Datasource extends Paging {
   private String description;
   private Date updateDate;
   private String updateUserId;
+  private String datstoreType;
+  private String datstoreSubtype;
   
   
+  public String getDatstoreType() {
+    return datstoreType;
+  }
+  public void setDatstoreType(String datstoreType) {
+    this.datstoreType = datstoreType;
+  }
+  public String getDatstoreSubtype() {
+    return datstoreSubtype;
+  }
+  public void setDatstoreSubtype(String datstoreSubtype) {
+    this.datstoreSubtype = datstoreSubtype;
+  }
   public String getDatasourceId() {
     return datasourceId;
   }

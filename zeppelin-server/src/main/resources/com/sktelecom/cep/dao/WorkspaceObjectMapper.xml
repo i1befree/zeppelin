@@ -13,7 +13,7 @@
     </resultMap>
 
     <insert id="create" parameterType="com.sktelecom.cep.vo.WorkspaceObject">
-        INSERT INTO WorkspaceObject(wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id)
+        INSERT INTO workspace_object(wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id)
         VALUES (#{wrkspcObjId}, #{wrkspcObjType}, #{shareType}, #{objStatus}, #{createUserId}, #{ownUserId})
     </insert>
 

@@ -120,4 +120,11 @@
           AND user_id = #{userId}
     </delete>
     
+    <select id="getAssignedWorkspaceList" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
+        SELECT w.wrkspc_id, w.wrkspc_name, w.description, w.wrkspc_type, w.admin_user_id, w.update_date, w.update_user_id
+        FROM workspace w
+             INNER JOIN workspace_assign wa ON wa.wrkspc_id = w.wrkspc_id AND wa.wrkspc_obj_id = #{wrkspcObjId}
+        ORDER BY w.update_date DESC
+    </select>
+    
 </mapper>

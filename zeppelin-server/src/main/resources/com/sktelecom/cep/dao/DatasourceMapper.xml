@@ -30,4 +30,14 @@
         ORDER BY dsc.update_date DESC  
     </select>
 
+		<select id="getListByWrkspcIid" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Workspace">
+        SELECT dsc.datasource_id, dsc.datstore_id, dsc.datsrc_name, dsc.container_name, dsc.src_obj_name, dsc.description, dsc.update_date, dsc.update_user_id
+              ,dst.datstore_type, dst.datstore_subtype
+        FROM datasource dsc
+        		 INNER JOIN datastore dst ON dsc.datstore_id = dst.datstore_id
+        		 INNER JOIN workspace_object wo ON dsc.datasource_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN workspace_assign wa ON wa.wrkspc_obj_id = wo.wrkspc_obj_id AND wa.wrkspc_id = #{wrkspcId}
+        ORDER BY dsc.datsrc_name
+    </select>
+
 </mapper>

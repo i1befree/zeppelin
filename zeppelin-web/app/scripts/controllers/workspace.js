@@ -11,7 +11,6 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
-	$scope.notes = [];
 	$scope.gridOptionsForNotebook = {
 		showGridFooter: true,	
 		enableRowSelection: true,
@@ -34,7 +33,8 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'name'    , displayName: 'Datasource', enableColumnMenu: false}
+		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false},
+		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
 		]	
 	};
 		
@@ -48,26 +48,23 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.$on('setNoteMenu', function(event, notes) {
-  	//$scope.notes = notes;
   	getNotebookList(workspaceId);
   });
   
   function getNotebookList(pWorkspaceId) {
   	UtilService.httpPost('/workspace/getNotebookList', {wrkspcId: pWorkspaceId}).then(function(result) {
-  		$scope.notes = result;
-  		$scope.gridOptionsForNotebook.data = $scope.notes;
+  		$scope.gridOptionsForNotebook.data = result;
   	}, function(error) {
   		alert(error);
   	});
   };
   
   function getDatasourceList(pWorkspaceId) {
-  	var datasources = [
-  	  {name: 'Datasource 1'},
-  	  {name: 'Datasource 2'},
-  	  {name: 'Datasource 3'}
-  	];
-		$scope.gridOptionsForDatasource.data = datasources;
+  	UtilService.httpPost('/workspace/getDatasourceList', {wrkspcId: pWorkspaceId}).then(function(result) {
+  		$scope.gridOptionsForDatasource.data = result;
+  	}, function(error) {
+  		alert(error);
+  	});
   }
   
   $scope.manage = function() {

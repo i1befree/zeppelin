@@ -1,7 +1,6 @@
 package com.sktelecom.cep.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.WorkspaceService;
+import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
@@ -181,6 +181,21 @@ public class WorkspaceController {
     return resultList;
   }
 
+  /**
+   * 데이타소스 목록 조회.
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getDatasourceList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Datasource> getDatasourceList(@RequestBody Workspace workspace) {
+    List<Datasource> resultList = workspaceService.getDatasourceList(workspace);
+    return resultList;
+  }
+  
   /**
    * 사용자의 최근 노트북들을 가져온다.
    */

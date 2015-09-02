@@ -93,7 +93,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	}
 	
   function getLayoutSchemaList() {
-  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datstoreId}).then(function(result) {
+  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datstoreId}).then(function(result) {
   		$scope.schema = result;
   		$scope.gridOptionsForSchema.data = $scope.schema;
   	}, function(error) {

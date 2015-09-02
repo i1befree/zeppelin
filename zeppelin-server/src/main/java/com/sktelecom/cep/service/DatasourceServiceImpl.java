@@ -15,6 +15,7 @@ import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.dao.WorkspaceObjectDao;
 import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
@@ -67,6 +68,47 @@ public class DatasourceServiceImpl implements DatasourceService {
   public List<Workspace> getWorkspaceList(Workspace workspace) {
     List<Workspace> list = workspaceDao.getList(workspace);
     return list;
+  }
+
+  @Override
+  public int saveAssignWorkspace(WorkspaceObject workspaceObject) {
+    if ("ALL".equals(workspaceObject.getShareType())) {
+      //remove all
+      //update sharetype
+      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
+      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
+      
+      //데이타소스를 모든 갖업공간에 할당한다.
+      workspaceObjectDao.updateForShareType(workspaceObject);
+    } else {
+      //remove all
+      //add
+      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
+      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
+      
+      for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
+        info.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+        workspaceAssignDao.create(info);
+      }
+      //데이타소스를 모든 갖업공간에 할당한다.
+      workspaceObject.setShareType("NONE");
+      workspaceObjectDao.updateForShareType(workspaceObject);
+    }
+    return 1;
+  }
+
+  @Override
+  public List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign) {
+    List<Workspace> list = workspaceDao.getAssignedWorkspaceList(workspaceAssign);
+    return list;
+  }
+
+  @Override
+  public WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject) {
+    WorkspaceObject info = workspaceObjectDao.getInfo(workspaceObject);
+    return info;
   }
   
 }

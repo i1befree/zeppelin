@@ -1,5 +1,8 @@
 package com.sktelecom.cep.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -18,7 +21,15 @@ public class WorkspaceObject {
   private String objStatus;
   private String createUserId;
   private String ownUserId;
+  private List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
   
+  
+  public List<WorkspaceAssign> getWorkspaceAssigns() {
+    return workspaceAssigns;
+  }
+  public void setWorkspaceAssigns(List<WorkspaceAssign> workspaceAssigns) {
+    this.workspaceAssigns = workspaceAssigns;
+  }
   public String getWrkspcObjId() {
     return wrkspcObjId;
   }

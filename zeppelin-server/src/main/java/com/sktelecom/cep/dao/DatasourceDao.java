@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.Workspace;
 
 /**
  * datasource관리 - datasource CRUD 담당 Dao.
@@ -35,4 +36,12 @@ public interface DatasourceDao {
    */
   List<Datasource> getList(Datasource datasource);
 
+  /**
+   * workspace 에 연관된 datasource 목록을 조회
+   * @param workspace
+   * @return
+   */
+  List<Datasource> getListByWrkspcIid(Workspace workspace);
+
+  
 }

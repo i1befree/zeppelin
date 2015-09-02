@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
+import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
  * datasource관리 - datasource CRUD 담당 Service.
@@ -39,5 +41,26 @@ public interface DatasourceService {
    * @return
    */
   List<Workspace> getWorkspaceList(Workspace workspace);
+
+  /**
+   * datasource 를 작업공간에 할당하기
+   * @param workspaceObject
+   * @return
+   */
+  int saveAssignWorkspace(WorkspaceObject workspaceObject);
+
+  /**
+   * 데이타소스에 할당된 workspace 조회
+   * @param workspaceAssign
+   * @return
+   */
+  List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign);
+
+  /**
+   * workspaceObject 정보 조회
+   * @param workspaceObject
+   * @return
+   */
+  WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject);
 
 }

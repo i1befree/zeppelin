@@ -11,6 +11,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
 
 	console.info('$routeParams.datasourceId', $routeParams.datasourceId);
 	$scope.datasourceId = $routeParams.datasourceId;
+	$scope.workspaceObject = {};
 	
 	$scope.selectedWorkspace = {};
 	$scope.gridOptionsForWorkspace = {
@@ -58,16 +59,38 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
 	};	
 	
 	function init() {
+		getWorkspaceObjectInfo();
 		getWorkspaceList();
+		getAssignedWorkspaceList();
 	}
 	
+	function getWorkspaceObjectInfo() {
+  	UtilService.httpPost('/datasource/getWorkspaceObjectInfo', {wrkspcObjId : $scope.datasourceId}).then(function(result) {
+  		$scope.workspaceObject = result;
+  		$scope.shareType = $scope.workspaceObject.shareType === 'ALL' ? true : false;
+  	}, function(error) {
+  		alert(error);
+  	});
+  };
+  
   function getWorkspaceList() {
   	var formData = {
         beginRowNum : 0,
-        rowsPerPage : 10000
+        rowsPerPage : 100000
       };
   	UtilService.httpPost('/datasource/getWorkspaceList', formData).then(function(result) {
   		$scope.gridOptionsForWorkspace.data = result;
+  	}, function(error) {
+  		alert(error);
+  	});
+  };
+  
+  function getAssignedWorkspaceList() {
+  	var formData = {
+        wrkspcObjId : $scope.datasourceId
+      };
+  	UtilService.httpPost('/datasource/getAssignedWorkspaceList', formData).then(function(result) {
+  		$scope.gridOptionsForAssignedWorkspace.data = result;
   	}, function(error) {
   		alert(error);
   	});
@@ -108,8 +131,21 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
   	});
   };
 	
-  $scope.save = function() {
-	  $location.path('/datasource');
+  $scope.save = function() {  	
+  	var jsonData = {
+  			wrkspcObjId : $scope.datasourceId,
+  			shareType : $scope.shareType === true ? 'ALL' : 'NONE',
+  			workspaceAssigns : $scope.gridOptionsForAssignedWorkspace.data
+  	};
+  	UtilService.httpPost('/datasource/saveAssignWorkspace', jsonData).then(function(result) {
+  		if (result.rsCode === 'SUCCESS') {
+  			$location.path('/datasource');
+      } else {
+        alert(result.rsMessage);
+      }
+  	}, function(error) {
+  		alert(error);
+  	});
   }
   $scope.cancel = function() {
 	  $location.path('/datasource');

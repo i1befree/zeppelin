@@ -29,6 +29,8 @@ import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
+import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
  * Datasource -  Controller.
@@ -71,6 +73,22 @@ public class DatasourceController {
   }
   
   /**
+   * workspaceObject 정보 조회.
+   * 
+   * @param Workspace
+   * @param session
+   * @return List<Workspace>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/datasource/getWorkspaceObjectInfo", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public WorkspaceObject getWorkspaceObjectInfo(@RequestBody WorkspaceObject workspaceObject) {
+    WorkspaceObject info = datasourceService.getWorkspaceObjectInfo(workspaceObject);
+    return info;
+  }
+  
+  /**
    * datasource 목록 조회.
    * 
    * @param Workspace
@@ -102,7 +120,47 @@ public class DatasourceController {
     return resultList;
   }
   
- 
+  /**
+   * 할당된 Workspace 목록 조회.
+   * 
+   * @param Workspace
+   * @param session
+   * @return List<Workspace>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/datasource/getAssignedWorkspaceList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Workspace> getAssignedWorkspaceList(@RequestBody WorkspaceAssign workspaceAssign) {
+    List<Workspace> resultList = datasourceService.getAssignedWorkspaceList(workspaceAssign);
+    return resultList;
+  }
+  
+  /**
+   * datasource 에 workspace 를 할당한다.
+   * 
+   * @param workspaceObject
+   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/datasource/saveAssignWorkspace", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public SimpleResultMessage saveAssignWorkspace(@RequestBody WorkspaceObject workspaceObject, HttpSession session) {
+    SimpleResultMessage message = new SimpleResultMessage("FAIL", "데이타소스를 작업공간에 할당하기를 실패하였습니다.");
+
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
+      info.setUpdateUserId(userSession.getId());
+    }
+    int resultInt = datasourceService.saveAssignWorkspace(workspaceObject);
+    if (resultInt > 0) {
+      message.setRsCode("SUCCESS");
+      message.setRsMessage("데이타소스를 작업공간에 할당하기를 성공하였습니다");
+    }
+    return message;
+  }
+   
   @RequestMapping(value = "/datasource/loadDatasourceMetadata", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond

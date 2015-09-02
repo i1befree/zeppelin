@@ -15,4 +15,11 @@
         VALUES (#{wrkspcId}, #{wrkspcObjId}, NOW(), #{updateUserId})
     </insert>
 
+		<delete id="deleteByWrkspcObjId" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
+        DELETE FROM workspace_assign
+        WHERE wrkspc_obj_id = #{wrkspcObjId}
+    </delete>
+
+
+
 </mapper>

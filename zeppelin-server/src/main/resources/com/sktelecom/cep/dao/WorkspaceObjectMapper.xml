@@ -17,4 +17,17 @@
         VALUES (#{wrkspcObjId}, #{wrkspcObjType}, #{shareType}, #{objStatus}, #{createUserId}, #{ownUserId})
     </insert>
 
+		<update id="updateForShareType" parameterType="com.sktelecom.cep.vo.WorkspaceObject">
+        UPDATE workspace_object
+        SET share_type = #{shareType}
+        WHERE wrkspc_obj_id = #{wrkspcObjId}
+    </update>
+
+		<select id="getInfo" parameterType="com.sktelecom.cep.vo.WorkspaceObject" resultMap="WorkspaceObjectMap">
+        SELECT wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id
+        FROM workspace_object
+        WHERE wrkspc_obj_id = #{wrkspcObjId}
+    </select>
+
+
 </mapper>

@@ -43,66 +43,15 @@ limitations under the License.
 			      <div class="col-sm-8">
 			        <select class="form-control" name="datstoreType" id="datstoreType" 
 									ng-model="datasource.datstoreId"
-									ng-options="option.datstoreId as ('[' + option.datstoreType + '] ' + option.datstoreName) for option in datastoreList">
-								</select>
+									ng-options="option.datstoreId as ('[' + option.datstoreType + '] ' + option.datstoreName) for option in datastoreList"
+									ng-change="getLayoutSchemaList()" >
+							</select>
 			      </div>
 			    </div>
 				</div>
 			
 				<div ng-switch-when="2">
-	      	<div ng-if="datastore.datstoreType == 'Internal'" class="row">
-		      	<div class="col-md-6">
-							<table class="table table-striped table-hover">
-								<tr>
-				          <th style="width:200px;">Type</th>
-				        </tr>
-				        <tr>
-				          <td><input name="type" type="radio"> type1</td>
-				        </tr>
-				        <tr>
-				          <td><input name="type" type="radio"> type2</td>
-				        </tr>
-				        <tr>
-				          <td><input name="type" type="radio"> type3</td>
-				        </tr>
-				        <tr>
-				          <td><input name="type" type="radio"> type4</td>
-				        </tr>
-				        <tr>
-				          <td><input name="type" type="radio"> type5</td>
-				        </tr>
-							</table>
-						</div>
-						<div class="col-md-6">
-							<table class="table table-striped table-hover">
-								<tr>
-				          <th>field name</th>
-				          <th>field type</th>
-				        </tr>
-				        <tr>
-				          <th>field 1</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>field 2</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>field 3</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>field 4</th>
-				          <th>varchar</th>
-				        </tr>
-				        <tr>
-				          <th>field 5</th>
-				          <th>varchar</th>
-				        </tr>
-							</table>
-						</div>
-					</div>
-	      	<div ng-if="datastore.datstoreType == 'RDB'" class="row">
+	      	<div ng-if="datastore.datstoreType == 'Internal' || datastore.datstoreType == 'RDB'" class="row">
 		      	<div class="col-md-2">
 							<h4>Schema</h4>
 							<div ui-grid="gridOptionsForSchema" ui-grid-selection style="width:100%; height:400px;" />							

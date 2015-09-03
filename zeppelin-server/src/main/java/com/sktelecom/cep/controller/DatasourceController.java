@@ -165,76 +165,8 @@ public class DatasourceController {
   @ResponseBody
   // / @endcond
   public List<LayoutSchema> loadDatasourceMetadata(@RequestBody Datasource datasource) throws Exception {
-    List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
-    
-    String DRIVER = "com.mysql.jdbc.Driver";
-    String URL = "jdbc:mysql://52.68.186.228:3306/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    String USERNAME = "trip";
-    String PASSWORD = "!Trip@2015";
-    Connection connection = null;
-    try {
-      Class.forName(DRIVER);
-      connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-      
-      DatabaseMetaData metadata = connection.getMetaData();
-      
-      boolean isSchema = true;
-      ResultSet schemaRs = metadata.getSchemas();
-      while (schemaRs.next()) {
-        LayoutSchema info = new LayoutSchema();
-        info.setName(schemaRs.getString("TABLE_SCHEM"));
-        schemas.add(info);
-      }
-      schemaRs.close();
-      if (schemas.size() == 0) {
-        isSchema = false;
-        ResultSet catelogRs = metadata.getCatalogs();
-        while (catelogRs.next()) {
-          LayoutSchema info = new LayoutSchema();
-          info.setName(catelogRs.getString("TABLE_CAT"));
-          schemas.add(info);
-        }
-        catelogRs.close();
-      }
-
-      for (LayoutSchema schema : schemas) {
-        List<LayoutTable> tables = new ArrayList<LayoutTable>();
-        ResultSet tableRs = null;
-        if (isSchema) {
-          tableRs = metadata.getTables(null, schema.getName(), null, new String[] {"TABLE"});
-        } else {
-          tableRs = metadata.getTables(schema.getName(), null, null, new String[] {"TABLE"});
-        }
-        while (tableRs.next()) {
-          LayoutTable table = new LayoutTable();
-          table.setName(tableRs.getString("TABLE_NAME"));
-          table.setComment(tableRs.getString("REMARKS"));
-          tables.add(table);
-          
-          List<LayoutColumn> columns = new ArrayList<LayoutColumn>();
-          ResultSet columnRs = metadata.getColumns(schema.getName(), schema.getName(), table.getName(), null);
-          while (columnRs.next()) {
-            LayoutColumn column = new LayoutColumn();
-            column.setName(columnRs.getString("COLUMN_NAME"));
-            column.setType(columnRs.getString("TYPE_NAME"));
-            column.setSize(columnRs.getInt("COLUMN_SIZE"));
-            column.setComment(columnRs.getString("REMARKS"));
-            columns.add(column);
-          }
-          table.setColumns(columns);
-          columnRs.close();
-        } 
-        schema.setTables(tables);
-        tableRs.close();
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } finally {
-      if (connection != null) {
-        connection.close();
-      }
-    }
-    return schemas;
+    List<LayoutSchema> resultList = datasourceService.loadDatasourceMetadata(datasource);
+    return resultList;
   }
 
 }

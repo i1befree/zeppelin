@@ -29,6 +29,14 @@ public interface DatasourceDao {
   int create(Datasource datasource);
 
   /**
+   * datasource 정보 조회.
+   * 
+   * @param datasource
+   * @return
+   */
+  Datasource getInfo(Datasource datasource);
+
+  /**
    * datasource 목록 조회.
    * 
    * @param datasource

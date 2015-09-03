@@ -22,7 +22,7 @@ public class LayoutColumn implements Serializable {
   
   private String name;
   private String type;
-  private int size;
+  private Integer size;
   private String comment;
   
   public String getName() {
@@ -37,10 +37,10 @@ public class LayoutColumn implements Serializable {
   public void setType(String type) {
     this.type = type;
   }
-  public int getSize() {
+  public Integer getSize() {
     return size;
   }
-  public void setSize(int size) {
+  public void setSize(Integer size) {
     this.size = size;
   }
   public String getComment() {

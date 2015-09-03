@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceObject;
@@ -62,5 +63,12 @@ public interface DatasourceService {
    * @return
    */
   WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject);
+
+  /**
+   * store 별로 스키마, 테이블, 컬럼 정보들을 가져온다.
+   * @param datasource
+   * @return
+   */
+  List<LayoutSchema> loadDatasourceMetadata(Datasource datasource);
 
 }

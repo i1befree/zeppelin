@@ -12,6 +12,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	$scope.wizardStepCount = 4; //위자드 단계의 총수
   $scope.wizardCurrentStep = 1; //위자드의 현재 단계 번호
   
+  $scope.schema = {};
   $scope.datastore = {};
   $scope.datasource = {};
   $scope.datastoreList = [
@@ -71,8 +72,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
       });
     },
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false},
-		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false}
+		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 200, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
   $scope.gridOptionsForColumn = {
@@ -81,21 +82,28 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false},
-		  {name:'type'    , displayName: 'Type', enableColumnMenu: false},
-		  {name:'size'    , displayName: 'Size', enableColumnMenu: false},
-		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false}
+		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 220, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'type'    , displayName: 'Type', enableColumnMenu: false, width: 120},
+		  {name:'size'    , displayName: 'Size', enableColumnMenu: false, width: 80},
+		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
   
 	function init() {
-		getLayoutSchemaList();
+		$scope.getLayoutSchemaList();
 	}
 	
-  function getLayoutSchemaList() {
+  $scope.getLayoutSchemaList = function() {
+  	$scope.gridOptionsForSchema.data = [];
+  	$scope.gridOptionsForTable.data = [];
+		$scope.gridOptionsForColumn.data = [];
+  	if($scope.schema[$scope.datasource.datstoreId] !== undefined) {
+  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
+  		return;
+  	}
   	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datstoreId}).then(function(result) {
-  		$scope.schema = result;
-  		$scope.gridOptionsForSchema.data = $scope.schema;
+  		$scope.schema[$scope.datasource.datstoreId] = result;
+  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
   	}, function(error) {
   		alert(error);
   	});

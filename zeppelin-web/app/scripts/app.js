@@ -159,11 +159,11 @@ angular
         templateUrl: 'views/datasourceWorkspace.html',
         controller: 'DatasourceWorkspaceCtrl'
       })
-      .when('/notebook/:noteId', {
+      .when('/notebook/:noteId/wrkspcId/:wrkspcId', {
         templateUrl: 'views/notebooks.html',
         controller: 'NotebookCtrl'
       })
-      .when('/notebook/:noteId/paragraph/:paragraphId?', {
+      .when('/notebook/:noteId/paragraph/:paragraphId/wrkspcId/:wrkspcId?', {
         templateUrl: 'views/notebooks.html',
         controller: 'NotebookCtrl'
       })

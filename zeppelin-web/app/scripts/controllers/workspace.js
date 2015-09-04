@@ -9,7 +9,6 @@
 
 angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication, UtilService) {
 
-	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
 	$scope.gridOptionsForNotebook = {
 		showGridFooter: true,	
@@ -72,7 +71,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.goNotebook = function(note) {    
-  	$location.path('/notebook/' + note.noteId);
+  	$location.path('/notebook/' + note.noteId + '/wrkspcId/' + workspaceId);
   };
 
   init();

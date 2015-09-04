@@ -97,10 +97,10 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   	$scope.gridOptionsForSchema.data = [];
   	$scope.gridOptionsForTable.data = [];
 		$scope.gridOptionsForColumn.data = [];
-  	if($scope.schema[$scope.datasource.datstoreId] !== undefined) {
-  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
-  		return;
-  	}
+//  	if($scope.schema[$scope.datasource.datstoreId] !== undefined) {
+//  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
+//  		return;
+//  	}
   	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datstoreId}).then(function(result) {
   		$scope.schema[$scope.datasource.datstoreId] = result;
   		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];

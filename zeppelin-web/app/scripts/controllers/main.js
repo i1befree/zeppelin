@@ -141,7 +141,7 @@ angular.module('zeppelinWebApp')
   		
   		var menuNotes = [];
   		angular.forEach($scope.notes, function(item, index) {
-  			this.push({id: item.noteId, name: item.noteName});
+  			this.push({id: item.noteId, name: item.noteName, wrkspcId: item.wrkspcId});
   		}, menuNotes);
   		//nav menu 로 보낸다.
   		$scope.$broadcast('setNoteMenu', menuNotes);

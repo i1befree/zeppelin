@@ -24,6 +24,8 @@
  *
  */
 angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication) {
+	
+	$scope.wrkspcId = $routeParams.wrkspcId;
   $scope.note = null;
   $scope.showEditor = false;
   $scope.editorToggled = false;

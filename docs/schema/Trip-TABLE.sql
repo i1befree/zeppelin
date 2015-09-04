@@ -53,7 +53,6 @@ CREATE TABLE trip.datastore
 	datstore_subtype varchar(10) COMMENT 'Datastore 서브유형',
 	host_name varchar(50) COMMENT '호스트명',
 	port_num int COMMENT '포트번호',
-	url varchar(500) COMMENT '접속경로 URL',
 	cred_user_info varchar(50) COMMENT '접속 유저 정보',
 	cred_pass_info varchar(50) COMMENT '접속 암호 정보',
 	description varchar(1000) COMMENT '설명',

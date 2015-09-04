@@ -162,16 +162,6 @@ public class DatasourceServiceImpl implements DatasourceService {
     Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "cep").build();
     Client client = new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(datastoreInfo.getHostName(), datastoreInfo.getPortNum()));
     try {
-
-      NodesInfoResponse nodeInfos = client.admin().cluster().prepareNodesInfo().get();
-      System.out.println(String.format("Found cluster... cluster name: %s", nodeInfos.getClusterName()));
-      
-      
-    //).prepareStats().clear().get().getIndices();
-      IndicesAdminClient iac = client.admin().indices();
-      GetAliasesResponse gr = iac.getAliases(new GetAliasesRequest()).actionGet();
-      
-      
       GetIndexResponse indexResponse = client.admin().indices().prepareGetIndex().get();
       ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>> mappings = indexResponse.getMappings();
       String[] indexes = indexResponse.getIndices();

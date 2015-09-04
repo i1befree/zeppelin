@@ -352,12 +352,15 @@ public class NotebookServer extends WebSocketServer implements
 
   private void createNote(WebSocket conn, Notebook notebook, Message fromMessage) throws IOException {
     String userId = (String) fromMessage.get("userId");
+    String workspaceId = (String) fromMessage.get("workspaceId");
     NoteUser noteUser = new NoteUser();
     noteUser.setUserId(userId);
+    noteUser.setWorkspaceId(workspaceId);
     NoteUserContext.local.set(noteUser);
     try {
       Note note = notebook.createNote();
       note.setUserId(userId);
+      note.setWorkspaceId(workspaceId);
       note.addParagraph(); // it's an empty note. so add one paragraph
       note.persist();
       broadcastNote(note);

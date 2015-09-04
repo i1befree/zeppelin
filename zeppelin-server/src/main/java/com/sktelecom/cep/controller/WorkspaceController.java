@@ -1,5 +1,6 @@
 package com.sktelecom.cep.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.WorkspaceService;
+import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceMember;
+import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Controller.
@@ -44,8 +49,8 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/create", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage create(@RequestBody Workspace workspace) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+  public SimpleResultMessage create(@RequestBody Workspace workspace, HttpSession session) {
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간이 존재 합니다.");
 
@@ -56,6 +61,8 @@ public class WorkspaceController {
       message.setRsMessage("작업공간이 존재 합니다.");
       return message;
     }
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    workspace.setUpdateUserId(userSession.getId());
     int resultInt = workspaceService.create(workspace);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -76,9 +83,11 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public SimpleResultMessage update(@RequestBody Workspace workspace, HttpSession session) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간 정보 수정을 실패하였습니다.");
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    workspace.setUpdateUserId(userSession.getId());
     int resultInt = workspaceService.update(workspace);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -98,7 +107,7 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public SimpleResultMessage delete(@RequestBody Workspace workspace) {
-    logger.debug("id {}", workspace.getWorkspaceId());
+    logger.debug("id {}", workspace.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "작업공간을 삭제 하였습니다.");
 
@@ -138,8 +147,22 @@ public class WorkspaceController {
   // / @endcond
   public List<Workspace> getList(@RequestBody Workspace workspace, HttpSession session) {
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUserId(userSession.getId());
+    workspace.setUpdateUserId(userSession.getId());
     List<Workspace> resultList = workspaceService.getList(workspace);
+    return resultList;
+  }
+
+  /**
+   * 사용자 아이디에 해당하는 작업공간 목록을 조회한다.
+   * @param session
+   * @return
+   */
+  @RequestMapping(value = "/workspace/getListByUserId", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Workspace> getListByUserId(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    List<Workspace> resultList = workspaceService.getListByUserId(userSession.getId());
     return resultList;
   }
 
@@ -158,4 +181,125 @@ public class WorkspaceController {
     return resultList;
   }
 
+  /**
+   * 데이타소스 목록 조회.
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getDatasourceList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Datasource> getDatasourceList(@RequestBody Workspace workspace) {
+    List<Datasource> resultList = workspaceService.getDatasourceList(workspace);
+    return resultList;
+  }
+  
+  /**
+   * 사용자의 최근 노트북들을 가져온다.
+   */
+  @RequestMapping(value = "/workspace/getLastestNotebookList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<Notebook> getLastestNotebookList(HttpSession session) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    List<Notebook> resultList = workspaceService.getLastestNotebookListByUserId(userSession.getId());
+    return resultList;
+  }
+
+  /**
+   * 작업공간 요약정보 조회
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getWorkspaceSummaryInfo", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public WorkspaceSummary getWorkspaceSummaryInfo(@RequestBody Workspace workspace) {
+    WorkspaceSummary workspaceSummary = workspaceService.getWorkspaceSummaryInfo(workspace);
+    return workspaceSummary;
+  }
+
+  /**
+   * 작업공간 접근 멤버들을 조회
+   * @param workspace
+   * @return
+   */
+  /// @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getWorkspaceMemberList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<WorkspaceMember> getWorkspaceMemberList(@RequestBody Workspace workspace) {
+    List<WorkspaceMember> list = workspaceService.getWorkspaceMemberList(workspace);
+    return list;
+  }
+  
+  /**
+   * 작업공간 공유 멤버 추가.
+   * 
+   * @param WorkspaceMember
+   * @param session
+   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/addMembers", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public SimpleResultMessage addMembers(@RequestBody WorkspaceMember workspaceMember, HttpSession session) {
+    logger.debug("id {}", workspaceMember.getWrkspcId());
+    SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 추가를 실패하였습니다.");
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    
+    List<WorkspaceShare> wsList = new ArrayList<WorkspaceShare>();
+    for (String userId : workspaceMember.getMembers()) {
+      WorkspaceShare share = new WorkspaceShare();
+      share.setWrkspcId(workspaceMember.getWrkspcId());
+      share.setUserId(userId);
+      share.setUpdateUserId(userSession.getId());
+      wsList.add(share);
+    }
+    int resultInt = workspaceService.insertMembers(wsList);
+    if (resultInt > 0) {
+      message.setRsCode("SUCCESS");
+      message.setRsMessage("작업공간 멤버추가를 수정하였습니다.");
+    }
+    return message;
+  }
+  
+  /**
+   * 작업공간 공유 멤버 삭제.
+   * 
+   * @param WorkspaceMember
+   * @param session
+   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/removeMembers", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public SimpleResultMessage removeMembers(@RequestBody WorkspaceMember workspaceMember, HttpSession session) {
+    logger.debug("id {}", workspaceMember.getWrkspcId());
+    SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 삭제를 실패하였습니다.");
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    
+    List<WorkspaceShare> wsList = new ArrayList<WorkspaceShare>();
+    for (String userId : workspaceMember.getMembers()) {
+      WorkspaceShare share = new WorkspaceShare();
+      share.setWrkspcId(workspaceMember.getWrkspcId());
+      share.setUserId(userId);
+      share.setUpdateUserId(userSession.getId());
+      wsList.add(share);
+    }
+    int resultInt = workspaceService.deleteMembers(wsList);
+    if (resultInt > 0) {
+      message.setRsCode("SUCCESS");
+      message.setRsMessage("작업공간 멤버삭제를 수정하였습니다.");
+    }
+    return message;
+  }
+  
+ 
 }

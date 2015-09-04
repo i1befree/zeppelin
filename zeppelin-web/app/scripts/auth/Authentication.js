@@ -55,11 +55,11 @@ angular.module('zeppelinWebApp').factory('Authentication', function Authenticati
     },
 
     isAdmin : function() {
-      return this.exists() && authenticatedUser.userGrpCd == '1';
+      return this.exists() && authenticatedUser.userGrpCd === '1';
     },
     
-    isNormal : function() {
-      return this.exists() && authenticatedUser.userGrpCd == '2';
+    isWorkspaceAdmin : function() {
+      return this.exists() && authenticatedUser.userGrpCd === '2';
     },
     
     

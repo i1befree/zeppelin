@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Notebook;
+import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
 
 /**
@@ -27,6 +28,14 @@ public interface NotebookDao {
    * @return
    */
   List<Notebook> getListByWorkspaceId(Workspace workspace);
+
+  /**
+   * 사용자 관련 최신 노트북 목록 조회 
+   * 
+   * @param Workspace
+   * @return
+   */
+  List<Notebook> getLastestNotebookListByUserId(User pUser);
   
 
 }

@@ -16,7 +16,7 @@ public class Notebook extends Paging {
 
   private String noteId;
   private String noteName;
-  private String userId;
+  private String createUserId;
   private Date updateDate;
   
   public String getNoteId() {
@@ -30,12 +30,12 @@ public class Notebook extends Paging {
   }
   public void setNoteName(String noteName) {
     this.noteName = noteName;
+  }  
+  public String getCreateUserId() {
+    return createUserId;
   }
-  public String getUserId() {
-    return userId;
-  }
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setCreateUserId(String createUserId) {
+    this.createUserId = createUserId;
   }
   public Date getUpdateDate() {
     return updateDate;

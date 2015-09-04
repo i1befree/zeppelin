@@ -25,6 +25,15 @@ package org.apache.zeppelin.notebook;
  */
 public class NoteUser {
   private String userId;
+  private String workspaceId;
+
+  public String getWorkspaceId() {
+    return workspaceId;
+  }
+
+  public void setWorkspaceId(String workspaceId) {
+    this.workspaceId = workspaceId;
+  }
 
   public String getUserId() {
     return userId;

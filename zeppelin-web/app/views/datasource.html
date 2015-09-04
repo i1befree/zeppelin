@@ -32,52 +32,18 @@ limitations under the License.
 					</button>
 				</div>	
 				<h3 class="title">List</h3>
-	     	<!-- Table S -->
-				<table class="table table-striped table-hover">
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="info in list" class="btn-link" ng-click="viewMode(info)">
-							<td>{{info.name}}</td>
-							<td>{{info.type}}</td>
-						</tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-					</tbody>
-				</table>
-				<!-- Table E -->
-			
-				<!-- Pagination S -->
-				<div id="pagingNav" class="text-center">
-					<pagination total-items="totalCount" ng-model="currentPage" ng-change="pageChanged()" max-size="maxPageSize" items-per-page="itemsPerPage" first-text="처음" previous-text="이전" next-text="다음" last-text="끝"></pagination>
-				</div>
-				<!-- Pagination E -->
-				      
-	    </div>
+				
+	     	<br/>
+	     	<div ui-grid="gridOptionsForDatasource" ui-grid-selection style="width:100%; height:400px;" />
+			</div>
 	  </div>
 	  <div class="col-md-8">   
 	  	<div class="box" style="min-height:540px;">
 	  		<div class="pull-right">
-		  		<button class="btn btn-default" ng-click="assignWorkspace()">
+		  		<button class="btn btn-default" ng-click="assignWorkspace()" ng-disabled="!datasource.datasourceId">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Assign to Workspace
 					</button>
-					<button class="btn btn-default" ng-click="editMode()">
+					<button class="btn btn-default" ng-click="editMode()" ng-disabled="!datasource.datasourceId">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Edit
 					</button>
 	  		</div>
@@ -87,30 +53,30 @@ limitations under the License.
 	  		<table class="table table-striped">
 	        <tr>
 	          <th style="width:200px;">DataStore Type</th>
-	          <td>Internal</td>
+	          <td>{{datasource.datstoreType}}</td>
 	        </tr>
 	        <tr>
-	          <th>Source Name</th>
-	          <td>국제전화</td>
+	          <th>DataSource Name</th>
+	          <td>{{datasource.datsrcName}}</td>
 	        </tr>
 	        <tr>
 	          <th>Container</th>
-	          <td>schema</td>
+	          <td>{{datasource.containerName}}</td>
 	        </tr>
 	        <tr>
 	          <th>source</th>
-	          <td>table</td>
+	          <td>{{datasource.srcObjName}}</td>
 	        </tr>
 	        <tr>
 	          <th>Description</th>
-	          <td></td>
+	          <td>{{datasource.description}}</td>
 	        </tr>
 	      </table>
-	      <div>
-          <button type="submit" class="btn btn-primary">
+	      <div ng-if="isEditMode">
+          <button type="button" class="btn btn-primary" ng-click="update()" >
             Save
           </button>
-          <button type="button" class="btn btn-default">
+          <button type="button" class="btn btn-default" ng-click="cancel()" >
             Cancel
           </button>
         </div>

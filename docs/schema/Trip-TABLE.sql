@@ -145,14 +145,14 @@ CREATE TABLE trip.user_access_log (
 
 CREATE TABLE trip.workspace
 (
-	wkrspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
+	wrkspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
 	wrkspc_name varchar(100) NOT NULL COMMENT '워크스페이스',
 	description varchar(1000) COMMENT '설명',
-	wrkspc_type varbinary(10) NOT NULL COMMENT '워크스페이스 유형',
+	wrkspc_type varchar(10) NOT NULL COMMENT '워크스페이스 유형',
 	admin_user_id varchar(36) COMMENT '관리자ID',
 	update_date datetime NOT NULL COMMENT '변경시각',
 	update_user_id varchar(45) NOT NULL COMMENT '변경자ID',
-	PRIMARY KEY (wkrspc_id),
+	PRIMARY KEY (wrkspc_id),
 	UNIQUE (wrkspc_name)
 ) ENGINE = InnoDB COMMENT = '워크스페이스' DEFAULT CHARACTER SET utf8;
 
@@ -195,5 +195,5 @@ CREATE TABLE trip.workspace_share
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('5c9439ee-ca70-4878-9e38-0ca6d3bd6eee','System Admin','1');
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('1eabc394-c29c-4a97-823c-770605d7aeaa','Workspace Admin','2');
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('d12b0fa9-3fad-4475-bac4-b3dcdfa623e6','User','3');
-INSERT INTO trip.workspace (wkrspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id) VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', '', '', 'P', 'admin', NOW(), 'admin');
+INSERT INTO trip.workspace (wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id) VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', '', '', 'P', 'admin', NOW(), 'admin');
 INSERT INTO trip.user (id,name,passwd,wrkspc_id,email,tel,user_grp_cd,update_user_id,update_date) VALUES ('admin','관리자',sha1('tripadmin'),'53af58da-d182-424f-bd3a-6c1cfb594535',NULL,NULL,'1','admin',NOW());

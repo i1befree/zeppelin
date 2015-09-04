@@ -16,80 +16,47 @@ limitations under the License.
     <div class="row">
       <div class="col-md-12">
         <h3 class="new_h3" style="float:left">
-          Datasource > Assign to Workspace
+          <a href="#/datasource">Datasource</a> > Assign to Workspace
         </h3>
       </div>
     </div>
   </div>
 </div>
 <div class="box width-full management">
-   <input type="checkbox"> Set to all workspace
    <div class="row">
-     <div class="col-md-12">
+     <div class="col-xs-12">
      	<div class="row">
-      	<div class="col-md-5">
-					<table class="table table-striped table-hover">
-						<tr>
-		          <th style="width:200px;">Workspace</th>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace1</td>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace2</td>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace3</td>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace4</td>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace5</td>
-		        </tr>
-		        <tr>
-		          <td><input name="searchWorkspace" type="checkbox"> Workspace6</td>
-		        </tr>
-		        <tr>
-		          <td><input type="text"/></td>
-		        </tr>
-					</table>
+      	<div class="col-xs-5">
+					<h5><input type="checkbox" id="shareType" ng-model="shareType"> <label for="shareType">Set to all workspace</label></h5>
+   				<div ui-grid="gridOptionsForWorkspace" ui-grid-selection style="width:100%; height:400px;" />
+	   	
 				</div>
-				<div class="col-md-2">
-					<button class="btn btn-white btn-default btn-bold">
-						>
+				<div class="col-xs-2 text-center">
+					<br/><br/><br/><br/><br/><br/>
+					<button class="btn btn-white btn-default btn-bold" ng-click="addWorkspace()" ng-disabled="!isRowChecked(selectedWorkspace)">
+						&gt;
 					</button>
-					<button class="btn btn-white btn-default btn-bold">
-						<
-					</button>
+					<br/><br/><br/>
+					<button class="btn btn-white btn-default btn-bold" ng-click="removeWorkspace()" ng-disabled="!isRowChecked(selectedAssignedWorkspace)">
+						&lt;
+					</button>      
 				</div>
-				<div class="col-md-5">
-					<table class="table table-striped table-hover">
-						<tr>
-		          <th style="width:200px;">Workspace</th>
-		        </tr>
-		        <tr>
-		          <td><input name="workspace" type="checkbox"> Workspace1</td>
-		        </tr>
-		        <tr>
-		          <td><input name="workspace" type="checkbox"> Workspace2</td>
-		        </tr>
-					</table>
+				<div class="col-xs-5">
+					<h4>Assigned Workspace</h4>
+					<div ui-grid="gridOptionsForAssignedWorkspace" ui-grid-selection style="width:100%; height:400px;" />
+	   	
 				</div>
 			</div>
-	
-	      
-			<!-- Button S -->
-			<div class="btn-line text-right">
-				<button class="btn btn-white btn-default btn-bold" ng-click="save()">
-					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Save
-				</button>
-				<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">
-					<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Cancel
-				</button>
+			<div class="row">
+				<div class="btn-line text-center">
+					<button class="btn btn-white btn-default btn-bold" ng-click="save()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Save
+					</button>
+					<button class="btn btn-white btn-default btn-bold" ng-click="cancel()">
+						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Cancel
+					</button>
+				</div>
 			</div>
-			<!-- Button E -->
-					      
     </div>
   </div>
 </div> 

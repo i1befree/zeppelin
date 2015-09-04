@@ -62,7 +62,8 @@ angular.module('zeppelinWebApp')
     if (op === 'NOTE') {
       $scope.$broadcast('setNoteContent', data.note);
     } else if (op === 'NOTES_INFO') {
-      $scope.$broadcast('setNoteMenu', data.notes);
+      //$scope.$broadcast('setNoteMenu', data.notes);
+    	getLastestNotebookList();
     } else if (op === 'PARAGRAPH') {
       $scope.$broadcast('updateParagraph', data);
     } else if (op === 'PROGRESS') {
@@ -116,21 +117,38 @@ angular.module('zeppelinWebApp')
       event.preventDefault();
     }
   });
-
+  
   $rootScope.$on('getTreeWorkspace', function(event, data) {
     console.info('getTreeWorkspace', event, data);
-
-    //test
-    $scope.mainTreeData = [{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"15634a90-0e8f-44e4-98e1-550be090a210","name":"Personal","type":"P","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"74f83e34-44c3-11e5-bb39-063b17d52e29","name":"DEFAULT","type":"P","pId":"15634a90-0e8f-44e4-98e1-550be090a210","userId":"bestmenbal","createDate":null,"updateDate":null,"nodes":[]}]},{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"f5697b8a-6fe0-4d0e-be26-3472b3c8e2eb","name":"Shared","type":"S","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[]},{"start":null,"end":null,"query":null,"beginRowNum":0,"rowsPerPage":0,"totalCount":0,"workspaceId":"79efbe48-8205-4a1c-91e3-051bb246b468","name":"Global","type":"G","pId":"ROOT","userId":null,"createDate":null,"updateDate":null,"nodes":[]}];
-    $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
     
-    
-//    UtilService.httpPost('/workspace/getList', {}).then(function(result) {
-//      $scope.mainTreeData = UtilService.unflatten(result);
-//      $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
-//    }, function(error) {
-//      alert(error);
-//    });
+    getListByUserId();
+    getLastestNotebookList();
   });
+  
+  function getListByUserId() {
+  	UtilService.httpPost('/workspace/getListByUserId', {}).then(function(result) {
+      //$scope.mainTreeData = UtilService.unflatten(result);
+    	$scope.mainTreeData = result;
+      $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
+    }, function(error) {
+      alert(error);
+    });
+  }
+  
+  function getLastestNotebookList() {
+  	UtilService.httpPost('/workspace/getLastestNotebookList', {}).then(function(result) {
+  		$scope.notes = result;
+  		
+  		var menuNotes = [];
+  		angular.forEach($scope.notes, function(item, index) {
+  			this.push({id: item.noteId, name: item.noteName});
+  		}, menuNotes);
+  		//nav menu 로 보낸다.
+  		$scope.$broadcast('setNoteMenu', menuNotes);
+  		
+  	}, function(error) {
+  		alert(error);
+  	});
+  }
 
 });

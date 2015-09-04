@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -149,13 +148,13 @@ public class JDBCNotebookRepo implements NotebookRepo {
       jdbcTemplate.update("insert into workspace_assign(wrkspc_id, wrkspc_obj_id, update_date, update_user_id) values (?, ?, NOW(), ?)", note.getWorkspaceId(), note.id(), note.getUserId());
       jdbcTemplate.update("insert into notebook(note_id, note_name, note_content, update_date, update_user_id) values (?, ?, ?, NOW(), ?)", note.id(), note.getName(), json, note.getUserId());
     } else {
-      jdbcTemplate.update("update notebook set note_content = ?, note_name = ? where note_id = ?", json, note.getName(), note.id());
+      jdbcTemplate.update("update notebook set note_content = ?, note_name = ?, update_date = NOW(), update_user_id = ? where note_id = ?", json, note.getName(), note.getUserId(), note.id());
     }
   }
 
   @Override
   public void remove(String noteId) throws IOException {
     //jdbcTemplate.update("delete from notebook where note_id = ?", noteId);
-    jdbcTemplate.update("update workspace_object set obj_status = ? where note_id = ?", "DROPPED", noteId);
+    jdbcTemplate.update("update workspace_object set obj_status = ? where wrkspc_obj_id = ?", "DROPPED", noteId);
   }
 }

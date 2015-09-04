@@ -10,16 +10,18 @@
         <result property="email" column="email" />
         <result property="tel" column="tel" />
         <result property="userGrpCd" column="user_grp_cd" />
+        <result property="wrkspcId" column="wrkspc_id" />
     </resultMap>
 
     <resultMap id="RoleMap" type="com.sktelecom.cep.vo.Role">
-        <result property="name" column="name" />
-        <result property="description" column="description" />
+        <result property="id" column="role_id" />
+        <result property="name" column="role_name" />
+        <result property="code" column="role_cd" />
     </resultMap>
 
     <insert id="create" parameterType="com.sktelecom.cep.vo.User">
-        INSERT INTO user(id, name, passwd, email, tel, user_grp_cd)
-        VALUES (#{id}, #{name}, sha1(#{passwd}), #{email}, #{tel}, #{userGrpCd})
+        INSERT INTO user(id, name, passwd, email, tel, user_grp_cd, wrkspc_id, update_date, update_user_id)
+        VALUES (#{id}, #{name}, sha1(#{passwd}), #{email}, #{tel}, #{userGrpCd}, #{wrkspcId}, NOW(), #{updateUserId})
     </insert>
 
     <update id="update" parameterType="com.sktelecom.cep.vo.User">
@@ -28,6 +30,8 @@
         ,passwd = sha1(#{passwd})
         ,email = #{email}
         ,tel = #{tel}
+        ,update_date = NOW()
+	      ,update_user_id = #{updateUserId}
         WHERE id = #{id}
     </update>
 
@@ -40,6 +44,8 @@
         ,email = #{email}
         ,tel = #{tel}
         ,user_grp_cd = #{userGrpCd}
+        ,update_date = NOW()
+        ,update_user_id = #{updateUserId}
         WHERE id = #{id}
     </update>
 
@@ -49,20 +55,20 @@
     </delete>
 
     <select id="getInfo" parameterType="com.sktelecom.cep.vo.User" resultMap="UserMap">
-        SELECT id, name, email, tel, user_grp_cd
+        SELECT id, name, email, tel, user_grp_cd, wrkspc_id, update_date, update_user_id
         FROM user
         WHERE id = #{id}
     </select>
 
     <select id="getCheckLoginUserInfo" parameterType="com.sktelecom.cep.vo.User" resultMap="UserMap">
-        SELECT id, name, email, tel, user_grp_cd
+        SELECT id, name, email, tel, user_grp_cd, wrkspc_id, update_date, update_user_id
         FROM user
         WHERE id = #{id}
         AND passwd = sha1(#{passwd})
     </select>
 
     <select id="getList" resultMap="UserMap" parameterType="com.sktelecom.cep.vo.User">
-        SELECT id, name, email, tel, user_grp_cd
+        SELECT id, name, email, tel, user_grp_cd, wrkspc_id, update_date, update_user_id
         FROM user
         ORDER BY id
         LIMIT #{beginRowNum}, #{rowsPerPage}
@@ -74,7 +80,7 @@
     </select>
 
     <select id="getRole" resultMap="RoleMap">
-        SELECT name, description
+        SELECT role_id, role_name, role_cd
         FROM role
     </select>
 

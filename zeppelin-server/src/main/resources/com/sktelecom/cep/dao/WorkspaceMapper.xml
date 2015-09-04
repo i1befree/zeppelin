@@ -4,60 +4,127 @@
 <mapper namespace="com.sktelecom.cep.dao.WorkspaceDao">
 
     <resultMap id="WorkspaceMap" type="com.sktelecom.cep.vo.Workspace">
-        <result property="workspaceId" column="workspace_id" />
-        <result property="name" column="name" />
-        <result property="type" column="type" />
-        <result property="pId" column="p_id" />
-        <result property="userId" column="user_id" />
-        <result property="createDate" column="create_date" />
+        <result property="wrkspcId" column="wrkspc_id" />
+        <result property="wrkspcName" column="wrkspc_name" />
+        <result property="description" column="description" />
+        <result property="wrkspcType" column="wrkspc_type" />
+        <result property="adminUserId" column="admin_user_id" />
         <result property="updateDate" column="update_date" />
+        <result property="updateUserId" column="update_user_id" />
     </resultMap>
 
+		<resultMap id="WorkspaceSummarMap" type="com.sktelecom.cep.vo.WorkspaceSummary">
+        <result property="wrkspcId" column="wrkspc_id" />
+        <result property="wrkspcName" column="wrkspc_name" />
+        <result property="wrkspcType" column="wrkspc_type" />
+        <result property="totalOfNotebooks" column="total_of_notebooks" />
+        <result property="totalOfQueries" column="total_of_queries" />
+        <result property="totalOfDatasource" column="total_of_datasource" />
+        <result property="totalOfMembers" column="total_of_members" />
+        <result property="totalOfJobs" column="total_of_jobs" />
+    </resultMap>
+    
+		<resultMap id="WorkspaceMemberMap" type="com.sktelecom.cep.vo.WorkspaceMember">
+        <result property="wrkspcId" column="wrkspc_id" />
+        <result property="userId" column="id" />
+        <result property="userName" column="name" />
+        <result property="roleCd" column="user_grp_cd" />
+        <result property="roleName" column="role_name" />
+    </resultMap>
+    
     <insert id="create" parameterType="com.sktelecom.cep.vo.Workspace">
-        INSERT INTO workspace(workspace_id, name, type, p_id, user_id, create_date)
-        VALUES (#{workspaceId}, #{name}, #{type}, #{pId}, #{userId}, #{createDate})
+        INSERT INTO workspace(wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id)
+        VALUES (#{wrkspcId}, #{wrkspcName}, #{description}, #{wrkspcType}, #{adminUserId}, NOW(), #{updateUserId})
     </insert>
 
     <update id="update" parameterType="com.sktelecom.cep.vo.Workspace">
         UPDATE workspace
-        SET name = #{name}
-        ,type = #{type}
-        ,p_id = #{pId}
-        ,user_id = #{userId}
-        ,update_date = #{updateDate}
-        WHERE workspace_id = #{workspaceId}
+        SET wrkspc_name = #{wrkspcName}
+	        ,description = #{description}
+	        ,wrkspc_type = #{wrkspcType}
+	        ,admin_user_id = #{adminUserId}
+	        ,update_date = NOW()
+	        ,update_user_id = #{updateUserId}
+        WHERE wrkspc_id = #{wrkspcId}
     </update>
 
     <delete id="delete" parameterType="com.sktelecom.cep.vo.Workspace">
         DELETE FROM workspace
-        WHERE workspace_id = #{workspaceId}
+        WHERE wrkspc_id = #{wrkspcId}
     </delete>
 
     <select id="getInfo" parameterType="com.sktelecom.cep.vo.Workspace" resultMap="WorkspaceMap">
-        SELECT workspace_id, name, type, p_id, user_id, create_date, update_date
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
         FROM workspace
-        WHERE workspace_id = #{workspaceId}
+        WHERE wrkspc_id = #{wrkspcId}
     </select>
 
     <select id="getList" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT workspace_id, name, type, p_id, user_id, create_date, update_date
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
         FROM workspace
-        ORDER BY name
+        ORDER BY update_date DESC
         LIMIT #{beginRowNum}, #{rowsPerPage}
     </select>
 
     <select id="getListCount" resultType="long" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT count(workspace_id)
+        SELECT count(wrkspc_id)
         FROM workspace
     </select>
     
     <select id="getListByType" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT w.workspace_id, w.name, w.type, w.p_id, w.user_id, w.create_date, w.update_date
-        FROM workspace w
-        WHERE type = #{type}
-        <if test="userId != null and userId != ''">
-          AND (w.user_id = #{userId} or p_id = 'ROOT')
-        </if>
+        SELECT wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id
+        FROM workspace
+        WHERE wrkspc_type = #{wrkspcType}
     </select>
-
+    
+    <select id="getWorkspaceSummaryInfo" parameterType="com.sktelecom.cep.vo.Workspace" resultMap="WorkspaceSummarMap">
+        SELECT wrkspc_id, wrkspc_name, wrkspc_type,
+        			 (SELECT COUNT(nb.note_id)
+				        FROM notebook nb
+				             INNER JOIN workspace_object wo ON nb.note_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+				             INNER JOIN workspace_assign wa ON nb.note_id = wa.wrkspc_obj_id 
+                        WHERE wa.wrkspc_id = w.wrkspc_id
+				       ) AS total_of_notebooks,
+				       0 AS total_of_queries,
+				       (SELECT COUNT(d.datasource_id)
+						      FROM datasource d
+							         INNER JOIN workspace_object wo ON d.datasource_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+				               INNER JOIN workspace_assign wa ON d.datasource_id = wa.wrkspc_obj_id 
+						     WHERE wa.wrkspc_id = w.wrkspc_id
+               ) AS total_of_datasource,
+				       (SELECT COUNT(ws.user_id)
+						      FROM workspace_share ws
+						     WHERE ws.wrkspc_id = w.wrkspc_id
+               ) AS total_of_members,
+				       0 AS total_of_jobs  
+        FROM workspace w
+        WHERE wrkspc_id = #{wrkspcId}
+    </select>
+    
+    <select id="getWorkspaceMemberList" resultMap="WorkspaceMemberMap" parameterType="com.sktelecom.cep.vo.Workspace">
+        SELECT ws.wrkspc_id, u.id, u.name, u.user_grp_cd, r.role_name
+		      FROM workspace_share ws
+		           INNER JOIN user u ON u.id = ws.user_id
+		           INNER JOIN role r ON u.user_grp_cd = r.role_cd
+		     WHERE ws.wrkspc_id = #{wrkspcId}
+    </select>
+    
+    <insert id="insertMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
+        INSERT INTO workspace_share(wrkspc_id, user_id, update_date, update_user_id)
+        VALUES (#{wrkspcId}, #{userId}, NOW(), #{updateUserId})
+    </insert>
+    
+    <delete id="deleteMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
+        DELETE FROM workspace_share
+        WHERE wrkspc_id = #{wrkspcId}
+          AND user_id = #{userId}
+    </delete>
+    
+    <select id="getAssignedWorkspaceList" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
+        SELECT w.wrkspc_id, w.wrkspc_name, w.description, w.wrkspc_type, w.admin_user_id, w.update_date, w.update_user_id
+        FROM workspace w
+             INNER JOIN workspace_assign wa ON wa.wrkspc_id = w.wrkspc_id AND wa.wrkspc_obj_id = #{wrkspcObjId}
+        ORDER BY w.update_date DESC
+    </select>
+    
 </mapper>

@@ -23,7 +23,7 @@
  *
  * @author anthonycorbacho
  */
-angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootScope, $routeParams, $location, Authentication) {
+angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootScope, $routeParams, $location, Authentication, UtilService) {
   /** Current list of notes (ids) */
   $scope.notes = [];
   $scope.workspaceMenu = [];
@@ -36,8 +36,7 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
   
   $scope.$on('setWorkspaceMenu', function(event, workspaceMenu) {
     $scope.workspaceMenu = workspaceMenu;
-    console.info('$scope.workspaceMenu', $scope.workspaceMenu);
-
+    
     $('.menu-tree-icon').on({"click":function(e){
       console.info('dropdown-menu .menu-tree-icon', e);
       e.stopPropagation();
@@ -46,7 +45,7 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
   });
   
   var loadNotes = function() {
-    $rootScope.$emit('sendNewEvent', {op: 'LIST_NOTES'});
+    //$rootScope.$emit('sendNewEvent', {op: 'LIST_NOTES'});
   };
   loadNotes();
 
@@ -101,7 +100,7 @@ angular.module('zeppelinWebApp').controller('NavCtrl', function($scope, $rootSco
     var credentials = $scope.login;
     Authentication.login(credentials).then(function(result) {
       if (result.rsCode === 'SUCCESS') {
-        $rootScope.$emit('getTreeWorkspace', {op: 'NEW_NOTE', userId: Authentication.getId()});
+        $rootScope.$emit('getTreeWorkspace', {});
       } else {
         alert(result.rsMessage);
       }

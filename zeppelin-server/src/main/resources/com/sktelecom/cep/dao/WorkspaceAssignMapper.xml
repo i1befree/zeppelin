@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.WorkspaceAssignDao">
+
+    <resultMap id="WorkspaceAssignMap" type="com.sktelecom.cep.vo.WorkspaceAssign">
+        <result property="wrkspcId" column="wrkspc_id" />
+        <result property="wrkspcObjId" column="wrkspc_obj_id" />
+        <result property="updateDate" column="update_date" />
+        <result property="updateUserId" column="update_user_id" />
+    </resultMap>
+
+    <insert id="create" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
+        INSERT INTO workspace_assign(wrkspc_id, wrkspc_obj_id, update_date, update_user_id)
+        VALUES (#{wrkspcId}, #{wrkspcObjId}, NOW(), #{updateUserId})
+    </insert>
+
+		<delete id="deleteByWrkspcObjId" parameterType="com.sktelecom.cep.vo.WorkspaceAssign">
+        DELETE FROM workspace_assign
+        WHERE wrkspc_obj_id = #{wrkspcObjId}
+    </delete>
+
+
+
+</mapper>

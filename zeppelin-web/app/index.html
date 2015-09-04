@@ -32,10 +32,12 @@ limitations under the License.
     <link rel="stylesheet" href="bower_components/perfect-scrollbar/src/perfect-scrollbar.css" />
     <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
     <link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.css" />
+    <link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.style.css" />
     <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
     <link rel="stylesheet" href="bower_components/highlightjs/styles/github.css" />
     <link rel="stylesheet" href="bower_components/datatables/media/css/jquery.dataTables.css" />
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <!-- endbower -->
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css" />
     <!-- endbuild -->
@@ -73,17 +75,23 @@ limitations under the License.
               <a href="#" class="dropdown-toggle">Workspace <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <div class="scrollbar-container">
-		              <li ng-repeat="node in workspaceMenu" ng-include="'views/workspace-menu.html'"></li>
+		              <li ng-repeat="node in mainTreeData">
+						        <div class="workspace_tree_root">
+										  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
+										  	<i class="icon-file glyphicon glyphicon-file"></i> Personal
+										  </a>  
+										</div>
+					        </li>
 		            </div>
 		          </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle">Notebook <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="javascript:void(0);" ng-click="createNewNote()"><i class="fa fa-plus"></i> Create new note</a></li>
-                <li class="divider"></li>
+                <!-- <li><a href="javascript:void(0);" ng-click="createNewNote()"><i class="fa fa-plus"></i> Create new note</a></li>
+                <li class="divider"></li> -->
                 <div id="notebook-list" class="scrollbar-container">
-                  <li ng-repeat="note in notes | filter:{userId : Authentication.getId()} track by $index" ng-class="{'active' : isActive(note.id)}"><a href="#/notebook/{{note.id}}">{{note.name || 'Note ' + note.id}} </a></li>
+                  <li ng-repeat="note in notes" ng-class="{'active' : isActive(note.id)}"><a href="#/notebook/{{note.id}}">{{note.name || 'Note ' + note.id}} </a></li>
 				        </div>
               </ul>
             </li>
@@ -183,6 +191,7 @@ limitations under the License.
     <script src="bower_components/lodash/lodash.js"></script>
     <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
     <!-- endbower -->
     <script src="bower_components/highcharts/highcharts-3d.js"></script>
     <!-- endbuild -->
@@ -208,6 +217,7 @@ limitations under the License.
     <script src="scripts/controllers/datasource.js"></script>
     <script src="scripts/controllers/datasourceWizard.js"></script>
     <script src="scripts/controllers/datasourceWorkspace.js"></script>
+    <script src="scripts/controllers/userSelect.js"></script>
     <script src="scripts/directives/ngenter.js"></script>
     <script src="scripts/directives/dropdowninput.js"></script>
     <script src="scripts/directives/resizable.js"></script>

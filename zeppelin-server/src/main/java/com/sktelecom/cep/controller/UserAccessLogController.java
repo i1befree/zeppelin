@@ -42,13 +42,8 @@ public class UserAccessLogController {
   public List<UserAccessLog> getList(@RequestBody UserAccessLog userAccessLog,
       HttpSession session) {
     // 관리자가 아닌 경우 세션 아이디 세팅후 조회
-    UserSession userSession = (UserSession) session
-        .getAttribute(CepConstant.USER_SESSION);
-    if (userSession != null
-        && !UserGroupCodeEnum.MANAGER.getValue().equals(
-            userSession.getUserGrpCd())
-        && !UserGroupCodeEnum.MANAGER_LIMIT.getValue().equals(
-            userSession.getUserGrpCd())) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    if (userSession != null && !UserGroupCodeEnum.MANAGER.getValue().equals(userSession.getUserGrpCd())) {
       userAccessLog.setQuery(userSession.getId());
     }
 

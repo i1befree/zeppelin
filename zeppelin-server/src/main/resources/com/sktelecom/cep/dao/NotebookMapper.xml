@@ -6,13 +6,25 @@
     <resultMap id="NotebookMap" type="com.sktelecom.cep.vo.Notebook">
         <result property="noteId" column="note_id" />
         <result property="noteName" column="note_name" />
-        <result property="userId" column="user_id" />
+        <result property="createUserId" column="create_user_id" />
         <result property="updateDate" column="update_date" />
     </resultMap>
 
     <select id="getListByWorkspaceId" resultMap="NotebookMap" parameterType="com.sktelecom.cep.vo.Workspace">
-        SELECT note_id, note_name, user_id, create_date, update_date
-        FROM notebook
+        SELECT nb.note_id, nb.note_name, nb.update_date, wo.create_user_id
+        FROM notebook nb
+        		 INNER JOIN workspace_object wo ON nb.note_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN workspace_assign wa ON nb.note_id = wa.wrkspc_obj_id AND wa.wrkspc_id = #{wrkspcId}
+        ORDER BY nb.update_date DESC     
+    </select>
+
+    <select id="getLastestNotebookListByUserId" resultMap="NotebookMap" parameterType="com.sktelecom.cep.vo.User">
+        SELECT nb.note_id, nb.note_name, nb.update_date, wo.create_user_id
+        FROM notebook nb
+        		 INNER JOIN workspace_object wo ON nb.note_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN workspace_assign wa ON nb.note_id = wa.wrkspc_obj_id
+             INNER JOIN workspace_share ws ON ws.wrkspc_id = wa.wrkspc_id AND ws.user_id = #{id}
+        ORDER BY update_date DESC     
     </select>
 
 </mapper>

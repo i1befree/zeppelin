@@ -45,7 +45,7 @@ public class UserController {
   @RequestMapping(value = "/user/createRequest", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage createRequest(@RequestBody User user) {
+  public SimpleResultMessage createRequest(@RequestBody User user, HttpSession session) {
     logger.debug("id {}", user.getId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "사용자를 생성하지 못하였습니다.");
@@ -56,6 +56,8 @@ public class UserController {
       message.setRsMessage("사용자가 존재 합니다.");
       return message;
     }
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    user.setUpdateUserId(userSession.getId());
     int resultInt = userService.create(user);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -74,7 +76,7 @@ public class UserController {
   @RequestMapping(value = "/user/create", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage create(@RequestBody User user) {
+  public SimpleResultMessage create(@RequestBody User user, HttpSession session) {
     logger.debug("id {}", user.getId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL",
         "사용자가 존재 합니다.");
@@ -85,6 +87,8 @@ public class UserController {
       message.setRsMessage("사용자가 존재 합니다.");
       return message;
     }
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    user.setUpdateUserId(userSession.getId());
     int resultInt = userService.create(user);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -111,11 +115,9 @@ public class UserController {
     int resultInt = 0;
     // 유저가 관리자 여부에 따라서 수정처리를 다르게 한다.
     user.setPasswd(user.getPasswd() != null ? user.getPasswd().trim() : null);
-    UserSession userSession = (UserSession) session
-        .getAttribute(CepConstant.USER_SESSION);
-    if (userSession != null
-        && UserGroupCodeEnum.MANAGER.getValue().equals(
-            userSession.getUserGrpCd())) {
+    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    user.setUpdateUserId(userSession.getId());
+    if (UserGroupCodeEnum.MANAGER.getValue().equals(userSession.getUserGrpCd())) {
       resultInt = userService.updateByManager(user); // 관리자 경우만
     } else {
       resultInt = userService.update(user);

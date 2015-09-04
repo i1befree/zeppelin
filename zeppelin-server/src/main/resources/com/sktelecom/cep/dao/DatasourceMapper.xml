@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sktelecom.cep.dao.DatasourceDao">
+
+    <resultMap id="DatasourceMap" type="com.sktelecom.cep.vo.Datasource">
+        <result property="datasourceId" column="datasource_id" />
+        <result property="datstoreId" column="datstore_id" />
+        <result property="datsrcName" column="datsrc_name" />
+        <result property="containerName" column="container_name" />
+        <result property="srcObjName" column="src_obj_name" />
+        <result property="description" column="description" />
+        <result property="updateDate" column="update_date" />
+        <result property="updateUserId" column="update_user_id" />
+        <result property="datstoreType" column="datstore_type" />
+        <result property="datstoreSubtype" column="datstore_subtype" />
+    </resultMap>
+  
+    <insert id="create" parameterType="com.sktelecom.cep.vo.Datasource">
+        INSERT INTO datasource(datasource_id, datstore_id, datsrc_name, container_name, src_obj_name, description, update_date, update_user_id)
+        VALUES (#{datasourceId}, #{datstoreId}, #{datsrcName}, #{containerName}, #{srcObjName}, #{description}, NOW(), #{updateUserId})
+    </insert>
+
+		<select id="getInfo" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Datasource">
+        SELECT dsc.datasource_id, dsc.datstore_id, dsc.datsrc_name, dsc.container_name, dsc.src_obj_name, dsc.description, dsc.update_date, dsc.update_user_id
+        			,dst.datstore_type, dst.datstore_subtype
+        FROM datasource dsc
+        		 INNER JOIN workspace_object wo ON dsc.datasource_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN datastore dst ON dsc.datstore_id = dst.datstore_id
+        WHERE dsc.datasource_id = #{datasourceId}  
+    </select>
+
+    <select id="getList" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Datasource">
+        SELECT dsc.datasource_id, dsc.datstore_id, dsc.datsrc_name, dsc.container_name, dsc.src_obj_name, dsc.description, dsc.update_date, dsc.update_user_id
+        			,dst.datstore_type, dst.datstore_subtype
+        FROM datasource dsc
+        		 INNER JOIN workspace_object wo ON dsc.datasource_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN datastore dst ON dsc.datstore_id = dst.datstore_id
+        ORDER BY dsc.update_date DESC  
+    </select>
+
+		<select id="getListByWrkspcIid" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Workspace">
+        SELECT dsc.datasource_id, dsc.datstore_id, dsc.datsrc_name, dsc.container_name, dsc.src_obj_name, dsc.description, dsc.update_date, dsc.update_user_id
+              ,dst.datstore_type, dst.datstore_subtype
+        FROM datasource dsc
+        		 INNER JOIN datastore dst ON dsc.datstore_id = dst.datstore_id
+        		 INNER JOIN workspace_object wo ON dsc.datasource_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+             INNER JOIN workspace_assign wa ON wa.wrkspc_obj_id = wo.wrkspc_obj_id AND wa.wrkspc_id = #{wrkspcId}
+        ORDER BY dsc.datsrc_name
+    </select>
+
+</mapper>

@@ -6,6 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
+import com.sktelecom.cep.vo.WorkspaceMember;
+import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Dao.
@@ -74,6 +78,38 @@ public interface WorkspaceDao {
    * @return
    */
   List<Workspace> getListByType(Workspace workspace);
-  
+
+  /**
+   * 작업공간의 요약정보 조회
+   * @param workspace
+   * @return
+   */
+  WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace);
+
+  /**
+   * 작업공간을 공유하는 멤버 목록 조회
+   * @param workspace
+   * @return
+   */
+  List<WorkspaceMember> getWorkspaceMemberList(Workspace workspace);
+
+  /**
+   * 작업공간 공유 사용자를 추가한다.
+   * @param item
+   */
+  int insertMembers(WorkspaceShare item);
+
+  /**
+   * 작업공간 공유 사용자를 삭제한다.
+   * @param item
+   */
+  int deleteMembers(WorkspaceShare item);
+
+  /**
+   * 데이타소스에 할당된 작업공간을 조회한다.
+   * @param workspaceAssign
+   * @return
+   */
+  List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign);  
 
 }

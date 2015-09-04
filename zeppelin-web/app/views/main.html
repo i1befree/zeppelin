@@ -28,7 +28,13 @@ limitations under the License.
         <div ng-controller="NavCtrl" ng-if="Authentication.exists()">
           <div>
 			      <ol class="workspace_tree_ol">
-			        <li ng-repeat="node in mainTreeData" ng-include="'views/workspace-tree.html'"></li>
+			        <li ng-repeat="node in mainTreeData">
+				        <div class="workspace_tree_root">
+								  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
+								  	<i class="icon-file glyphicon glyphicon-file"></i> Personal
+								  </a>  
+								</div>
+			        </li>
 			      </ol>
 			    </div>
         </div>
@@ -36,18 +42,19 @@ limitations under the License.
       
       <div class="col-md-4">
         <h4>Notebook</h4>
-
-        <div ng-controller="NavCtrl" ng-if="Authentication.exists()">
+        <div ng-if="Authentication.exists()">
           <ul style="list-style-type: none;">
-            <li ng-repeat="note in notes | filter:{userId : Authentication.getId()} track by $index"><i style="font-size: 10px;" class="icon-doc"></i>
-              <a style="text-decoration: none;" href="#/notebook/{{note.id}}">{{note.name || 'Note ' + note.id}}</a>
+            <li ng-repeat="note in notes"><i style="font-size: 10px;" class="icon-doc"></i>
+              <a style="text-decoration: none;" href="#/notebook/{{note.noteId}}">{{note.noteName || 'Note ' + note.noteId}}</a>
             </li>
           </ul>
         </div>
       </div>
       <div class="col-md-4">
-        <h4>Action</h4>
-        <a style="text-decoration: none;" href="#/workspace/create">Create Shared Workspace</a><br>
+        <div ng-if="Authentication.isWorkspaceAdmin()">
+	        <h4>Action</h4>
+	        <a style="text-decoration: none;" href="#/workspace/create">Create Shared Workspace</a><br>
+        </div>
         
         <h4>Help</h4>
         Get started with <a style="text-decoration: none;" href="http://zeppelin.incubator.apache.org/docs/index.html" target="_blank">Zeppelin documentation</a><br>

@@ -1825,49 +1825,6 @@ console.info('data', data);
       }
     },
     buildTable : function(tableDivId) {
-      // var html = '';
-      // html += '<table class="table table-hover table-condensed">';
-      // html += '  <thead>';
-      // html += '    <tr style="background-color: #F6F6F6; font-weight: bold;">';
-      // for (var c in $scope.paragraph.result.columnNames) {
-      //   if($scope.paragraph.result.columnNames[c].name === rowIndexKeyColumnName) {
-      //     continue;
-      //   }
-      //   html += '<th>'+$scope.paragraph.result.columnNames[c].name+'</th>';
-      // }
-      // html += '    </tr>';
-      // html += '  </thead>';
-
-      // for (var r in $scope.paragraph.result.msgTable) {
-      //   var row = $scope.paragraph.result.msgTable[r];
-      //   var trHtml = '    <tr>';
-      //   for (var index in row) {
-      //     if(row[index].key === rowIndexKeyColumnName) {
-      //       continue;
-      //     }
-      //     var v = row[index].value;
-      //     if (this.getTableContentFormat(v) !== 'html') {
-      //       v = v.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
-      //           return '&#'+i.charCodeAt(0)+';';
-      //       });
-      //     }
-      //     trHtml += '      <td>'+this.formatTableContent(v)+'</td>';
-      //   }
-      //   trHtml += '    </tr>';
-      //   html += trHtml;
-      // }
-      // html += '</table>';
-      // $('#' + tableDivId).html(html);
-      
-      // var height = $scope.paragraph.config.graph.heightTable || $scope.paragraph.config.graph.height;
-      // $('#' + tableDivId + ' table').DataTable({
-      //   paging: false,
-      //   searching: true,
-      //   sDom: 'rt<i>',
-      //   scrollY: height
-      // });
-      // this.setTableHight(tableDivId);
-
       var html = '<table class="table table-striped table-condensed"></table>';
       $('#' + tableDivId).html(html);
       

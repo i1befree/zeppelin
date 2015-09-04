@@ -43,9 +43,9 @@ limitations under the License.
 		  		<button class="btn btn-default" ng-click="assignWorkspace()" ng-disabled="!datasource.datasourceId">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Assign to Workspace
 					</button>
-					<button class="btn btn-default" ng-click="editMode()" ng-disabled="!datasource.datasourceId">
+					<!-- <button class="btn btn-default" ng-click="editMode()" ng-disabled="!datasource.datasourceId">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Edit
-					</button>
+					</button> -->
 	  		</div>
 	  		
 				<h3 class="title">Detail Info</h3>
@@ -72,14 +72,22 @@ limitations under the License.
 	          <td>{{datasource.description}}</td>
 	        </tr>
 	      </table>
-	      <div ng-if="isEditMode">
+	      <!-- <div ng-if="isEditMode">
           <button type="button" class="btn btn-primary" ng-click="update()" >
             Save
           </button>
           <button type="button" class="btn btn-default" ng-click="cancel()" >
             Cancel
           </button>
+        </div> -->
+        <div ng-if="shareTypeAll == true">
+        	<input type="checkbox" ng-model="shareTypeAll" ng-disabled="true"> <label>Assigned to all workspace</label>
         </div>
+	   		<div ng-if="shareTypeAll == false">
+					<div><label>Assigned Workspace</label></div>
+					<div ui-grid="gridOptionsForAssignedWorkspace" style="width:100%; height:200px;" />
+				</div>
+        
 	  	</div>
 	  </div>
 	</div>

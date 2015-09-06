@@ -33,6 +33,8 @@ limitations under the License.
   <div>
     <div ng-show="!paragraph.config.editorHide">
       <div id="{{paragraph.id}}_editor"
+           data-drop="true"
+           jqyoui-droppable="{onDrop:'onDroppedDatasoruce'}"
            style="opacity: 1;"
            class="editor"
            ui-ace="{

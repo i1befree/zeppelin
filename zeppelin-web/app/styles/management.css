@@ -101,7 +101,7 @@
   white-space:nowrap;
 } 
 .note_sidebar {
-  margin-top: -15px; 
+  margin-top: 50px; 
   margin-left: -10px; 
   position: fixed; 
   z-index: 999;  

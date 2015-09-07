@@ -7,21 +7,34 @@
  */
 'use strict';
 
-angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($scope, $rootScope, $route, $routeParams, $location, Authentication, UtilService) {
+angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($scope, $rootScope, $route, $routeParams, $location, UtilService) {
 
 	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	$scope.workspaceId = $routeParams.workspaceId;
 	$scope.workspaceInfo = {};
 	$scope.memberList = [];
-	$scope.datatableContainerHeight = 400;
-	$scope.dtOptions = {
-		paging: false,
-    searching: true,
-    scrollY: $scope.datatableContainerHeight - 65,
-    sDom: 'rt<i>'
-	};
 	$scope.selected = {};
-	$scope.selectAll = false;
+	$scope.gridOptionsForMember = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : true,
+		enableSelectAll: true,
+    onRegisterApi : function(gridApi){
+    	gridApi.selection.on.rowSelectionChanged($scope,function(row){
+    		$scope.selected[row.entity.userId] = row.isSelected;
+      });
+    	gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+    		angular.forEach(rows, function(row, index) {
+    			$scope.selected[row.entity.userId] = row.isSelected;
+    		});
+      });
+    },
+		columnDefs : [
+		  {name:'userName'  , displayName: 'Name', enableColumnMenu: false},
+		  {name:'userId'    , displayName: 'ID'  , enableColumnMenu: false},
+		  {name:'roleName'  , displayName: 'Role', enableColumnMenu: false}
+		]	
+	};	
 	$scope.display = 'info';
 	
 	function init() {
@@ -30,14 +43,10 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
 		$rootScope.$on('initWorkspaceMemberList', function(event, args) {
 			$scope.workspaceInfo = {};
 			$scope.memberList = [];
-			$scope.selectAll = false;
+			$scope.selected = {};
 			$scope.getWorkspaceMemberList();
 		});
 	}
-	
-	$scope.getId = function() {
-		return $scope.workspaceId;
-	};
 	
 	$scope.getWorkspaceSummaryInfo = function() {
 		$scope.display = 'info';
@@ -58,7 +67,8 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   	}
 		UtilService.httpPost('/workspace/getWorkspaceMemberList', {wrkspcId: $scope.workspaceId}).then(function(result) {
 			$scope.memberList = result;
-  		angular.forEach($scope.memberList, function(item, index) {
+			$scope.gridOptionsForMember.data = $scope.memberList;
+			angular.forEach($scope.memberList, function(item, index) {
   			$scope.selected[item.userId] = false;
   		});
   	}, function(error) {
@@ -67,7 +77,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   };
   
   $scope.showMemberList = function() {
-  	$scope.$emit('initUserSelectView', {});
+  	$scope.$emit('initUserSelectView', {parentMemberIdsObject: $scope.selected, wrkspcId: $scope.workspaceId});
   }
   
   $scope.removeMembers = function() {
@@ -98,18 +108,6 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   	}
   	return false;
   };
-  
-  $scope.toggleAll = function(selectAll, selectedItems) {
-  	console.info('toggleAll $scope.selectAll', $scope.selectAll);
-  	UtilService.toggleAll(selectAll, selectedItems, Authentication.getUser().id);
-  	//console.info('toggleAll $scope.selectAll', $scope.selectAll);
-  };
-  
-  $scope.toggleOne = function (selectedItems) {
-  	UtilService.toggleOne($scope, selectedItems);
-  	console.info('toggleOne $scope.selectAll', $scope.selectAll);
-  };
-  
   
   init();	
 });

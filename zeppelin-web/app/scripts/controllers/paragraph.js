@@ -2040,7 +2040,21 @@ console.info('data', data);
     }
   };
 
-
+  $scope.$on('onDragStart_datasourceFromSidebar', function(event, dragDatasource) {
+  	$scope.dragDatasource = dragDatasource;
+  });
+  
+  $scope.$on('onDragging_datasourceFromSidebar', function(event, position) {
+  	var cursor = $scope.editor.renderer.screenToTextCoordinates(position.pageX, position.pageY);
+  	$scope.editor.moveCursorToPosition(cursor)
+  });
+    
+  $scope.onDroppedDatasoruce = function(event, ui) {
+  	var position = $scope.editor.getCursorPosition();
+  	$scope.editor.getSession().insert(position, "\"" + $scope.dragDatasource.datsrcName + "\"");
+  	$scope.$parent.toggleSidebar();
+  };
+  
   $scope.onGraphOptionChange = function() {
     clearUnknownColsFromGraphOption();
     $scope.setGraphMode($scope.paragraph.config.graph.mode, true, false);
@@ -2781,7 +2795,8 @@ console.info('data', data);
 
   $scope.goToSingleParagraph = function () {
     var noteId = $route.current.pathParams.noteId;
-    var redirectToUrl = location.protocol + '//' + location.host + '/#/notebook/' + noteId + '/paragraph/' + $scope.paragraph.id+'?asIframe';
+    var wrkspcId = $route.current.pathParams.wrkspcId;
+    var redirectToUrl = location.protocol + '//' + location.host + '/#/notebook/' + noteId + '/paragraph/' + $scope.paragraph.id + '/wrkspcId/' + wrkspcId + '?asIframe';
     $window.open(redirectToUrl);
   };
 });

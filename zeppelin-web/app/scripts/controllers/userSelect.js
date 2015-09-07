@@ -10,21 +10,37 @@
 angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $rootScope, $route, $routeParams, $location, UserService, UtilService) {
 
 	$scope.memberList = [];
-	$scope.datatableContainerHeight = 360;
-	$scope.dtOptions = {
-    paging: false,
-    searching: true,
-    scrollY: $scope.datatableContainerHeight - 95,
-    sDom: '<f>rt<i>'
-  };
 	$scope.selected = {};
-	$scope.selectAll = false;
+	$scope.gridOptionsForUser = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : true,
+		enableSelectAll: true,
+    onRegisterApi : function(gridApi){
+    	$scope.gridApi = gridApi;
+    	gridApi.selection.on.rowSelectionChanged($scope,function(row){
+    		$scope.selected[row.entity.id] = row.isSelected;
+      });
+    	gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+    		angular.forEach(rows, function(row, index) {
+    			$scope.selected[row.entity.id] = row.isSelected;
+    		});
+      });
+    },
+		columnDefs : [
+		  {name:'name'  		, displayName: 'Name', enableColumnMenu: false},
+		  {name:'id'    		, displayName: 'ID'  , enableColumnMenu: false},
+		  {name:'userGrpNm' , displayName: 'Role', enableColumnMenu: false}
+		]	
+	};
+  
 	$scope.display = 'info';
-	$scope.parentItemIdsObject = $scope.$parent.selected;
-	$scope.parentId = $scope.$parent.getId();
-	
+	$scope.parentMemberIdsObject = {};
+	$scope.wrkspcId = undefined;
+
 	$rootScope.$on('initUserSelectView', function(event, args) {
-		console.info('initUserSelectView');
+		$scope.parentMemberIdsObject = args.parentMemberIdsObject;
+		$scope.wrkspcId = args.wrkspcId;
 		init();
 	});
 	
@@ -41,11 +57,12 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
     	var notAddedMembers = [];
     	//추가된 user 는 빼고 목록에 추가한다.
     	angular.forEach(result, function(item, index) {
-      	if(!$scope.parentItemIdsObject.hasOwnProperty(item.id)) {
+      	if(!$scope.parentMemberIdsObject.hasOwnProperty(item.id)) {
     			this.push(item);
     		}
     	}, notAddedMembers);
       $scope.memberList = notAddedMembers;
+      $scope.gridOptionsForUser.data = $scope.memberList;
     	angular.forEach($scope.memberList, function(item, index) {
       	$scope.selected[item.id] = false;
   		});
@@ -64,7 +81,7 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
       }
     }
   	console.info('members', members);
-  	UtilService.httpPost('/workspace/addMembers', {members: members, wrkspcId: $scope.parentId}).then(function(result) {
+  	UtilService.httpPost('/workspace/addMembers', {members: members, wrkspcId: $scope.wrkspcId}).then(function(result) {
   		$scope.$emit('initWorkspaceMemberList', {});
     	$scope.close();
   	}, function(error) {
@@ -75,15 +92,9 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
   
   $scope.close = function() {
   	$scope.selectAll = false;
+  	$scope.parentMemberIdsObject = {};
+		$scope.wrkspcId = undefined;
   	angular.element('#memberModal').modal('hide');
-  };
-  
-  $scope.toggleAll = function(selectAll, selectedItems) {
-  	UtilService.toggleAll(selectAll, selectedItems);
-  };
-  
-  $scope.toggleOne = function (selectedItems) {
-  	UtilService.toggleOne($scope, selectedItems);
   };
   
   

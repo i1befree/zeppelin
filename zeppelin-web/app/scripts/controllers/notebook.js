@@ -23,7 +23,9 @@
  * Controller of notes, manage the note (update)
  *
  */
-angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication) {
+angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, UtilService, Authentication) {
+	
+	$scope.wrkspcId = $routeParams.wrkspcId;
   $scope.note = null;
   $scope.showEditor = false;
   $scope.editorToggled = false;
@@ -46,6 +48,21 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 
   $scope.sidebarToggled = false;
 
+  $scope.gridOptionsForDatasource = {
+//		showGridFooter: true,	
+//		enableRowSelection: true,
+//		multiSelect : false,
+//    enableRowHeaderSelection : false,
+//    onRegisterApi : function(gridApi){
+//
+//    },
+//		columnDefs : [
+//		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false, 
+//		  	cellTemplate: '<div data-drag="true" data-jqyoui-options="{appendTo: \'body\', revert: \'invalid\', helper: \'clone\'}" jqyoui-draggable="{onStart:\'onDraggedDatasoruce\', onDrag: \'onDraggingDatasoruce\'}">{{row.entity.datsrcName}}</div>'},
+//		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
+//		]	
+	};	
+  
   var angularObjectRegistry = {};
 
   $scope.getCronOptionNameFromValue = function(value) {
@@ -64,10 +81,20 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   /** Init the new controller */
   var initNotebook = function() {
     $rootScope.$emit('sendNewEvent', {op: 'GET_NOTE', data: {id: $routeParams.noteId}});
+    
+    getDatasourceList($scope.wrkspcId);
   };
 
   initNotebook();
-
+  
+  function getDatasourceList(pWorkspaceId) {
+  	UtilService.httpPost('/workspace/getDatasourceList', {wrkspcId: pWorkspaceId}).then(function(result) {
+  		$scope.gridOptionsForDatasource.data = result;
+  	}, function(error) {
+  		alert(error);
+  	});
+  }
+  
   /** Remove the note and go back tot he main page */
   /** TODO(anthony): In the nearly future, go back to the main page and telle to the dude that the note have been remove */
   $scope.removeNote = function(noteId) {
@@ -94,7 +121,17 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
     }
     $scope.sidebarToggled = !$scope.sidebarToggled;
   };
-
+  
+  $scope.onDragStartDatasoruce = function(event, ui, data) {
+  	console.info(event, ui, data);
+  	$scope.$broadcast('onDragStart_datasourceFromSidebar', data);
+  };
+    
+  $scope.onDraggingDatasoruce = function(event, ui) {
+  	var position = {pageX: event.pageX, pageY: event.pageY}
+  	$scope.$broadcast('onDragging_datasourceFromSidebar', position);
+  };
+  
   $scope.toggleAllEditor = function() {
     if ($scope.editorToggled) {
       $scope.$broadcast('closeEditor');
@@ -240,7 +277,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
     return noteCopy;
   };
 
-$scope.$on('setMasterParagraph', function(event, paragraphId) {
+  $scope.$on('setMasterParagraph', function(event, paragraphId) {
     var newIndex = -1;
     for (var i=0; i<$scope.note.paragraphs.length; i++) {
       if ($scope.note.paragraphs[i].id === paragraphId) {

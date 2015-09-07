@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.NotebookDao;
 import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
+import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
@@ -34,6 +36,9 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Inject
   private NotebookDao notebookDao;
+  
+  @Inject
+  private DatasourceDao datasourceDao;
 
   @Inject
   private UserDao userDao;
@@ -139,5 +144,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
       resultInt += workspaceDao.deleteMembers(item);
     }
     return resultInt;
+  }
+
+  @Override
+  public List<Datasource> getDatasourceList(Workspace workspace) {
+    List<Datasource> list = datasourceDao.getListByWrkspcIid(workspace);
+    return list;
   }
 }

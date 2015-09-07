@@ -65,26 +65,9 @@ limitations under the License.
 		
 		<div class="col-md-8" ng-if="display == 'member'">
 	   	<h4>Members</h4>
-	   	<div ng-style="{height: datatableContainerHeight}">
-				<table datatable="ng" class="row-border table-striped table-condensed" dt-options="dtOptions">
-	        <thead>
-	        	<tr>
-	            <th><input type="checkbox" ng-model="selectAll" ng-click="toggleAll(selectAll, selected)"></th>
-							<th>Name</th>
-							<th>ID</th>
-							<th>Role</th>
-	        	</tr>
-	        </thead>
-	        <tbody>
-	        	<tr ng-repeat="info in memberList">
-	        		<td><input type="checkbox" ng-disabled="Authentication.getUser().id == info.userId" ng-model="selected[info.userId]" ng-click="toggleOne(selected)"></td>
-	            <td>{{ info.userName }}</td>
-	            <td>{{ info.userId }}</td>
-	            <td>{{ info.roleName }}</td>
-	        	</tr>
-	        </tbody>
-	    	</table>
-    	</div>
+	   	<div ui-grid="gridOptionsForMember" ui-grid-selection style="width:100%; height:400px;" />
+	   	
+	   	<br/>
       <div class="text-right">
 				<button class="btn btn-primary" data-toggle="modal" data-target="#memberModal" ng-click="showMemberList()">Add</button>
         <button class="btn btn-default" ng-click="removeMembers()" ng-disabled="!isRowChecked()">Remove</button>

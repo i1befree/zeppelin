@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Workspace;
+import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceSummary;
@@ -102,6 +103,13 @@ public interface WorkspaceDao {
    * 작업공간 공유 사용자를 삭제한다.
    * @param item
    */
-  int deleteMembers(WorkspaceShare item);  
+  int deleteMembers(WorkspaceShare item);
+
+  /**
+   * 데이타소스에 할당된 작업공간을 조회한다.
+   * @param workspaceAssign
+   * @return
+   */
+  List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign);  
 
 }

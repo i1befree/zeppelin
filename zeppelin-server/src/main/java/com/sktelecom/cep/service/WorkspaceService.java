@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
@@ -108,4 +109,11 @@ public interface WorkspaceService {
    * @param item
    */
   int deleteMembers(List<WorkspaceShare> wsList);
+
+  /**
+   * 데이타 소스 목록 조회
+   * @param workspace
+   * @return
+   */
+  List<Datasource> getDatasourceList(Workspace workspace);
 }

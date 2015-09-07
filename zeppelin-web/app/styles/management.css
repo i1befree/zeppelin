@@ -16,6 +16,14 @@
   margin-top: -10px;
 }
 
+.stepWizard {
+	font-weight: normal;
+}
+.stepActive {
+	color: blue;
+	font-weight: bold;
+}
+
 .management .row *[class^='col'] {
   padding-right: 0px;
 }
@@ -23,7 +31,8 @@
 .form-horizontal .control-label.text-left {
     text-align: left;
 }
-#userForm.form-horizontal .form-group label {
+#userForm.form-horizontal .form-group label,
+         .form-horizontal .form-group label.fixedFormLabel {
     min-width: 200px;
     max-width: 200px;
 }
@@ -92,7 +101,7 @@
   white-space:nowrap;
 } 
 .note_sidebar {
-  margin-top: -15px; 
+  margin-top: 50px; 
   margin-left: -10px; 
   position: fixed; 
   z-index: 999;  

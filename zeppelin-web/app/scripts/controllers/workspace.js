@@ -9,17 +9,34 @@
 
 angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $route, $routeParams, $location, $rootScope, $http, Authentication, UtilService) {
 
-	console.info('$routeParams.workspaceId', $routeParams.workspaceId);
 	var workspaceId = $routeParams.workspaceId;
-	$scope.notes = [];
-	$scope.datatableContainerHeight = 400;
-	$scope.dtOptions = {
-		paging: false,
-    searching: true,
-    scrollY: $scope.datatableContainerHeight - 65,
-    sDom: 'rt<i>'
+	$scope.gridOptionsForNotebook = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : false,
+    enableRowHeaderSelection : false,
+    onRegisterApi : function(gridApi){
+      gridApi.selection.on.rowSelectionChanged($scope, function(row){
+      	$scope.goNotebook(row.entity);
+      });
+    },
+		columnDefs : [
+		  {name:'noteName'    , displayName: '노트명', enableColumnMenu: false},
+		  {name:'createUserId', displayName: '생성자', enableColumnMenu: false},
+		  {name:'updateDate'  , displayName: '최종수정 일시', cellFilter: 'date : "yyyy-MM-dd HH:mm:ss"', enableColumnMenu: false}
+		]	
+	};	
+	$scope.gridOptionsForDatasource = {
+		showGridFooter: true,	
+		enableRowSelection: true,
+		multiSelect : false,
+    enableRowHeaderSelection : false,
+		columnDefs : [
+		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false},
+		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
+		]	
 	};
-			
+		
 	function init() {
 		getNotebookList(workspaceId);
 		getDatasourceList(workspaceId);
@@ -30,20 +47,23 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.$on('setNoteMenu', function(event, notes) {
-  	//$scope.notes = notes;
   	getNotebookList(workspaceId);
   });
   
   function getNotebookList(pWorkspaceId) {
   	UtilService.httpPost('/workspace/getNotebookList', {wrkspcId: pWorkspaceId}).then(function(result) {
-  		$scope.notes = result;
+  		$scope.gridOptionsForNotebook.data = result;
   	}, function(error) {
   		alert(error);
   	});
   };
   
   function getDatasourceList(pWorkspaceId) {
-  	$('#datasourceTable').DataTable($scope.datasourceTableOptions);
+  	UtilService.httpPost('/workspace/getDatasourceList', {wrkspcId: pWorkspaceId}).then(function(result) {
+  		$scope.gridOptionsForDatasource.data = result;
+  	}, function(error) {
+  		alert(error);
+  	});
   }
   
   $scope.manage = function() {
@@ -51,7 +71,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.goNotebook = function(note) {    
-  	$location.path('/notebook/' + note.noteId);
+  	$location.path('/notebook/' + note.noteId + '/wrkspcId/' + workspaceId);
   };
 
   init();

@@ -13,6 +13,35 @@ limitations under the License.
 -->
 <!-- Here the controller <NotebookCtrl> is not needed because explicitly set in the app.js (route) -->
 <div>
+
+  <div class="note_sidebar" ng-hide="viewOnly">
+    <a role="button" 
+            class="btn btn-warning btn-sm sidebar_btn animate" 
+            ng-class="{'active' : sidebarToggled}"
+            ng-click="toggleSidebar()">
+      <span class="glyphicon glyphicon-list" aria-hidden="true" style="padding-right: 6px;"></span>
+      Data Source
+    </a>
+    <div ng-if="sidebarToggled" class="sidebar_content bg-info animate">
+    	<!-- 
+      <div ui-grid="gridOptionsForDatasource" style="width:100%; height:400px;" /> -->
+      <div>
+	      <table class="table table-striped table-hover">
+					<tr ng-repeat="datasource in gridOptionsForDatasource.data">
+						<td>
+							<div
+					      data-drag="true"
+					      data-jqyoui-options="{appendTo: 'body', revert: 'invalid', helper: 'clone'}" 
+					      jqyoui-draggable="{onStart: 'onDragStartDatasoruce(datasource)', onDrag: 'onDraggingDatasoruce'}">
+								{{datasource.datsrcName}}
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+    </div>
+  </div>
+
   <div class="noteAction" ng-show="note.id && !paragraphUrl">
     <h3 class="new_h3">
       <input type="text" class="form-control2" placeholder="{{note.name || 'Note ' + note.id}}" style="width:200px;"
@@ -148,19 +177,6 @@ limitations under the License.
     <div>
       <button class="btn btn-primary" ng-click="saveSetting()">Save</button>
       <button class="btn btn-default" ng-click="closeSetting()">Cancel</button>
-    </div>
-  </div>
-
-  <div class="note_sidebar" ng-hide="viewOnly">
-    <a role="button" 
-            class="btn btn-warning btn-sm sidebar_btn animate" 
-            ng-class="{'active' : sidebarToggled}"
-            ng-click="toggleSidebar()">
-      <span class="glyphicon glyphicon-list" aria-hidden="true" style="padding-right: 6px;"></span>
-      Data Source
-    </a>
-    <div ng-if="sidebarToggled" class="sidebar_content bg-info animate">
-      데이타소스 영역
     </div>
   </div>
 

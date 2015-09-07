@@ -14,11 +14,21 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // / @endcond
 public class Notebook extends Paging {
 
+  //table column
   private String noteId;
   private String noteName;
   private String createUserId;
   private Date updateDate;
   
+  //extra
+  private String wrkspcId;
+  
+  public String getWrkspcId() {
+    return wrkspcId;
+  }
+  public void setWrkspcId(String wrkspcId) {
+    this.wrkspcId = wrkspcId;
+  }
   public String getNoteId() {
     return noteId;
   }

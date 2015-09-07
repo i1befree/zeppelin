@@ -27,7 +27,7 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
       $scope.currentPage = 1; // 검색조건이 변경되면 페이지는 1로 수정
       $scope.getList();
     };
-  }
+  };
 
   // 사용자 목록 조회
   $scope.getList = function() {
@@ -45,7 +45,6 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
 
   $scope.getRole = function() {
     UserService.getRole().then(function(result) {
-      console.log(result);
       $scope.roles = result;
     }, function(error) {
       console.info(error);

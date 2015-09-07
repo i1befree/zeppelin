@@ -25,16 +25,12 @@ limitations under the License.
       <div class="col-md-4">
         <h4>Workspace</h4>
 
-        <div ng-if="Authentication.exists()">
-           <ol class="workspace_tree_ol">
-		        <li ng-repeat="node in mainTreeData">
-			        <div class="workspace_tree_root">
-							  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
-							  	<i class="icon-file glyphicon glyphicon-file"></i> Personal
-							  </a>  
-							</div>
-		        </li>
-		      </ol>
+				<div ng-controller="NavCtrl" ng-if="Authentication.exists()">
+          <div>
+			      <ol class="workspace_tree_ol">
+			        <li ng-repeat="node in mainTreeData" ng-include="'views/workspace-tree.html'"></li>
+			      </ol>
+			    </div>
         </div>
       </div>
       

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.NotebookDao;
-import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Notebook;
@@ -39,9 +38,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Inject
   private DatasourceDao datasourceDao;
-
-  @Inject
-  private UserDao userDao;
 
   @Override
   public int create(Workspace workspace) {
@@ -83,23 +79,35 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Override
   public List<Workspace> getListByUserId(String userId) {
-    User pUser = new User();
-    pUser.setId(userId);
-    User user = userDao.getInfo(pUser);
+    WorkspaceShare workspaceShare = new WorkspaceShare();
+    workspaceShare.setUserId(userId);
     
-    Workspace workspace = new Workspace();
-    workspace.setWrkspcId(user.getWrkspcId());
+    List<Workspace> workspaceList = new ArrayList<Workspace>();
+    workspaceShare.setWrkspcType("PERSONAL");
+    List<Workspace> personalList = workspaceDao.getListByTypeUserId(workspaceShare);
+    if(personalList != null && personalList.size() > 0) {
+      Workspace personalRoot = new Workspace();
+      personalRoot.setpId("ROOT");
+      personalRoot.setWrkspcId("PERSONAL");
+      personalRoot.setWrkspcName("Personal");
+      personalRoot.setWrkspcType("PERSONAL");
+      workspaceList.add(personalRoot);
+    }
+    workspaceList.addAll(personalList);
     
-    List<Workspace> WorkspaceList = new ArrayList<Workspace>();
-    workspace.setWrkspcType("PERSONAL");
-    Workspace personal = workspaceDao.getInfo(workspace);
-    WorkspaceList.add(personal);
+    workspaceShare.setWrkspcType("SHARED");
+    List<Workspace> sharedList = workspaceDao.getListByTypeUserId(workspaceShare);
+    if(sharedList != null && sharedList.size() > 0) {
+      Workspace sharedRoot = new Workspace();
+      sharedRoot.setpId("ROOT");
+      sharedRoot.setWrkspcId("SHARED");
+      sharedRoot.setWrkspcName("Shared");
+      sharedRoot.setWrkspcType("SHARED");
+      workspaceList.add(sharedRoot);
+    }
+    workspaceList.addAll(sharedList);
     
-    workspace.setWrkspcType("SHARED");
-    List<Workspace> sharedList = workspaceDao.getListByType(workspace);
-    WorkspaceList.addAll(sharedList);
-    
-    return WorkspaceList;
+    return workspaceList;
   }
 
   @Override

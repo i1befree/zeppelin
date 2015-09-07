@@ -80,6 +80,14 @@ public interface WorkspaceDao {
   List<Workspace> getListByType(Workspace workspace);
 
   /**
+   * 타입에 의한 할당된 유저의 작업공간 목록 조회.
+   * 
+   * @param WorkspaceShare
+   * @return
+   */
+  List<Workspace> getListByTypeUserId(WorkspaceShare workspaceShare);
+
+  /**
    * 작업공간의 요약정보 조회
    * @param workspace
    * @return

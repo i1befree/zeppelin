@@ -27,7 +27,7 @@ public class DataStore  implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name="datastore_id")
+  @Column(name="datstore_id")
   private String id;
 
   @Column(name="datstore_name")
@@ -63,7 +63,7 @@ public class DataStore  implements Serializable {
   private String updateUserId;
 
   @OneToMany
-  @JoinColumn(referencedColumnName="datastore_id", name = "datastore_id")
+  @JoinColumn(name = "datstore_id", referencedColumnName="datstore_id")
   private List<DatastoreProperty> properties;
 
   @OneToMany(mappedBy = "dataStore", fetch = FetchType.LAZY)

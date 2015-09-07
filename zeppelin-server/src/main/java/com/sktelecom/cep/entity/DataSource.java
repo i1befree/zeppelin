@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class DataSource implements Serializable{
+public class DataSource implements Serializable {
   @Id
-  @Column(name = "datastore_id")
+  @Column(name = "datasource_id")
   private String datasourceId;
 
   @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "datstore_id")
   private DataStore dataStore;
 
   @Column(name = "datsrc_name")
@@ -30,29 +31,6 @@ public class DataSource implements Serializable{
 
   @Column(name = "update_user_id")
   private String updateUserId;
-
-  @Column(name = "datstore_type")
-  private String datstoreType;
-
-  @Column(name = "datstore_subtype")
-  private String datstoreSubtype;
-
-
-  public String getDatstoreType() {
-    return datstoreType;
-  }
-
-  public void setDatstoreType(String datstoreType) {
-    this.datstoreType = datstoreType;
-  }
-
-  public String getDatstoreSubtype() {
-    return datstoreSubtype;
-  }
-
-  public void setDatstoreSubtype(String datstoreSubtype) {
-    this.datstoreSubtype = datstoreSubtype;
-  }
 
   public String getDatasourceId() {
     return datasourceId;

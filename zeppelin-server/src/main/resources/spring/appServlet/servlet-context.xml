@@ -26,7 +26,6 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
-			<!-- <exclude-mapping path="/**" /> grunt 포트9000 으로 디자인 테스트시 적용 -->
 			<exclude-mapping path="/login" />
 			<exclude-mapping path="/logout" />
       <exclude-mapping path="/getUserSession" />

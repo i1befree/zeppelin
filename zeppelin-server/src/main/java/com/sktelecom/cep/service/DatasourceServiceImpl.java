@@ -13,12 +13,8 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.elasticsearch.action.admin.cluster.node.info.NodesInfoResponse;
-import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
-import org.elasticsearch.action.admin.indices.alias.get.GetAliasesResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
@@ -27,6 +23,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.DatasourceDao;
@@ -145,12 +142,12 @@ public class DatasourceServiceImpl implements DatasourceService {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     Datastore pDatastoreInfo = new Datastore();
-    pDatastoreInfo.setDatstoreId(datasource.getDatstoreId());
+    pDatastoreInfo.setId(datasource.getDatstoreId());
     Datastore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
     
-    if ("Internal".equals(datastoreInfo.getDatstoreType())) {
+    if ("Internal".equals(datastoreInfo.getType())) {
       schemas = getElasticSearch(datastoreInfo);
-    } else if ("RDB".equals(datastoreInfo.getDatstoreType())) {
+    } else if ("RDB".equals(datastoreInfo.getType())) {
       schemas = getDatabase(datastoreInfo);
     }
     return schemas;
@@ -210,26 +207,26 @@ public class DatasourceServiceImpl implements DatasourceService {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     String DRIVER = "com.mysql.jdbc.Driver";
-    if ("ORACLE".equals(datastoreInfo.getDatstoreSubtype())) {
+    if ("ORACLE".equals(datastoreInfo.getSubType())) {
       DRIVER = "oracle.jdbc.driver.OracleDriver";
-    } else if ("MYSQL".equals(datastoreInfo.getDatstoreSubtype())) {
+    } else if ("MYSQL".equals(datastoreInfo.getSubType())) {
       DRIVER = "com.mysql.jdbc.Driver";
-    } else if ("MSSQL".equals(datastoreInfo.getDatstoreSubtype())) {
+    } else if ("MSSQL".equals(datastoreInfo.getSubType())) {
       DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
     }
     String URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    if ("ORACLE".equals(datastoreInfo.getDatstoreSubtype())) {
+    if ("ORACLE".equals(datastoreInfo.getSubType())) {
       URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
-    } else if ("MYSQL".equals(datastoreInfo.getDatstoreSubtype())) {
+    } else if ("MYSQL".equals(datastoreInfo.getSubType())) {
       URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    } else if ("MSSQL".equals(datastoreInfo.getDatstoreSubtype())) {
+    } else if ("MSSQL".equals(datastoreInfo.getSubType())) {
       URL = "jdbc:microsoft:sqlserver:" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
     }
     
     Connection connection = null;
     try {
       Class.forName(DRIVER);
-      connection = DriverManager.getConnection(URL, datastoreInfo.getCredUserInfo(), datastoreInfo.getCredPassInfo());
+      connection = DriverManager.getConnection(URL, datastoreInfo.getUsername(), datastoreInfo.getPassword());
       
       DatabaseMetaData metadata = connection.getMetaData();
       

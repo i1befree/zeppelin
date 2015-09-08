@@ -1,8 +1,10 @@
 package com.sktelecom.cep.vo;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.ibatis.type.Alias;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * ValueObject.
@@ -11,86 +13,128 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 // / @cond doxygen don't parsing in here
 @JsonIgnoreProperties(ignoreUnknown = true)
-// / @endcond
+@Alias("Datastore")
 public class Datastore {
 
-  private String datstoreId;
-  private String datstoreName;
-  private String datstoreType;
-  private String datstoreSubtype;
+  public static enum Type {
+    INTERNAL,
+    DATABASE,
+    HDFS
+  }
+
+  public static enum SubType {
+    MYSQL,
+    MSSQL,
+    ORACLE,
+    GENERIC
+  }
+
+  private String id;
+  private String name;
+  private Type type;
+  private SubType subType;
   private String hostName;
   private int portNum;
-  private String credUserInfo;
-  private String credPassInfo;
+  private String username;
+  private String password;
   private String description;
-  private Date updateDate;
+  private Timestamp updateTime;
   private String updateUserId;
-  
-  public String getDatstoreId() {
-    return datstoreId;
+  private List<DatastoreProperty> properties;
+
+  public String getId() {
+    return id;
   }
-  public void setDatstoreId(String datstoreId) {
-    this.datstoreId = datstoreId;
+
+  public void setId(String id) {
+    this.id = id;
   }
-  public String getDatstoreName() {
-    return datstoreName;
+
+  public String getName() {
+    return name;
   }
-  public void setDatstoreName(String datstoreName) {
-    this.datstoreName = datstoreName;
+
+  public void setName(String name) {
+    this.name = name;
   }
-  public String getDatstoreType() {
-    return datstoreType;
+
+  public Type getType() {
+    return type;
   }
-  public void setDatstoreType(String datstoreType) {
-    this.datstoreType = datstoreType;
+
+  public void setType(Type type) {
+    this.type = type;
   }
-  public String getDatstoreSubtype() {
-    return datstoreSubtype;
+
+  public SubType getSubType() {
+    return subType;
   }
-  public void setDatstoreSubtype(String datstoreSubtype) {
-    this.datstoreSubtype = datstoreSubtype;
+
+  public void setSubType(SubType subType) {
+    this.subType = subType;
   }
+
   public String getHostName() {
     return hostName;
   }
+
   public void setHostName(String hostName) {
     this.hostName = hostName;
   }
+
   public int getPortNum() {
     return portNum;
   }
+
   public void setPortNum(int portNum) {
     this.portNum = portNum;
   }
-  public String getCredUserInfo() {
-    return credUserInfo;
+
+  public String getUsername() {
+    return username;
   }
-  public void setCredUserInfo(String credUserInfo) {
-    this.credUserInfo = credUserInfo;
+
+  public void setUsername(String username) {
+    this.username = username;
   }
-  public String getCredPassInfo() {
-    return credPassInfo;
+
+  public String getPassword() {
+    return password;
   }
-  public void setCredPassInfo(String credPassInfo) {
-    this.credPassInfo = credPassInfo;
+
+  public void setPassword(String password) {
+    this.password = password;
   }
+
   public String getDescription() {
     return description;
   }
+
   public void setDescription(String description) {
     this.description = description;
   }
-  public Date getUpdateDate() {
-    return updateDate;
+
+  public Timestamp getUpdateTime() {
+    return updateTime;
   }
-  public void setUpdateDate(Date updateDate) {
-    this.updateDate = updateDate;
+
+  public void setUpdateTime(Timestamp updateTime) {
+    this.updateTime = updateTime;
   }
+
   public String getUpdateUserId() {
     return updateUserId;
   }
+
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
   }
-  
+
+  public List<DatastoreProperty> getProperties() {
+    return properties;
+  }
+
+  public void setProperties(List<DatastoreProperty> properties) {
+    this.properties = properties;
+  }
 }

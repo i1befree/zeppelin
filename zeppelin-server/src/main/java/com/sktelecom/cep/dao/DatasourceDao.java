@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.Workspace;
+import org.springframework.stereotype.Repository;
 
 /**
  * datasource관리 - datasource CRUD 담당 Dao.
@@ -16,6 +17,7 @@ import com.sktelecom.cep.vo.Workspace;
  *
  * @author 박상민
  */
+@Repository
 public interface DatasourceDao {
 
   static final Logger LOG = LoggerFactory.getLogger(DatasourceDao.class);

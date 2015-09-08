@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Dao.
@@ -15,6 +16,7 @@ import com.sktelecom.cep.vo.User;
  *
  * @author 박상민
  */
+@Repository
 public interface UserDao {
 
   static final Logger LOG = LoggerFactory.getLogger(UserDao.class);

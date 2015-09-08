@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceAssign;
+import org.springframework.stereotype.Repository;
 
 /**
  * WorkspaceAssign - WorkspaceAssign CRUD 담당 Dao.
@@ -14,6 +15,7 @@ import com.sktelecom.cep.vo.WorkspaceAssign;
  *
  * @author 박상민
  */
+@Repository
 public interface WorkspaceAssignDao {
 
   static final Logger LOG = LoggerFactory.getLogger(WorkspaceAssignDao.class);
@@ -21,7 +23,7 @@ public interface WorkspaceAssignDao {
   /**
    * WorkspaceAssign 생성.
    * 
-   * @param WorkspaceAssign
+   * @param workspaceAssign
    * @return
    */
   int create(WorkspaceAssign workspaceAssign);

@@ -18,7 +18,7 @@
   
     <insert id="create" parameterType="com.sktelecom.cep.vo.Datasource">
         INSERT INTO datasource(datasource_id, datstore_id, datsrc_name, container_name, src_obj_name, description, update_date, update_user_id)
-        VALUES (#{datasourceId}, #{datstoreId}, #{datsrcName}, #{containerName}, #{srcObjName}, #{description}, NOW(), #{updateUserId})
+        VALUES (#{datasourceId}, #{id}, #{datsrcName}, #{containerName}, #{srcObjName}, #{description}, NOW(), #{updateUserId})
     </insert>
 
 		<select id="getInfo" resultMap="DatasourceMap" parameterType="com.sktelecom.cep.vo.Datasource">

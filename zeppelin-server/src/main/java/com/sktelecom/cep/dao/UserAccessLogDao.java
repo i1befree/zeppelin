@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.UserAccessLog;
+import org.springframework.stereotype.Repository;
 
 /**
  * 사용자접속로그 - 사용자 접속 로그를 조회하는 Dao.
@@ -15,6 +16,7 @@ import com.sktelecom.cep.vo.UserAccessLog;
  *
  * @author 박상민
  */
+@Repository
 public interface UserAccessLogDao {
 
   static final Logger LOG = LoggerFactory.getLogger(UserAccessLogDao.class);

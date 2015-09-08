@@ -10,6 +10,7 @@ import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceSummary;
+import org.springframework.stereotype.Repository;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Dao.
@@ -19,6 +20,7 @@ import com.sktelecom.cep.vo.WorkspaceSummary;
  *
  * @author 박상민
  */
+@Repository
 public interface WorkspaceDao {
 
   static final Logger LOG = LoggerFactory.getLogger(WorkspaceDao.class);
@@ -26,7 +28,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 생성.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   int create(Workspace workspace);
@@ -34,7 +36,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 수정.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   int update(Workspace workspace);
@@ -42,7 +44,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 삭제.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   int delete(Workspace workspace);
@@ -50,7 +52,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 정보 조회.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   Workspace getInfo(Workspace workspace);
@@ -58,7 +60,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 목록 조회.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   List<Workspace> getList(Workspace workspace);
@@ -66,7 +68,7 @@ public interface WorkspaceDao {
   /**
    * 작업공간 목록 카운트.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   long getListCount(Workspace workspace);
@@ -74,7 +76,7 @@ public interface WorkspaceDao {
   /**
    * 타입에 의한 작업공간 목록 조회.
    * 
-   * @param Workspace
+   * @param workspace
    * @return
    */
   List<Workspace> getListByType(Workspace workspace);

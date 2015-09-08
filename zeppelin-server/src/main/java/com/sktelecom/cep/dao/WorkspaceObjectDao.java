@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.WorkspaceObject;
+import org.springframework.stereotype.Repository;
 
 /**
  * WorkspaceObject - WorkspaceObject CRUD 담당 Dao.
@@ -13,6 +14,7 @@ import com.sktelecom.cep.vo.WorkspaceObject;
  *
  * @author 박상민
  */
+@Repository
 public interface WorkspaceObjectDao {
 
   static final Logger LOG = LoggerFactory.getLogger(WorkspaceObjectDao.class);
@@ -20,7 +22,7 @@ public interface WorkspaceObjectDao {
   /**
    * WorkspaceObject 생성.
    * 
-   * @param WorkspaceObject
+   * @param workspaceObject
    * @return
    */
   int create(WorkspaceObject workspaceObject);

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
@@ -17,6 +18,7 @@ import com.sktelecom.cep.vo.Workspace;
  *
  * @author 박상민
  */
+@Repository
 public interface NotebookDao {
 
   static final Logger LOG = LoggerFactory.getLogger(NotebookDao.class);

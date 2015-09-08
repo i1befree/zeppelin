@@ -1,11 +1,11 @@
 package com.sktelecom.cep.dao;
 
-import java.util.List;
-
+import com.sktelecom.cep.vo.Datastore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-import com.sktelecom.cep.vo.Datastore;
+import java.util.List;
 
 /**
  * Datastore관리 - Datastore CRUD 담당 Dao.
@@ -15,6 +15,7 @@ import com.sktelecom.cep.vo.Datastore;
  *
  * @author 박상민
  */
+@Repository
 public interface DatastoreDao {
 
   static final Logger LOG = LoggerFactory.getLogger(DatastoreDao.class);

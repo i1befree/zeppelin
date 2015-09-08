@@ -30,9 +30,9 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
       });
     },
 		columnDefs : [
-		  {name:'userName'  , displayName: 'Name', enableColumnMenu: false},
-		  {name:'userId'    , displayName: 'ID'  , enableColumnMenu: false},
-		  {name:'roleName'  , displayName: 'Role', enableColumnMenu: false}
+		  {name:'userName'  , displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'userId'    , displayName: 'ID'  , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'roleName'  , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	$scope.display = 'info';

@@ -16,8 +16,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   $scope.datastore = {};
   $scope.datasource = {};
   $scope.datastoreList = [
-    {datstoreId: '86f3cf18-4fab-11e5-bb39-063b17d52e29', datstoreName:'인터널 ES', datstoreType:'Internal'},                      
-    {datstoreId: '23caae00-506b-11e5-bb39-063b17d52e29', datstoreName:'데이타베이스', datstoreType:'RDB', datstoreSubtype:'MYSQL'}
+    {datstoreId: '86f3cf18-4fab-11e5-bb39-063b17d52e29', datstoreName:'인터널 ES', datstoreType:'INTERNAL'},                      
+    {datstoreId: '23caae00-506b-11e5-bb39-063b17d52e29', datstoreName:'데이타베이스', datstoreType:'DATABASE', datstoreSubtype:'MYSQL'}
   ];
   $scope.datasource.datstoreId = $scope.datastoreList[0].datstoreId;
   $scope.selectedRow = {

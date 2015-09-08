@@ -22,6 +22,15 @@ public class Workspace extends Paging {
   private Date updateDate;
   private String updateUserId;
     
+  //extra
+  private String pId;
+  
+  public String getpId() {
+    return pId;
+  }
+  public void setpId(String pId) {
+    this.pId = pId;
+  }
   public String getWrkspcId() {
     return wrkspcId;
   }

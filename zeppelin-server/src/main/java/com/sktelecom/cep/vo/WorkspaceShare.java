@@ -18,7 +18,16 @@ public class WorkspaceShare extends Paging {
   private String userId;
   private Date updateDate;
   private String updateUserId;
+  
+  //extra
+  private String wrkspcType;
     
+  public String getWrkspcType() {
+    return wrkspcType;
+  }
+  public void setWrkspcType(String wrkspcType) {
+    this.wrkspcType = wrkspcType;
+  }
   public String getUserId() {
     return userId;
   }

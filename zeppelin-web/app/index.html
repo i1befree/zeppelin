@@ -75,13 +75,7 @@ limitations under the License.
               <a href="#" class="dropdown-toggle">Workspace <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <div class="scrollbar-container">
-		              <li ng-repeat="node in mainTreeData">
-						        <div class="workspace_tree_root">
-										  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
-										  	<i class="icon-file glyphicon glyphicon-file"></i> Personal
-										  </a>  
-										</div>
-					        </li>
+                  <li ng-repeat="node in workspaceMenu" ng-include="'views/workspace-menu.html'"></li>
 		            </div>
 		          </ul>
             </li>

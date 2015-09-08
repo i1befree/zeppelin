@@ -12,15 +12,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <div ng-class="{'workspace_tree_root': node.pId === 'ROOT'}">
-  <a ng-if="node.nodes && node.nodes.length > 0" data-toggle="collapse" data-target="#node_{{node.workspaceId}}">
-    <i ng-click="node.collapsed = !node.collapsed" class="indented tree-icon"
-       ng-class="{'glyphicon glyphicon-minus': node.collapsed,
-                  'glyphicon glyphicon-plus': !node.collapsed}"></i></a>
-  <a ng-if="node.nodes === undefined || node.nodes.length === 0">
-    <i class="icon-file glyphicon glyphicon-file"></i></a>
-    
-  <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.workspaceId}}">{{node.name}}</a>  
+  <span ng-if="node.nodes.length > 0" data-toggle="collapse" data-target="#node_{{node.wrkspcId}}">
+    <a class="ng-binding" style="text-decoration: none; cursor: pointer;">
+	    <i ng-click="node.collapsed = !node.collapsed" class="indented tree-icon"
+	       ng-class="{'glyphicon glyphicon-minus': node.collapsed,
+	                  'glyphicon glyphicon-plus': !node.collapsed}"></i>
+    	{{node.wrkspcName}}
+    </a>              
+  </span>
+  <span ng-if="node.nodes.length === 0">
+    <a class="ng-binding" style="text-decoration: none; cursor: pointer;" href="#/workspace/{{node.wrkspcId}}">
+    	<i class="icon-file glyphicon glyphicon-file"></i>
+    	{{node.wrkspcName}}
+    </a>
+  </span>
 </div>
-<ol id="node_{{node.workspaceId}}" class="workspace_tree_ol collapse" ng-class="{'in': node.collapsed, 'out': !node.collapsed}">
+<ol id="node_{{node.wrkspcId}}" class="workspace_tree_ol collapse" ng-class="{'in': node.collapsed, 'out': !node.collapsed}">
   <li ng-repeat="node in node.nodes" ng-include="'views/workspace-tree.html'"></li>
 </ol>

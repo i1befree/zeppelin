@@ -76,6 +76,13 @@
         FROM workspace
         WHERE wrkspc_type = #{wrkspcType}
     </select>
+
+    <select id="getListByTypeUserId" resultMap="WorkspaceMap" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
+        SELECT w.wrkspc_id, w.wrkspc_name, w.description, w.wrkspc_type, w.admin_user_id, w.update_date, w.update_user_id
+        FROM workspace w
+             INNER JOIN workspace_share ws ON ws.wrkspc_id = w.wrkspc_id AND ws.user_id = #{userId}
+        WHERE w.wrkspc_type = #{wrkspcType}
+    </select>
     
     <select id="getWorkspaceSummaryInfo" parameterType="com.sktelecom.cep.vo.Workspace" resultMap="WorkspaceSummarMap">
         SELECT wrkspc_id, wrkspc_name, wrkspc_type,

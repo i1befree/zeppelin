@@ -45,15 +45,15 @@ angular.module('zeppelinWebApp').factory('UtilService', function($http, $q, $fil
     // First map the nodes of the array to an object -> create a hash table.
     for(var i = 0, len = arr.length; i < len; i++) {
       arrElem = arr[i];
-      mappedArr[arrElem.workspaceId] = arrElem;
-      mappedArr[arrElem.workspaceId]['nodes'] = [];
+      mappedArr[arrElem.wrkspcId] = arrElem;
+      mappedArr[arrElem.wrkspcId]['nodes'] = [];
     }
     for (var id in mappedArr) {
       if (mappedArr.hasOwnProperty(id)) {
         mappedElem = mappedArr[id];
         // If the element is not at the root level, add it to its parent array of children.
         if (mappedElem.pId !== 'ROOT') {
-          mappedArr[mappedElem['pId']]['nodes'].push(mappedElem);
+          mappedArr[mappedElem['wrkspcType']]['nodes'].push(mappedElem);
         }
         // If the element is at the root level, add it to first level elements array.
         else {

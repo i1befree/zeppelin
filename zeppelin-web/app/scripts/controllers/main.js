@@ -127,8 +127,9 @@ angular.module('zeppelinWebApp')
   
   function getListByUserId() {
   	UtilService.httpPost('/workspace/getListByUserId', {}).then(function(result) {
-      //$scope.mainTreeData = UtilService.unflatten(result);
-    	$scope.mainTreeData = result;
+      $scope.mainTreeData = UtilService.unflatten(result);
+      //console.info('$scope.mainTreeData', $scope.mainTreeData);
+    	//$scope.mainTreeData = result;
       $scope.$broadcast('setWorkspaceMenu', angular.copy($scope.mainTreeData));
     }, function(error) {
       alert(error);

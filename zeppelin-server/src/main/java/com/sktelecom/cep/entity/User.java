@@ -1,21 +1,29 @@
 package com.sktelecom.cep.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * ValueObject.
  *
  * @author 박상민
  */
-
+@SuppressWarnings("serial")
 @Entity
 public class User implements Serializable {
   @Id
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "id", nullable = false)
   private String id;
 
   @Column(name = "name", nullable = false)
@@ -36,13 +44,17 @@ public class User implements Serializable {
   @Column(name = "update_user_id")
   private String updateUserId;
 
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "wrkspc_id")
+  private Workspace workspace;
+
   //차후 Relationship의 갱신이 필요하다(이유 : Role 기반 권한 관리가 될 경우 Role 쪽이 복잡해 질 수 있음).
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_grp_cd")
   private Role role;
 
   @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
+  private List<WorkspaceShare> sharedWorkspace = new ArrayList<WorkspaceShare>();
 
   public String getId() {
     return id;
@@ -98,6 +110,14 @@ public class User implements Serializable {
 
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
+  }
+
+  public Workspace getWorkspace() {
+    return workspace;
+  }
+
+  public void setWorkspace(Workspace workspace) {
+    this.workspace = workspace;
   }
 
   public Role getRole() {

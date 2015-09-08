@@ -208,15 +208,17 @@ public class DatasourceServiceImpl implements DatasourceService {
   private List<LayoutSchema> getDatabase(Datastore datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
+    //default MYSQL
     String DRIVER = "com.mysql.jdbc.Driver";
     String URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    if (Datastore.SubType.ORACLE == datastoreInfo.getSubType()) {
-      DRIVER = "oracle.jdbc.driver.OracleDriver";
-      URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
-      
-    } else if (Datastore.SubType.MYSQL == datastoreInfo.getSubType()) {
+    
+    if (Datastore.SubType.MYSQL == datastoreInfo.getSubType()) {
       // DRIVER = "com.mysql.jdbc.Driver";
       // URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
+      
+    } else if (Datastore.SubType.ORACLE == datastoreInfo.getSubType()) {
+      DRIVER = "oracle.jdbc.driver.OracleDriver";
+      URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
       
     } else if (Datastore.SubType.MSSQL == datastoreInfo.getSubType()) {
       DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";

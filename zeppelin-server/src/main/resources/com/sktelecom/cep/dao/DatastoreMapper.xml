@@ -6,8 +6,8 @@
     <resultMap id="DatastoreMap" type="com.sktelecom.cep.vo.Datastore">
         <result property="id" column="datstore_id" />
         <result property="name" column="datstore_name" />
-        <result property="type" column="datstore_type" />
-        <result property="subType" column="datastore_subtype" />
+        <result property="type" column="datstore_type" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="subType" column="datstore_subtype" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <result property="hostName" column="host_name" />
         <result property="portNum" column="port_num" />
         <result property="username" column="cred_user_info" />

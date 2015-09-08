@@ -72,7 +72,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
       });
     },
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 200, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'name'    , displayName: 'Name'   , enableColumnMenu: false, width: 200, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
@@ -82,9 +82,9 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 220, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'type'    , displayName: 'Type', enableColumnMenu: false, width: 120},
-		  {name:'size'    , displayName: 'Size', enableColumnMenu: false, width: 80},
+		  {name:'name'    , displayName: 'Name'   , enableColumnMenu: false, width: 220, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'type'    , displayName: 'Type'   , enableColumnMenu: false, width: 120, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'size'    , displayName: 'Size'   , enableColumnMenu: false, width: 80, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};

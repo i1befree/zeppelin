@@ -31,8 +31,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
       });
     },
 		columnDefs : [
-		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false},
-		  {name:'wrkspcType'  , displayName: 'Type'  , enableColumnMenu: false}
+		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'wrkspcType'  , displayName: 'Type'          , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	$scope.selectedAssignedWorkspace = {};
@@ -53,8 +53,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
       });
     },
 		columnDefs : [
-		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false},
-		  {name:'wrkspcType'  , displayName: 'Type'  , enableColumnMenu: false}
+		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'wrkspcType'  , displayName: 'Type'          , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	

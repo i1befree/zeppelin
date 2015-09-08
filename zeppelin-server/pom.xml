@@ -32,8 +32,8 @@
 		<cxf.version>2.7.7</cxf.version>
 		<jetty.version>8.1.14.v20131031</jetty.version>
 		<commons.httpclient.version>4.3.6</commons.httpclient.version>
-		<org.springframework-version>4.1.6.RELEASE</org.springframework-version>
-		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.springframework-version>4.1.7.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.8.6</org.aspectj-version>
 		<mysql-connector-version>5.1.30</mysql-connector-version>
 		<org.mybatis-version>3.2.3</org.mybatis-version>
 		<commons-fileupload-version>1.2</commons-fileupload-version>
@@ -285,7 +285,7 @@
 		<dependency> <!-- because there are two of them above -->
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
+			<version>1.0.b2</version>
 			<scope>test</scope>
 		</dependency>
 

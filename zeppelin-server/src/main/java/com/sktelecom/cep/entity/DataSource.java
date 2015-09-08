@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
 @Entity
 public class DataSource implements Serializable {
   @Id

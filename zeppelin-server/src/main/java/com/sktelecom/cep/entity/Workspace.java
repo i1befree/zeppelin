@@ -9,28 +9,34 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
 public class Workspace implements Serializable{
   @Id
-  @Column(name="wrkspc_id")
+  @Column(name = "wrkspc_id")
   private String wrkspcId;
 
-  @Column(name="wrkspc_name")
+  @Column(name = "wrkspc_name")
   private String wrkspcName;
 
-  @Column(name="description")
+  @Column(name = "description")
   private String description;
 
-  @Column(name="wrkspc_type")
+  @Column(name = "wrkspc_type")
   private String wrkspcType;
 
-  @Column(name="admin_user_id")
+  @Column(name = "admin_user_id")
   private String adminUserId;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Date updateDate;
 
-  @Column(name="update_user_id")
+  @Column(name = "update_user_id")
   private String updateUserId;
 
   @OneToMany(mappedBy = "workspace")

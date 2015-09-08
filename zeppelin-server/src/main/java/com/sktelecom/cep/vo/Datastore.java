@@ -1,10 +1,12 @@
 package com.sktelecom.cep.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.ibatis.type.Alias;
-
 import java.sql.Timestamp;
 import java.util.List;
+
+import org.apache.ibatis.type.Alias;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sktelecom.cep.entity.DataStoreProperty;
 
 /**
  * ValueObject.
@@ -16,12 +18,18 @@ import java.util.List;
 @Alias("Datastore")
 public class Datastore {
 
+  /**
+   * Type of interpreter.
+   */
   public static enum Type {
     INTERNAL,
     DATABASE,
     HDFS
   }
 
+  /**
+   * SubType of interpreter.
+   */
   public static enum SubType {
     MYSQL,
     MSSQL,
@@ -40,7 +48,7 @@ public class Datastore {
   private String description;
   private Timestamp updateTime;
   private String updateUserId;
-  private List<DatastoreProperty> properties;
+  private List<DataStoreProperty> properties;
 
   public String getId() {
     return id;
@@ -130,11 +138,11 @@ public class Datastore {
     this.updateUserId = updateUserId;
   }
 
-  public List<DatastoreProperty> getProperties() {
+  public List<DataStoreProperty> getProperties() {
     return properties;
   }
 
-  public void setProperties(List<DatastoreProperty> properties) {
+  public void setProperties(List<DataStoreProperty> properties) {
     this.properties = properties;
   }
 }

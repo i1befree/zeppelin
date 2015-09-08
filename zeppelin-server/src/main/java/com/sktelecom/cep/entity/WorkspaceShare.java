@@ -4,21 +4,27 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
-@Table(name="WORKSPACE_SHARE")
+@Table(name = "WORKSPACE_SHARE")
 public class WorkspaceShare implements Serializable{
   @ManyToOne
-  @JoinColumn(name="wrkspc_id")
+  @JoinColumn(name = "wrkspc_id")
   private Workspace workspace;
 
   @ManyToOne
-  @JoinColumn(name="user_id")
+  @JoinColumn(name = "user_id")
   private User user;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Date updateDate;
 
-  @Column(name="update_user_id")
+  @Column(name = "update_user_id")
   private String updateUserId;
 
   public Workspace getWorkspace() {

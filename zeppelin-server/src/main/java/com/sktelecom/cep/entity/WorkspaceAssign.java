@@ -7,20 +7,26 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
 public class WorkspaceAssign implements Serializable {
   @ManyToOne
-  @JoinColumn(name="wrkspc_id")
+  @JoinColumn(name = "wrkspc_id")
   private WorkspaceObject workspaceObject;
 
   @ManyToOne
-  @JoinColumn(name="wrkspc_obj_id")
+  @JoinColumn(name = "wrkspc_obj_id")
   private Workspace workspace;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Date updateDate;
 
-  @Column(name="update_user_id")
+  @Column(name = "update_user_id")
   private String updateUserId;
 
   public WorkspaceObject getWorkspaceObject() {

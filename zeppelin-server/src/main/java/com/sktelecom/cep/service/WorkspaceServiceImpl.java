@@ -85,7 +85,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     List<Workspace> workspaceList = new ArrayList<Workspace>();
     workspaceShare.setWrkspcType("PERSONAL");
     List<Workspace> personalList = workspaceDao.getListByTypeUserId(workspaceShare);
-    if(personalList != null && personalList.size() > 0) {
+    if (personalList != null && personalList.size() > 0) {
       Workspace personalRoot = new Workspace();
       personalRoot.setpId("ROOT");
       personalRoot.setWrkspcId("PERSONAL");
@@ -97,7 +97,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     
     workspaceShare.setWrkspcType("SHARED");
     List<Workspace> sharedList = workspaceDao.getListByTypeUserId(workspaceShare);
-    if(sharedList != null && sharedList.size() > 0) {
+    if (sharedList != null && sharedList.size() > 0) {
       Workspace sharedRoot = new Workspace();
       sharedRoot.setpId("ROOT");
       sharedRoot.setWrkspcId("SHARED");

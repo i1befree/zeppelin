@@ -5,16 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
 public class Role implements Serializable{
   @Id
-  @Column(name="role_id")
+  @Column(name = "role_id")
   private String id;
 
-  @Column(name="role_name")
+  @Column(name = "role_name")
   private String name;
 
-  @Column(name="role_cd")
+  @Column(name = "role_cd")
   private String code;
 
   public String getId() {

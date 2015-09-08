@@ -6,31 +6,37 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
 public class User implements Serializable {
   @Id
-  @Column(name="user_id", nullable = false)
+  @Column(name = "user_id", nullable = false)
   private String id;
 
-  @Column(name="name", nullable = false)
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Column(name="passwd", nullable = false)
+  @Column(name = "passwd", nullable = false)
   private String passwd;
 
-  @Column(name="email")
+  @Column(name = "email")
   private String email;
 
-  @Column(name="email")
+  @Column(name = "email")
   private String tel;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Date updateDate;
 
-  @Column(name="update_user_id")
+  @Column(name = "update_user_id")
   private String updateUserId;
 
-  //TODO:차후 Relationship의 갱신이 필요하다(이유 : Role 기반 권한 관리가 될 경우 Role 쪽이 복잡해 질 수 있음).
+  //차후 Relationship의 갱신이 필요하다(이유 : Role 기반 권한 관리가 될 경우 Role 쪽이 복잡해 질 수 있음).
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_grp_cd")
   private Role role;

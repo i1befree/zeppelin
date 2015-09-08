@@ -7,26 +7,32 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
-@Table(name="workspace_object")
+@Table(name = "workspace_object")
 public class WorkspaceObject implements Serializable{
   @Id
-  @Column(name="wrkspc_obj_id")
+  @Column(name = "wrkspc_obj_id")
   private String wrkspcObjId;
 
-  @Column(name="wrkspc_obj_type")
+  @Column(name = "wrkspc_obj_type")
   private String wrkspcObjType;
 
-  @Column(name="share_type")
+  @Column(name = "share_type")
   private String shareType;
 
-  @Column(name="obj_status")
+  @Column(name = "obj_status")
   private String objStatus;
 
-  @Column(name="create_user_id")
+  @Column(name = "create_user_id")
   private String createUserId;
 
-  @Column(name="own_user_id")
+  @Column(name = "own_user_id")
   private String ownUserId;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "workspaceObject")

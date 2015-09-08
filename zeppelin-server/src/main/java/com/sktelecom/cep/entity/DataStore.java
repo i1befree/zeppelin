@@ -1,23 +1,44 @@
 package com.sktelecom.cep.entity;
 
-import com.sktelecom.cep.vo.DatastoreProperty;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+/**
+ * DataStore.
+ * 
+ * @author Administrator
+ *
+ */
 @Entity
-@Table(name="datastore")
+@Table(name = "datastore")
 public class DataStore  implements Serializable {
+  
+  /**
+   * Type of interpreter.
+   */
   public static enum Type {
     INTERNAL,
     DATABASE,
     HDFS
   }
 
+  /**
+   * SubType of interpreter.
+   */
   public static enum SubType {
     MYSQL,
     MSSQL,
@@ -27,44 +48,44 @@ public class DataStore  implements Serializable {
 
   @Id
   @GeneratedValue
-  @Column(name="datstore_id")
+  @Column(name = "datstore_id")
   private String id;
 
-  @Column(name="datstore_name")
+  @Column(name = "datstore_name")
   private String name;
 
-  @Column(name="datstore_type")
+  @Column(name = "datstore_type")
   @Enumerated(EnumType.STRING)
   private Type type;
 
-  @Column(name="datstore_subtype")
+  @Column(name = "datstore_subtype")
   @Enumerated(EnumType.STRING)
   private SubType subType;
 
-  @Column(name="host_name")
+  @Column(name = "host_name")
   private String hostName;
 
-  @Column(name="port_num")
+  @Column(name = "port_num")
   private int portNum;
 
-  @Column(name="cred_user_info")
+  @Column(name = "cred_user_info")
   private String username;
 
-  @Column(name="cred_pass_info")
+  @Column(name = "cred_pass_info")
   private String password;
 
-  @Column(name="description")
+  @Column(name = "description")
   private String description;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Timestamp updateTime;
 
-  @Column(name="update_user_id")
+  @Column(name = "update_user_id")
   private String updateUserId;
 
   @OneToMany
-  @JoinColumn(name = "datstore_id", referencedColumnName="datstore_id")
-  private List<DatastoreProperty> properties;
+  @JoinColumn(name = "datstore_id", referencedColumnName = "datstore_id")
+  private List<DataStoreProperty> properties;
 
   @OneToMany(mappedBy = "dataStore", fetch = FetchType.LAZY)
   private Set<DataSource> dataSources = new HashSet<>();
@@ -157,11 +178,11 @@ public class DataStore  implements Serializable {
     this.updateUserId = updateUserId;
   }
 
-  public List<DatastoreProperty> getProperties() {
+  public List<DataStoreProperty> getProperties() {
     return properties;
   }
 
-  public void setProperties(List<DatastoreProperty> properties) {
+  public void setProperties(List<DataStoreProperty> properties) {
     this.properties = properties;
   }
 }

@@ -5,16 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/**
+ * ValueObject.
+ *
+ * @author 박상민
+ */
+
 @Entity
 public class DataStoreProperty implements Serializable{
   @Id
-  @Column(name="datastore_id")
+  @Column(name = "datastore_id")
   private String id;
 
-  @Column(name="prop_name")
+  @Column(name = "prop_name")
   private String name;
 
-  @Column(name="prop_value")
+  @Column(name = "prop_value")
   private String value;
 
   public String getId() {

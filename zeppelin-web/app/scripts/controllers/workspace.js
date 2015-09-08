@@ -32,7 +32,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'datsrcName'    , displayName: 'Name'      , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};

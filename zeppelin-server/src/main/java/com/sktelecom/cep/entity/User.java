@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 public class User implements Serializable {
   @Id
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "id", nullable = false)
   private String id;
 
   @Column(name = "name", nullable = false)
@@ -41,7 +41,7 @@ public class User implements Serializable {
   @JoinColumn(name = "user_grp_cd")
   private Role role;
 
-  @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "pk.user", fetch = FetchType.EAGER)
   private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
 
   public String getId() {

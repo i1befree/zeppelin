@@ -13,13 +13,36 @@ import java.util.Date;
 @Entity
 @Table(name = "WORKSPACE_SHARE")
 public class WorkspaceShare implements Serializable{
-  @ManyToOne
-  @JoinColumn(name = "wrkspc_id")
-  private Workspace workspace;
+  @Embeddable
+  public static class WorkspaceSharePk implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "wrkspc_id")
+    private Workspace workspace;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    protected WorkspaceSharePk(){
+
+    }
+
+    public WorkspaceSharePk(Workspace workspace, User user){
+      this.workspace = workspace;
+      this.user = user;
+    }
+
+    public Workspace getWorkspace() {
+      return workspace;
+    }
+
+    public User getUser() {
+      return user;
+    }
+  }
+
+  @EmbeddedId
+  private WorkspaceSharePk pk;
 
   @Column(name = "update_date")
   private Date updateDate;
@@ -27,20 +50,20 @@ public class WorkspaceShare implements Serializable{
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  public Workspace getWorkspace() {
-    return workspace;
+  public WorkspaceSharePk getPk() {
+    return pk;
   }
 
-  public void setWorkspace(Workspace workspace) {
-    this.workspace = workspace;
+  public void setPk(WorkspaceSharePk pk) {
+    this.pk = pk;
   }
 
-  public User getUser() {
-    return user;
+  public Workspace getWorkspace(){
+    return this.pk.workspace;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public User getUser(){
+    return this.pk.user;
   }
 
   public Date getUpdateDate() {

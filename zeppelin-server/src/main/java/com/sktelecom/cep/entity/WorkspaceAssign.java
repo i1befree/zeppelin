@@ -1,9 +1,6 @@
 package com.sktelecom.cep.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,14 +11,38 @@ import java.util.Date;
  */
 
 @Entity
+@Table(name = "workspace_assign")
 public class WorkspaceAssign implements Serializable {
-  @ManyToOne
-  @JoinColumn(name = "wrkspc_id")
-  private WorkspaceObject workspaceObject;
+  @Embeddable
+  public static class WorkspaceAssignPk implements Serializable {
+    @ManyToOne
+    @JoinColumn(name = "wrkspc_id")
+    private WorkspaceObject workspaceObject;
 
-  @ManyToOne
-  @JoinColumn(name = "wrkspc_obj_id")
-  private Workspace workspace;
+    @ManyToOne
+    @JoinColumn(name = "wrkspc_obj_id")
+    private Workspace workspace;
+
+    protected WorkspaceAssignPk(){
+
+    }
+
+    public WorkspaceAssignPk(WorkspaceObject workspaceObject, Workspace workspace){
+      this.workspaceObject = workspaceObject;
+      this.workspace = workspace;
+    }
+
+    public WorkspaceObject getWorkspaceObject() {
+      return workspaceObject;
+    }
+
+    public Workspace getWorkspace() {
+      return workspace;
+    }
+  }
+
+  @EmbeddedId
+  private WorkspaceAssignPk pk;
 
   @Column(name = "update_date")
   private Date updateDate;
@@ -29,20 +50,20 @@ public class WorkspaceAssign implements Serializable {
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  public WorkspaceObject getWorkspaceObject() {
-    return workspaceObject;
+  public WorkspaceAssignPk getPk() {
+    return pk;
   }
 
-  public void setWorkspaceObject(WorkspaceObject workspaceObject) {
-    this.workspaceObject = workspaceObject;
+  public void setPk(WorkspaceAssignPk pk) {
+    this.pk = pk;
+  }
+
+  public WorkspaceObject getWorkspaceObject() {
+    return pk.workspaceObject;
   }
 
   public Workspace getWorkspace() {
-    return workspace;
-  }
-
-  public void setWorkspace(Workspace workspace) {
-    this.workspace = workspace;
+    return pk.workspace;
   }
 
   public Date getUpdateDate() {

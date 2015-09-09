@@ -3,6 +3,7 @@ package com.sktelecom.cep.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -12,9 +13,10 @@ import java.io.Serializable;
  */
 
 @Entity
+@Table(name = "datastore_props")
 public class DataStoreProperty implements Serializable{
   @Id
-  @Column(name = "datastore_id")
+  @Column(name = "datstore_id")
   private String id;
 
   @Column(name = "prop_name")

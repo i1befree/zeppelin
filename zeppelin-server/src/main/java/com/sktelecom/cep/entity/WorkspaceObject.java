@@ -1,7 +1,5 @@
 package com.sktelecom.cep.entity;
 
-import com.sktelecom.cep.vo.WorkspaceAssign;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -35,7 +33,7 @@ public class WorkspaceObject implements Serializable{
   @Column(name = "own_user_id")
   private String ownUserId;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "workspaceObject")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.workspaceObject")
   private Set<WorkspaceAssign> workspaceAssigns = new HashSet<>();
 
   @OneToOne(fetch = FetchType.EAGER)

@@ -39,8 +39,11 @@ public class Workspace implements Serializable{
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  @OneToMany(mappedBy = "workspace")
+  @OneToMany(mappedBy = "pk.workspace")
   private List<WorkspaceAssign> workspaceAssigns = new ArrayList<>();
+
+  @OneToMany(mappedBy = "pk.workspace")
+  private List<WorkspaceShare> workspaceShares = new ArrayList<>();
 
   public String getWrkspcId() {
     return wrkspcId;
@@ -104,5 +107,13 @@ public class Workspace implements Serializable{
 
   public void setWorkspaceAssigns(List<WorkspaceAssign> workspaceAssigns) {
     this.workspaceAssigns = workspaceAssigns;
+  }
+
+  public List<WorkspaceShare> getWorkspaceShares() {
+    return workspaceShares;
+  }
+
+  public void setWorkspaceShares(List<WorkspaceShare> workspaceShares) {
+    this.workspaceShares = workspaceShares;
   }
 }

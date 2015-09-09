@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "datastore")
-@NamedQuery(name = "DataStore.count", query = "select count(o) from DataStore o")
+@NamedQuery(name = "DataStore.count", query = "select count(o) from DataStore o where upper(o.name) like ?1")
 public class DataStore implements Serializable {
   
   /**

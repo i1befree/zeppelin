@@ -16,5 +16,4 @@
   		<property name="basePackage" value="com.sktelecom.cep.dao" />
 	</bean>
 
-	<import resource="datasource-context.xml" />
 </beans>

@@ -52,7 +52,7 @@ public class DatasourceController {
   /**
    * datasource 생성.
    * 
-   * @param user
+   * @param datasource
    * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
    */
   // / @cond doxygen don't parsing in here
@@ -75,8 +75,7 @@ public class DatasourceController {
   /**
    * workspaceObject 정보 조회.
    * 
-   * @param Workspace
-   * @param session
+   * @param workspaceObject
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
@@ -91,8 +90,7 @@ public class DatasourceController {
   /**
    * datasource 목록 조회.
    * 
-   * @param Workspace
-   * @param session
+   * @param datasource
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
@@ -107,8 +105,7 @@ public class DatasourceController {
   /**
    * Workspace 목록 조회.
    * 
-   * @param Workspace
-   * @param session
+   * @param workspace
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
@@ -123,8 +120,7 @@ public class DatasourceController {
   /**
    * 할당된 Workspace 목록 조회.
    * 
-   * @param Workspace
-   * @param session
+   * @param workspaceAssign
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here

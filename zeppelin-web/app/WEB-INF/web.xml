@@ -26,8 +26,8 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:spring/root-context.xml
-      classpath:spring/datasource-context.xml
-      classpath:spring/mybatis-context.xml
+      <!--classpath:spring/datasource-context.xml-->
+      <!--classpath:spring/mybatis-context.xml-->
     </param-value>
   </context-param>
   <context-param>
@@ -81,7 +81,7 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-  
+
   <servlet-mapping>
     <servlet-name>appServlet</servlet-name>
     <url-pattern>/cep/*</url-pattern>
@@ -91,5 +91,5 @@
     <servlet-name>default</servlet-name>
     <url-pattern>/rest/*</url-pattern>
   </servlet-mapping>
-  
+
 </web-app>

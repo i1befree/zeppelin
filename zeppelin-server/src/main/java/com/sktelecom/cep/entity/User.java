@@ -1,6 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
   @Id
   @Column(name = "id", nullable = false)
@@ -41,12 +43,12 @@ public class User implements Serializable {
   private Workspace workspace;
 
   //차후 Relationship의 갱신이 필요하다(이유 : Role 기반 권한 관리가 될 경우 Role 쪽이 복잡해 질 수 있음).
-  @ManyToOne(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_grp_cd")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_grp_cd", referencedColumnName = "role_cd")
   private Role role;
 
-  @OneToMany(mappedBy = "pk.user", fetch = FetchType.EAGER)
-  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
+//  @OneToMany(mappedBy = "pk.user", fetch = FetchType.LAZY)
+//  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
 
   public String getId() {
     return id;
@@ -120,11 +122,11 @@ public class User implements Serializable {
     this.role = role;
   }
 
-  public List<WorkspaceShare> getSharedWorkspace() {
-    return sharedWorkspace;
-  }
-
-  public void setSharedWorkspace(List<WorkspaceShare> sharedWorkspace) {
-    this.sharedWorkspace = sharedWorkspace;
-  }
+//  public List<WorkspaceShare> getSharedWorkspace() {
+//    return sharedWorkspace;
+//  }
+//
+//  public void setSharedWorkspace(List<WorkspaceShare> sharedWorkspace) {
+//    this.sharedWorkspace = sharedWorkspace;
+//  }
 }

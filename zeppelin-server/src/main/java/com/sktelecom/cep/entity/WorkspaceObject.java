@@ -1,6 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
  * @author 박상민
  */
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_object")
 public class WorkspaceObject implements Serializable{

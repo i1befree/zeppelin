@@ -2,10 +2,12 @@ package com.sktelecom.cep.service;
 
 import java.util.List;
 
-import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import com.sktelecom.cep.vo.Role;
 import com.sktelecom.cep.vo.User;
 
 /**
@@ -73,6 +75,13 @@ public interface UserService {
    */
   List<User> getList(User user);
 
+  /**
+   * 페이징 처리되는 사용자 목록 조회
+   * @param pageRequest
+   * @return
+   */
+  Page<com.sktelecom.cep.entity.User> getListByPage(Pageable pageable);
+  
   /**
    * 사용자 그룹 목록 가져오기.
    * @return

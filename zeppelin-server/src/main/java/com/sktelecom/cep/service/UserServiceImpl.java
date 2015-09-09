@@ -8,10 +8,13 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
+import com.sktelecom.cep.repository.UserRepository;
 import com.sktelecom.cep.vo.Role;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
@@ -32,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
   @Inject
   private WorkspaceDao workspaceDao;
+
+  @Inject
+  private UserRepository userRepository;
 
   @Override
   public int create(User user) {
@@ -103,6 +109,12 @@ public class UserServiceImpl implements UserService {
       }
     }
     return userList;
+  }
+
+  @Override
+  public Page<com.sktelecom.cep.entity.User> getListByPage(Pageable pageable) {
+    Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);    
+    return result;
   }
 
   @Override

@@ -31,13 +31,13 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
 
   // 사용자 목록 조회
   $scope.getList = function() {
-    var formData = {
-      beginRowNum : ($scope.currentPage - 1) * $scope.itemsPerPage,
-      rowsPerPage : $scope.itemsPerPage
+  	var formData = {
+  		pageNumber : $scope.currentPage-1,
+  		pageSize   : $scope.itemsPerPage
     };
     UserService.getUserList(formData).then(function(result) {
-      $scope.list = result;
-      $scope.totalCount = result[0] == undefined ? 0 : result[0].totalCount;
+      $scope.list = result.content;
+      $scope.totalCount = result.totalElements;
     }, function(error) {
       console.info(error);
     });

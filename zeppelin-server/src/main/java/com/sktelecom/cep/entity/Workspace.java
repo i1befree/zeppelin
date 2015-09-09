@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +17,10 @@ import java.util.List;
  * @author 박상민
  */
 
+@SuppressWarnings("serial")
 @Entity
-public class Workspace implements Serializable{
+@Table(name = "workspace")
+public class Workspace implements Serializable {
   @Id
   @Column(name = "wrkspc_id")
   private String wrkspcId;
@@ -39,11 +43,11 @@ public class Workspace implements Serializable{
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  @OneToMany(mappedBy = "pk.workspace")
-  private List<WorkspaceAssign> workspaceAssigns = new ArrayList<>();
-
-  @OneToMany(mappedBy = "pk.workspace")
-  private List<WorkspaceShare> workspaceShares = new ArrayList<>();
+//  @OneToMany(mappedBy = "pk.workspace")
+//  private List<WorkspaceAssign> workspaceAssigns = new ArrayList<>();
+//
+//  @OneToMany(mappedBy = "pk.workspace")
+//  private List<WorkspaceShare> workspaceShares = new ArrayList<>();
 
   public String getWrkspcId() {
     return wrkspcId;
@@ -100,20 +104,20 @@ public class Workspace implements Serializable{
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
   }
-
-  public List<WorkspaceAssign> getWorkspaceAssigns() {
-    return workspaceAssigns;
-  }
-
-  public void setWorkspaceAssigns(List<WorkspaceAssign> workspaceAssigns) {
-    this.workspaceAssigns = workspaceAssigns;
-  }
-
-  public List<WorkspaceShare> getWorkspaceShares() {
-    return workspaceShares;
-  }
-
-  public void setWorkspaceShares(List<WorkspaceShare> workspaceShares) {
-    this.workspaceShares = workspaceShares;
-  }
+//
+//  public List<WorkspaceAssign> getWorkspaceAssigns() {
+//    return workspaceAssigns;
+//  }
+//
+//  public void setWorkspaceAssigns(List<WorkspaceAssign> workspaceAssigns) {
+//    this.workspaceAssigns = workspaceAssigns;
+//  }
+//
+//  public List<WorkspaceShare> getWorkspaceShares() {
+//    return workspaceShares;
+//  }
+//
+//  public void setWorkspaceShares(List<WorkspaceShare> workspaceShares) {
+//    this.workspaceShares = workspaceShares;
+//  }
 }

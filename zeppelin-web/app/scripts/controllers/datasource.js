@@ -35,8 +35,8 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
       });
     },
 		columnDefs : [
-		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false},
-		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
+		  {name:'datsrcName'    , displayName: 'Name'      , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	
@@ -47,8 +47,8 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
 		multiSelect : false,
 		enableSelectAll: false,
 		columnDefs : [
-		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false},
-		  {name:'wrkspcType'  , displayName: 'Type'  , enableColumnMenu: false}
+		  {name:'wrkspcName'  , displayName: 'Workspace Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'wrkspcType'  , displayName: 'Type'          , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	

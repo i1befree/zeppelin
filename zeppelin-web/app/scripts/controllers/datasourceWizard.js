@@ -16,8 +16,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   $scope.datastore = {};
   $scope.datasource = {};
   $scope.datastoreList = [
-    {datstoreId: '86f3cf18-4fab-11e5-bb39-063b17d52e29', datstoreName:'인터널 ES', datstoreType:'Internal'},                      
-    {datstoreId: '23caae00-506b-11e5-bb39-063b17d52e29', datstoreName:'데이타베이스', datstoreType:'RDB', datstoreSubtype:'MYSQL'}
+    {datstoreId: '86f3cf18-4fab-11e5-bb39-063b17d52e29', datstoreName:'인터널 ES', datstoreType:'INTERNAL'},                      
+    {datstoreId: '23caae00-506b-11e5-bb39-063b17d52e29', datstoreName:'데이타베이스', datstoreType:'DATABASE', datstoreSubtype:'MYSQL'}
   ];
   $scope.datasource.datstoreId = $scope.datastoreList[0].datstoreId;
   $scope.selectedRow = {
@@ -72,7 +72,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
       });
     },
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 200, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'name'    , displayName: 'Name'   , enableColumnMenu: false, width: 200, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
@@ -82,9 +82,9 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'name'    , displayName: 'Name', enableColumnMenu: false, width: 220, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'type'    , displayName: 'Type', enableColumnMenu: false, width: 120},
-		  {name:'size'    , displayName: 'Size', enableColumnMenu: false, width: 80},
+		  {name:'name'    , displayName: 'Name'   , enableColumnMenu: false, width: 220, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'type'    , displayName: 'Type'   , enableColumnMenu: false, width: 120, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'size'    , displayName: 'Size'   , enableColumnMenu: false, width: 80, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'comment' , displayName: 'Comment', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};

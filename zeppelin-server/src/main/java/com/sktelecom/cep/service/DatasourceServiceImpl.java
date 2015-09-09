@@ -145,10 +145,12 @@ public class DatasourceServiceImpl implements DatasourceService {
     pDatastoreInfo.setId(datasource.getDatstoreId());
     Datastore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
     
-    if ("Internal".equals(datastoreInfo.getType())) {
+    if (Datastore.Type.INTERNAL == datastoreInfo.getType()) {
       schemas = getElasticSearch(datastoreInfo);
-    } else if ("RDB".equals(datastoreInfo.getType())) {
+    } else if (Datastore.Type.DATABASE == datastoreInfo.getType()) {
       schemas = getDatabase(datastoreInfo);
+    } else if (Datastore.Type.HDFS == datastoreInfo.getType()) {
+      
     }
     return schemas;
   }
@@ -206,21 +208,24 @@ public class DatasourceServiceImpl implements DatasourceService {
   private List<LayoutSchema> getDatabase(Datastore datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
+    //default MYSQL
     String DRIVER = "com.mysql.jdbc.Driver";
-    if ("ORACLE".equals(datastoreInfo.getSubType())) {
-      DRIVER = "oracle.jdbc.driver.OracleDriver";
-    } else if ("MYSQL".equals(datastoreInfo.getSubType())) {
-      DRIVER = "com.mysql.jdbc.Driver";
-    } else if ("MSSQL".equals(datastoreInfo.getSubType())) {
-      DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
-    }
     String URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    if ("ORACLE".equals(datastoreInfo.getSubType())) {
+    
+    if (Datastore.SubType.MYSQL == datastoreInfo.getSubType()) {
+      // DRIVER = "com.mysql.jdbc.Driver";
+      // URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
+      
+    } else if (Datastore.SubType.ORACLE == datastoreInfo.getSubType()) {
+      DRIVER = "oracle.jdbc.driver.OracleDriver";
       URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
-    } else if ("MYSQL".equals(datastoreInfo.getSubType())) {
-      URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-    } else if ("MSSQL".equals(datastoreInfo.getSubType())) {
+      
+    } else if (Datastore.SubType.MSSQL == datastoreInfo.getSubType()) {
+      DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
       URL = "jdbc:microsoft:sqlserver:" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
+      
+    } else if (Datastore.SubType.GENERIC == datastoreInfo.getSubType()) {
+      return schemas;
     }
     
     Connection connection = null;

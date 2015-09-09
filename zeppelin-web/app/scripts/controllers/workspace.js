@@ -21,8 +21,8 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
       });
     },
 		columnDefs : [
-		  {name:'noteName'    , displayName: '노트명', enableColumnMenu: false},
-		  {name:'createUserId', displayName: '생성자', enableColumnMenu: false},
+		  {name:'noteName'    , displayName: '노트명', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'createUserId', displayName: '생성자', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'updateDate'  , displayName: '최종수정 일시', cellFilter: 'date : "yyyy-MM-dd HH:mm:ss"', enableColumnMenu: false}
 		]	
 	};	
@@ -32,8 +32,8 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 		multiSelect : false,
     enableRowHeaderSelection : false,
 		columnDefs : [
-		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false},
-		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false}
+		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
 		

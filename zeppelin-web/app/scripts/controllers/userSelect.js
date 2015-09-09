@@ -28,9 +28,9 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
       });
     },
 		columnDefs : [
-		  {name:'name'  		, displayName: 'Name', enableColumnMenu: false},
-		  {name:'id'    		, displayName: 'ID'  , enableColumnMenu: false},
-		  {name:'userGrpNm' , displayName: 'Role', enableColumnMenu: false}
+		  {name:'name'  		, displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'id'    		, displayName: 'ID'  , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'userGrpNm' , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
   

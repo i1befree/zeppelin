@@ -13,6 +13,11 @@ import java.util.Date;
 @Entity
 @Table(name = "WORKSPACE_SHARE")
 public class WorkspaceShare implements Serializable{
+  /**
+   * 
+   * @author Administrator
+   *
+   */
   @Embeddable
   public static class WorkspaceSharePk implements Serializable {
     @ManyToOne

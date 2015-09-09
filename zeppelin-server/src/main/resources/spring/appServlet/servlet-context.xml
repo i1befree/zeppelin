@@ -12,7 +12,6 @@
 	<resources cache-period="0" mapping="/*.html" location="/" />
 
 	<beans:import resource="classpath:/spring/root-context.xml" />
-	<beans:import resource="classpath:/spring/datasource-context.xml" />
 
 	<beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
 		<!-- ViewResolver 우선순위 설정 -->

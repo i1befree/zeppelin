@@ -1,6 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +10,9 @@ import java.util.Date;
  *
  * @author 박상민
  */
+@SuppressWarnings("serial")
 @Entity
+@Table(name = "datasource")
 public class DataSource implements Serializable {
   @Id
   @Column(name = "datasource_id")

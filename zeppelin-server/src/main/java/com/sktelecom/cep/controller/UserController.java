@@ -5,9 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import com.sktelecom.cep.vo.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.common.UserGroupCodeEnum;
 import com.sktelecom.cep.service.UserService;
+import com.sktelecom.cep.vo.Role;
+import com.sktelecom.cep.vo.SearchParam;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserSession;
 
@@ -181,13 +184,10 @@ public class UserController {
   @RequestMapping(value = "/user/getList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<User> getList(@RequestBody User user, HttpSession session) {
-
-    List<User> resultList = userService.getList(user);
-    for (User info : resultList) {
-      info.setUserGrpNm(UserGroupCodeEnum.getDescByValue(info.getUserGrpCd()));
-    }
-    return resultList;
+  public Page<com.sktelecom.cep.entity.User> getList(@RequestBody SearchParam search) {
+    PageRequest pageRequest = new PageRequest(search.getPageNumber(), search.getPageSize());
+    Page<com.sktelecom.cep.entity.User> result = userService.getListByPage(pageRequest);
+    return result;
   }
 
   /**

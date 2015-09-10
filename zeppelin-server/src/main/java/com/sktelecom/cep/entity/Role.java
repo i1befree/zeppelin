@@ -3,6 +3,8 @@ package com.sktelecom.cep.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import java.io.Serializable;
 
 /**
@@ -11,8 +13,10 @@ import java.io.Serializable;
  * @author 박상민
  */
 
+@SuppressWarnings("serial")
 @Entity
-public class Role implements Serializable{
+@Table(name = "role")
+public class Role implements Serializable {
   @Id
   @Column(name = "role_id")
   private String id;

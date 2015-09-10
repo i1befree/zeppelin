@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
 
@@ -23,7 +24,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.DatasourceDao;
@@ -65,6 +65,9 @@ public class DatasourceServiceImpl implements DatasourceService {
   
   @Inject
   private WorkspaceAssignDao workspaceAssignDao;
+  
+  private Map<String, List<LayoutSchema>> layoutMap = new ConcurrentHashMap<String, List<LayoutSchema>>();
+  
   
   @Override
   public int create(Datasource datasource) {
@@ -144,6 +147,11 @@ public class DatasourceServiceImpl implements DatasourceService {
     Datastore pDatastoreInfo = new Datastore();
     pDatastoreInfo.setId(datasource.getDatstoreId());
     Datastore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
+    
+    schemas = layoutMap.get(datasource.getDatstoreId());
+    if(schemas != null) {
+      return schemas;
+    }
     
     if (Datastore.Type.INTERNAL == datastoreInfo.getType()) {
       schemas = getElasticSearch(datastoreInfo);

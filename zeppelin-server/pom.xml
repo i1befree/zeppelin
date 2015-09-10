@@ -40,6 +40,7 @@
         <mybatis-spring-version>1.2.1</mybatis-spring-version>
         <fasterxml.jackson.version>2.4.4</fasterxml.jackson.version>
         <elasticsearch.version>1.7.1</elasticsearch.version>
+        <hibernate.version>5.0.1.Final</hibernate.version>
     </properties>
 
     <dependencyManagement>
@@ -295,12 +296,6 @@
             <version>1.4.01</version>
             <scope>test</scope>
         </dependency>
-        <dependency> <!-- because there are two of them above -->
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-            <version>1.4.01</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -404,7 +399,18 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.0.1.Final</version>
+            <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>xml-apis</groupId>

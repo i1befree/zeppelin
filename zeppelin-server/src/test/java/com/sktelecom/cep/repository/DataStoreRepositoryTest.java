@@ -22,12 +22,16 @@ public class DataStoreRepositoryTest {
     ctx.refresh();
   }
 
+  public void testSave(){
+    DataStoreRepository repository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
+  }
+
   @Test
   public void testFindByNameOrderByUpdateTimeDesc(){
     DataStoreRepository repository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
     Pageable pageable = new PageRequest(0, 10);
-    Page<DataStore> dataStores = repository.findByNameLikeOrderByUpdateTimeDesc("%test%", pageable);
+    Page<DataStore> dataStores = repository.findByNameLikeOrderByUpdateTimeDesc("%mymeta%", pageable);
 
-    Assert.assertEquals(0, dataStores.getTotalPages());
+    Assert.assertEquals(1, dataStores.getTotalPages());
   }
 }

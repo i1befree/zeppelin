@@ -1,11 +1,5 @@
 package com.sktelecom.cep.controller;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,12 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
+import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.service.DatasourceService;
 import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.Datasource;
-import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
-import com.sktelecom.cep.vo.LayoutTable;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceAssign;
@@ -165,4 +158,18 @@ public class DatasourceController {
     return resultList;
   }
 
+  /**
+   * datastore 전체 목록 조회
+   * @param datasource
+   * @return
+   * @throws Exception
+   */
+  @RequestMapping(value = "/datasource/getDatastoreAllList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<DataStore> getDatastoreAllList(@RequestBody DataStore dataStore) throws Exception {
+    List<DataStore> resultList = datasourceService.getDatastoreAllList(dataStore);
+    return resultList;
+  }
+  
 }

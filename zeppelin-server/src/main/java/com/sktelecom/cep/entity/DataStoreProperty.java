@@ -11,7 +11,6 @@ import java.io.Serializable;
  *
  * @author 박상민
  */
-
 @Entity
 @Table(name = "datastore_props")
 public class DataStoreProperty implements Serializable{

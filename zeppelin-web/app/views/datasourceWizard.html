@@ -43,7 +43,7 @@ limitations under the License.
 			      <div class="col-sm-8">
 			        <select class="form-control" name="datstoreType" id="datstoreType"
 									ng-model="datasource.datstoreId"
-									ng-options="option.datstoreId as ('[' + option.datstoreType + '] ' + option.datstoreName) for option in datastoreList"
+									ng-options="option.id as ('[' + option.type + '] ' + option.name) for option in datastoreList"
 									ng-change="getLayoutSchemaList()" >
 							</select>
 			      </div>
@@ -51,7 +51,7 @@ limitations under the License.
 				</div>
 
 				<div ng-switch-when="2">
-	      	<div ng-if="datastore.datstoreType == 'Internal' || datastore.datstoreType == 'RDB'" class="row">
+	      	<div ng-if="datastore.type == 'INTERNAL' || datastore.type == 'DATABASE'" class="row">
 		      	<div class="col-md-2">
 							<h4>Schema</h4>
 							<div ui-grid="gridOptionsForSchema" ui-grid-selection style="width:100%; height:400px;" />
@@ -98,7 +98,7 @@ limitations under the License.
 				        </tr>
 				        <tr>
 				          <th>DataStore Type</th>
-				          <td>[{{datastore.datstoreType}}] {{datastore.datstoreName}}</td>
+				          <td>[{{datastore.type}}] {{datastore.name}}</td>
 				        </tr>
 				        <tr>
 				          <th>Container</th>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.Workspace;
@@ -70,5 +71,12 @@ public interface DatasourceService {
    * @return
    */
   List<LayoutSchema> loadDatasourceMetadata(Datasource datasource);
+
+  /**
+   * 데이타 스토어 목록을 가져온다.
+   * @param dataStore
+   * @return
+   */
+  List<DataStore> getDatastoreAllList(DataStore datastore);
 
 }

@@ -15,11 +15,6 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   $scope.schema = {};
   $scope.datastore = {};
   $scope.datasource = {};
-  $scope.datastoreList = [
-    {datstoreId: '86f3cf18-4fab-11e5-bb39-063b17d52e29', datstoreName:'인터널 ES', datstoreType:'INTERNAL'},                      
-    {datstoreId: '23caae00-506b-11e5-bb39-063b17d52e29', datstoreName:'데이타베이스', datstoreType:'DATABASE', datstoreSubtype:'MYSQL'}
-  ];
-  $scope.datasource.datstoreId = $scope.datastoreList[0].datstoreId;
   $scope.selectedRow = {
   	container: undefined, srcObj: undefined
   };
@@ -90,8 +85,18 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	};
   
 	function init() {
-		$scope.getLayoutSchemaList();
+		getDatastoreAllList();
 	}
+	
+	function getDatastoreAllList() {
+  	UtilService.httpPost('/datasource/getDatastoreAllList', {}).then(function(result) {
+  		$scope.datastoreList = result;
+      $scope.datasource.datstoreId = $scope.datastoreList[0].id;
+      $scope.getLayoutSchemaList();
+  	}, function(error) {
+  		alert(error);
+  	});
+  };
 	
   $scope.getLayoutSchemaList = function() {
   	$scope.gridOptionsForSchema.data = [];
@@ -101,6 +106,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 //  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
 //  		return;
 //  	}
+		console.info('$scope.datasource', $scope.datasource);
   	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datstoreId}).then(function(result) {
   		$scope.schema[$scope.datasource.datstoreId] = result;
   		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
@@ -143,12 +149,12 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	};
 	
 	$scope.next = function() {
-		console.info('$scope.datastore.datstoreType', $scope.datastore.datstoreType);
+		console.info('$scope.datastore.datstoreType', $scope.datastore.type);
 		switch($scope.wizardCurrentStep) {
 			case 1: 
 				angular.forEach($scope.datastoreList, function(item, index) {
-		  		console.info(item.datstoreId , $scope.datasource.datstoreId);
-		  		if(item.datstoreId === $scope.datasource.datstoreId) {
+		  		console.info(item.id , $scope.datasource.datstoreId);
+		  		if(item.id === $scope.datasource.datstoreId) {
 		  			$scope.datastore = item;
 		  		}
 		  	});

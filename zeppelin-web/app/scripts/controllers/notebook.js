@@ -45,16 +45,31 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 
   $scope.interpreterSettings = [];
   $scope.interpreterBindings = [];
+  
+  $scope.schema = {};
+  $scope.datasourceTableSchema = [];
+  $scope.selectDatasource = undefined;
 
   $scope.sidebarToggled = false;
 
   $scope.gridOptionsForDatasource = {
 //		showGridFooter: true,	
-//		enableRowSelection: true,
+		enableRowSelection: true,
 //		multiSelect : false,
 //    enableRowHeaderSelection : false,
 //    onRegisterApi : function(gridApi){
-//
+//    	$scope.gridApiSrcObj = gridApi;
+//      gridApi.selection.on.rowSelectionChanged($scope, function(row){
+//      	if(row.isSelected) {
+//	      	$scope.selectedRow.srcObj = row.entity;
+//	      	$scope.gridOptionsForColumn.data = row.entity.columns;
+//	      	$scope.datasource.srcObjName = row.entity.name;
+//      	} else {
+//	      	$scope.selectedRow.srcObj = undefined;
+//      		$scope.gridOptionsForColumn.data = [];
+//	      	$scope.datasource.srcObjName = undefined;
+//      	}	
+//      });
 //    },
 //		columnDefs : [
 //		  {name:'datsrcName'    , displayName: 'Name', enableColumnMenu: false, 
@@ -95,6 +110,54 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   	});
   }
   
+  $scope.loadDatasourceMetadata = function(datasource) {
+  	$scope.selectDatasource = datasource.srcObjName;
+		if($scope.schema[datasource.datstoreId] !== undefined) {
+			//$scope.gridOptionsForSchema.data = $scope.schema[datasource.datstoreId];
+			var isContain = false;
+			angular.forEach($scope.datasourceTableSchema, function(table, index) {
+				if(table.name === datasource.srcObjName) {
+					isContain = true;
+				}
+			});
+			if(!isContain) {
+				$scope.datasourceTableSchema.push({name:datasource.srcObjName, columns: getTableSchema(datasource)});
+			}
+		} else {
+	  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datstoreId}).then(function(result) {
+	  		$scope.schema[datasource.datstoreId] = result;
+	  		var isContain = false;
+				angular.forEach($scope.datasourceTableSchema, function(table, index) {
+					if(table.name === datasource.srcObjName) {
+						isContain = true;
+					}
+				});
+				if(!isContain) {
+					$scope.datasourceTableSchema.push({name:datasource.srcObjName, columns: getTableSchema(datasource)});
+				}
+	  	}, function(error) {
+	  		alert(error);
+	  	});
+		}
+  };
+  
+  function getTableSchema(datasource) {
+  	var tableSchema = undefined;
+		var schemas = $scope.schema[datasource.datstoreId];
+		angular.forEach(schemas, function(schema, index) {
+			if(schema.name === datasource.containerName) {
+				var tables = schema.tables;
+				angular.forEach(tables, function(table) {
+					if(table.name === datasource.srcObjName) {
+						tableSchema = table.columns;
+					}
+				});
+			}
+		});
+		console.info('loadDatasourceMetadata', datasource.datstoreId, datasource.containerName, datasource.srcObjName, tableSchema);	
+		return tableSchema;
+  }
+  
   /** Remove the note and go back tot he main page */
   /** TODO(anthony): In the nearly future, go back to the main page and telle to the dude that the note have been remove */
   $scope.removeNote = function(noteId) {
@@ -116,6 +179,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
     console.info('$scope.sidebarToggled', $scope.sidebarToggled);
     if ($scope.sidebarToggled) {
       //close
+    	$scope.selectDatasource = undefined;
     } else {
       //open
     }

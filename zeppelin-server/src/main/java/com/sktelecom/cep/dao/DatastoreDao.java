@@ -1,16 +1,17 @@
 package com.sktelecom.cep.dao;
 
-import com.sktelecom.cep.vo.Datastore;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.sktelecom.cep.entity.DataStore;
 
 /**
- * Datastore관리 - Datastore CRUD 담당 Dao.
+ * dataStore관리 - dataStore CRUD 담당 Dao.
  *
- * Mybatis mapper 로써 resources/com/sktelecom/voc/doc/DatastoreMapper.xml 과 1:1
+ * Mybatis mapper 로써 resources/com/sktelecom/voc/doc/DataStoreMapper.xml 과 1:1
  * 매핑한다.
  *
  * @author 박상민
@@ -21,43 +22,43 @@ public interface DatastoreDao {
   static final Logger LOG = LoggerFactory.getLogger(DatastoreDao.class);
 
   /**
-   * Datastore 생성.
+   * dataStore 생성.
    * 
-   * @param Datastore
+   * @param dataStore
    * @return
    */
-  int create(Datastore datastore);
+  int create(DataStore dataStore);
 
   /**
-   * Datastore 수정.
+   * dataStore 수정.
    * 
-   * @param Datastore
+   * @param dataStore
    * @return
    */
-  int update(Datastore datastore);
+  int update(DataStore dataStore);
 
   /**
-   * Datastore 삭제.
+   * dataStore 삭제.
    * 
-   * @param Datastore
+   * @param dataStore
    * @return
    */
-  int delete(Datastore datastore);
+  int delete(DataStore dataStore);
 
   /**
-   * Datastore 정보 조회.
+   * dataStore 정보 조회.
    * 
-   * @param Datastore
+   * @param dataStore
    * @return
    */
-  Datastore getInfo(Datastore datastore);
+  DataStore getInfo(DataStore dataStore);
 
   /**
-   * Datastore 목록 조회.
+   * dataStore 목록 조회.
    * 
-   * @param Datastore
+   * @param dataStore
    * @return
    */
-  List<Datastore> getList(Datastore datastore);
+  List<DataStore> getList(DataStore dataStore);
 
 }

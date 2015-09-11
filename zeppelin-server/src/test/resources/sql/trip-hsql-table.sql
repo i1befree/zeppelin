@@ -182,5 +182,10 @@ INSERT INTO workspace (wrkspc_id, wrkspc_name, description, wrkspc_type, admin_u
 VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', 'admin', 'Admin Workspace', 'PERSONAL', 'admin', NOW(), 'admin');
 INSERT INTO user (id, name, passwd, wrkspc_id, email, tel, user_grp_cd, update_user_id, update_date)
 VALUES ('admin', '관리자', 'dmin', '53af58da-d182-424f-bd3a-6c1cfb594535', NULL, NULL, '1', 'admin', NOW());
+INSERT INTO workspace_share (wrkspc_id, user_id, update_date, update_user_id)
+VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', 'admin', NOW(), 'admin');
 INSERT INTO datastore(datstore_id, datstore_name, datstore_type, datstore_subtype, host_name, port_num, cred_user_info, cred_pass_info, description, update_date, update_user_id)
 VALUES ('5c9439ee-ca70-4878-9e38-0ca6d3bd6eea', 'mymeta', 'DATABASE', 'MYSQL', 'cep1', 3306, 'trip', '!Trip@2015', 'metadata store', NOW(), 'admin');
+INSERT into workspace_object (create_user_id, obj_status, own_user_id, share_type, wrkspc_obj_type, wrkspc_obj_id)
+values ('admin', 'ACTIVE', 'admin', 'PRIVATE', 'NOTEBOOK', '5c9439ee-ca70-4878-9e38-0ca6d3bd6eez');
+INSERT into Notebook (note_name, update_date, note_id) values ('note test', NOW(), '5c9439ee-ca70-4878-9e38-0ca6d3bd6eez')

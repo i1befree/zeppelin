@@ -19,8 +19,6 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
   @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "id", nullable = false)
   private String id;
 
@@ -51,8 +49,8 @@ public class User implements Serializable {
   @JoinColumn(name = "user_grp_cd", referencedColumnName = "role_cd")
   private Role role;
 
-//  @OneToMany(mappedBy = "pk.user", fetch = FetchType.LAZY)
-//  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
+  @OneToMany(mappedBy = "pk.user", fetch = FetchType.LAZY)
+  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
 
   public String getId() {
     return id;
@@ -126,11 +124,11 @@ public class User implements Serializable {
     this.role = role;
   }
 
-//  public List<WorkspaceShare> getSharedWorkspace() {
-//    return sharedWorkspace;
-//  }
-//
-//  public void setSharedWorkspace(List<WorkspaceShare> sharedWorkspace) {
-//    this.sharedWorkspace = sharedWorkspace;
-//  }
+  public List<WorkspaceShare> getSharedWorkspace() {
+    return sharedWorkspace;
+  }
+
+  public void setSharedWorkspace(List<WorkspaceShare> sharedWorkspace) {
+    this.sharedWorkspace = sharedWorkspace;
+  }
 }

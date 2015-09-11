@@ -15,13 +15,8 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "datasource")
-public class DataSource implements Serializable {
-  @Id
-  @GeneratedValue(generator = "uuid")
-  @GenericGenerator(name = "uuid", strategy = "uuid2")
-  @Column(name = "datasource_id")
-  private String datasourceId;
-
+@PrimaryKeyJoinColumn(name="datasource_id", referencedColumnName = "wrkspc_obj_id")
+public class DataSource extends WorkspaceObject implements Serializable {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "datstore_id")
   private DataStore dataStore;
@@ -43,14 +38,6 @@ public class DataSource implements Serializable {
 
   @Column(name = "update_user_id")
   private String updateUserId;
-
-  public String getDatasourceId() {
-    return datasourceId;
-  }
-
-  public void setDatasourceId(String datasourceId) {
-    this.datasourceId = datasourceId;
-  }
 
   public DataStore getDataStore() {
     return dataStore;

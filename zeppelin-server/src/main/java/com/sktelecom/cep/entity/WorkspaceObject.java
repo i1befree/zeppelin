@@ -17,7 +17,23 @@ import java.util.Set;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_object")
+@Inheritance(strategy=InheritanceType.JOINED)
 public class WorkspaceObject implements Serializable{
+  public enum Status{
+    ACTIVE,
+    DELTED
+  }
+
+  public enum ShareType{
+    PRIVATE,
+    SHARED
+  }
+
+  public enum ObjectType{
+    DATASOURCE,
+    NOTEBOOK
+  }
+
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -25,25 +41,27 @@ public class WorkspaceObject implements Serializable{
   private String wrkspcObjId;
 
   @Column(name = "wrkspc_obj_type")
-  private String wrkspcObjType;
+  @Enumerated(EnumType.STRING)
+  private ObjectType wrkspcObjType;
 
   @Column(name = "share_type")
-  private String shareType;
+  @Enumerated(EnumType.STRING)
+  private ShareType shareType;
 
   @Column(name = "obj_status")
-  private String objStatus;
+  @Enumerated(EnumType.STRING)
+  private Status objStatus;
 
-  @Column(name = "create_user_id")
-  private String createUserId;
+  @OneToOne
+  @JoinColumn(name="create_user_id", referencedColumnName = "id")
+  private User creator;
 
-  @Column(name = "own_user_id")
-  private String ownUserId;
+  @OneToOne
+  @JoinColumn(name="own_user_id", referencedColumnName = "id")
+  private User owner;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.workspaceObject")
   private Set<WorkspaceAssign> workspaceAssigns = new HashSet<>();
-
-  @OneToOne(fetch = FetchType.EAGER)
-  private DataSource dataSource;
 
   public Set<WorkspaceAssign> getWorkspaceAssigns() {
     return workspaceAssigns;
@@ -61,43 +79,43 @@ public class WorkspaceObject implements Serializable{
     this.wrkspcObjId = wrkspcObjId;
   }
 
-  public String getWrkspcObjType() {
+  public ObjectType getWrkspcObjType() {
     return wrkspcObjType;
   }
 
-  public void setWrkspcObjType(String wrkspcObjType) {
+  public void setWrkspcObjType(ObjectType wrkspcObjType) {
     this.wrkspcObjType = wrkspcObjType;
   }
 
-  public String getShareType() {
+  public ShareType getShareType() {
     return shareType;
   }
 
-  public void setShareType(String shareType) {
+  public void setShareType(ShareType shareType) {
     this.shareType = shareType;
   }
 
-  public String getObjStatus() {
+  public Status getObjStatus() {
     return objStatus;
   }
 
-  public void setObjStatus(String objStatus) {
+  public void setObjStatus(Status objStatus) {
     this.objStatus = objStatus;
   }
 
-  public String getCreateUserId() {
-    return createUserId;
+  public User getCreator() {
+    return creator;
   }
 
-  public void setCreateUserId(String createUserId) {
-    this.createUserId = createUserId;
+  public void setCreator(User creator) {
+    this.creator = creator;
   }
 
-  public String getOwnUserId() {
-    return ownUserId;
+  public User getOwner() {
+    return owner;
   }
 
-  public void setOwnUserId(String ownUserId) {
-    this.ownUserId = ownUserId;
+  public void setOwner(User owner) {
+    this.owner = owner;
   }
 }

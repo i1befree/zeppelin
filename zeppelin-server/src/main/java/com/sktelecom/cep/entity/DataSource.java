@@ -1,10 +1,6 @@
 package com.sktelecom.cep.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +12,7 @@ import java.util.Date;
 @Entity
 @Table(name = "datasource")
 @PrimaryKeyJoinColumn(name = "datasource_id", referencedColumnName = "wrkspc_obj_id")
-public class DataSource extends WorkspaceObject implements Serializable {
+public class DataSource extends WorkspaceObject {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "datstore_id")
   private DataStore dataStore;
@@ -39,6 +35,19 @@ public class DataSource extends WorkspaceObject implements Serializable {
   @OneToOne
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
   private User lastModifiedUser;
+
+  @Override
+  @PrePersist
+  public void prePersist() {
+    super.prePersist();
+
+    if (updateDate == null)
+      this.updateDate = new Date();
+
+    //저장시에 최종 수정자가 정해지지 않으면 생성자로 자동으로 채워준다.
+    if (lastModifiedUser == null && this.getCreator() != null)
+      this.lastModifiedUser = this.getCreator();
+  }
 
   public DataStore getDataStore() {
     return dataStore;

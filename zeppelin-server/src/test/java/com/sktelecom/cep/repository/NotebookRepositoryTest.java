@@ -33,8 +33,8 @@ public class NotebookRepositoryTest {
 
   @Test
   public void testSave() {
-    NotebookRepository notebookRepository = ctx.getBean("notebookRepository", NotebookRepository.class);
-    UserRepository userRepository = ctx.getBean("userRepository", UserRepository.class);
+    NotebookRepository notebookRepository = ctx.getBean("NotebookRepository", NotebookRepository.class);
+    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
 
     User admin = userRepository.findOne("admin");
 
@@ -57,7 +57,7 @@ public class NotebookRepositoryTest {
 
   @Test
   public void testFindOne() {
-    NotebookRepository repository = ctx.getBean("notebookRepository", NotebookRepository.class);
+    NotebookRepository repository = ctx.getBean("NotebookRepository", NotebookRepository.class);
 
     Notebook notebook = repository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eez");
     assertNotNull(notebook);

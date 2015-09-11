@@ -27,9 +27,9 @@ public class DataSourceRepositoryTest {
 
   @Test
   public void testSave() {
-    DataSourceRepository dataSourceRepository = ctx.getBean("dataSourceRepository", DataSourceRepository.class);
-    UserRepository userRepository = ctx.getBean("userRepository", UserRepository.class);
-    DataStoreRepository dataStoreRepository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
+    DataSourceRepository dataSourceRepository = ctx.getBean("DataSourceRepository", DataSourceRepository.class);
+    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
+    DataStoreRepository dataStoreRepository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
 
     DataStore dataStore = dataStoreRepository.findOne("23caae00-506b-11e5-bb39-063b17d52e29");
     assertNotNull(dataStore);

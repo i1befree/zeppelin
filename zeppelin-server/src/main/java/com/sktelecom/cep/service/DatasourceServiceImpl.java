@@ -1,19 +1,10 @@
 package com.sktelecom.cep.service;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.inject.Inject;
-
+import com.sktelecom.cep.dao.*;
+import com.sktelecom.cep.entity.DataStore;
+import com.sktelecom.cep.exception.BizException;
+import com.sktelecom.cep.repository.DataStoreRepository;
+import com.sktelecom.cep.vo.*;
 import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
@@ -26,21 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.sktelecom.cep.dao.DatasourceDao;
-import com.sktelecom.cep.dao.DatastoreDao;
-import com.sktelecom.cep.dao.WorkspaceAssignDao;
-import com.sktelecom.cep.dao.WorkspaceDao;
-import com.sktelecom.cep.dao.WorkspaceObjectDao;
-import com.sktelecom.cep.entity.DataStore;
-import com.sktelecom.cep.exception.BizException;
-import com.sktelecom.cep.repository.DataStoreRepository;
-import com.sktelecom.cep.vo.Datasource;
-import com.sktelecom.cep.vo.LayoutColumn;
-import com.sktelecom.cep.vo.LayoutSchema;
-import com.sktelecom.cep.vo.LayoutTable;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceAssign;
-import com.sktelecom.cep.vo.WorkspaceObject;
+import javax.inject.Inject;
+import java.sql.*;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 데이타소스 - 데이타소스 CRUD 담당 Service 구현체.
@@ -66,7 +46,7 @@ public class DatasourceServiceImpl implements DatasourceService {
   
   @Inject
   private WorkspaceAssignDao workspaceAssignDao;
-  
+
   @Inject
   private DataStoreRepository dataStoreRepository;
   

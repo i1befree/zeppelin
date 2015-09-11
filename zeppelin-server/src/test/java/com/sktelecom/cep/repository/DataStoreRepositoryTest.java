@@ -2,7 +2,10 @@ package com.sktelecom.cep.repository;
 
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.DataStore.SubType;
-import org.junit.*;
+import com.sktelecom.cep.entity.User;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.domain.Page;
@@ -28,7 +31,12 @@ public class DataStoreRepositoryTest {
 
   @Test
   public void testSave(){
-    DataStoreRepository repository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
+    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
+    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
+
+    User admin = userRepository.findOne("admin");
+    assertNotNull(admin);
+
     DataStore dataStore = new DataStore();
     dataStore.setName("database test");
     dataStore.setDescription("DataStore test with mysql setting");
@@ -38,8 +46,8 @@ public class DataStoreRepositoryTest {
     dataStore.setSubType(SubType.MSSQL);
     dataStore.setType(Type.DATABASE);
     dataStore.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-    dataStore.setUpdateUserId("admin");
-    dataStore.setUsername("admin");
+    dataStore.setUpdator(admin);
+    dataStore.setUsername(admin.getName());
 
     DataStore returnVal = repository.save(dataStore);
 
@@ -49,7 +57,7 @@ public class DataStoreRepositoryTest {
 
   @Test
   public void testFindOne(){
-    DataStoreRepository repository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
+    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
     DataStore dataStore = repository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eea");
 
     assertNotNull(dataStore);
@@ -58,7 +66,7 @@ public class DataStoreRepositoryTest {
 
   @Test
   public void testFindByNameOrderByUpdateTimeDesc(){
-    DataStoreRepository repository = ctx.getBean("dataStoreRepository", DataStoreRepository.class);
+    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
     Pageable pageable = new PageRequest(0, 10);
     Page<DataStore> dataStores = repository.findByNameLikeOrderByUpdateTimeDesc("%mymeta%", pageable);
 

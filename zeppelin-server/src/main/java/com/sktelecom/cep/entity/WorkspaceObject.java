@@ -71,6 +71,15 @@ public class WorkspaceObject implements Serializable{
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.workspaceObject")
   private Set<WorkspaceAssign> workspaceAssigns = new HashSet<>();
 
+  @PrePersist
+  public void prePersist() {
+    //신규 생성 시에는 이 두 값은 같다.
+    if (this.owner == null && this.creator != null)
+      this.owner = this.creator;
+    else if (this.creator == null && this.owner != null)
+      this.creator = this.owner;
+  }
+
   public Set<WorkspaceAssign> getWorkspaceAssigns() {
     return workspaceAssigns;
   }

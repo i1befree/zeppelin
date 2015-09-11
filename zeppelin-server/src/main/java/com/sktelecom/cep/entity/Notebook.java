@@ -1,8 +1,9 @@
 package com.sktelecom.cep.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.Date;
 
 /**
@@ -17,6 +18,11 @@ public class Notebook extends WorkspaceObject{
   @Column(name = "update_date")
   private Date updateDate;
 
+  @PrePersist
+  protected void updateDates() {
+    if (updateDate == null)
+      updateDate = new Date();
+  }
 
   public String getNoteName() {
     return noteName;

@@ -2,25 +2,23 @@ package com.sktelecom.cep.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
-
 /**
  * DataStore.
- * 
- * @author Administrator
  *
+ * @author Administrator
  */
 @Entity
 @Table(name = "datastore")
 @NamedQuery(name = "DataStore.count", query = "select count(o) from DataStore o where upper(o.name) like ?1")
 public class DataStore implements Serializable {
-  
+
   /**
    * Type of DataStore.
    */
@@ -75,8 +73,9 @@ public class DataStore implements Serializable {
   @Column(name = "update_date")
   private Timestamp updateTime;
 
-  @Column(name = "update_user_id")
-  private String updateUserId;
+  @ManyToOne
+  @JoinColumn(name = "update_user_id", referencedColumnName = "id")
+  private User updator;
 
   @OneToMany
   @JoinColumn(name = "datstore_id", referencedColumnName = "datstore_id")
@@ -84,6 +83,28 @@ public class DataStore implements Serializable {
 
   @OneToMany(mappedBy = "dataStore", fetch = FetchType.LAZY)
   private Set<DataSource> dataSources = new HashSet<>();
+
+  @PrePersist
+  public void prePersist() {
+    if (this.updateTime == null)
+      this.updateTime = new Timestamp(System.currentTimeMillis());
+  }
+
+  public String getDatabaseUrl() {
+    if (this.getType() == Type.DATABASE) {
+      //checkstyle 버그로 인해서 indentation 이 이상하게 작동함. 여기 indentation 을 항상 유지해야함.
+      switch (this.getSubType()) {
+        case MSSQL:
+          return "jdbc:mysql://" + this.getHostName() + ":" + this.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
+        case ORACLE:
+          return "jdbc:oracle:thin:@" + this.getHostName() + ":" + this.getPortNum();
+        case MYSQL:
+          return "jdbc:microsoft:sqlserver:" + this.getHostName() + ":" + this.getPortNum();
+      }
+    }
+
+    return null;
+  }
 
   public String getId() {
     return id;
@@ -165,12 +186,12 @@ public class DataStore implements Serializable {
     this.updateTime = updateTime;
   }
 
-  public String getUpdateUserId() {
-    return updateUserId;
+  public User getUpdator() {
+    return updator;
   }
 
-  public void setUpdateUserId(String updateUserId) {
-    this.updateUserId = updateUserId;
+  public void setUpdator(User updator) {
+    this.updator = updator;
   }
 
   public List<DataStoreProperty> getProperties() {

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Notebook repository
  */
-@Repository("notebookRepository")
+@Repository("NotebookRepository")
 public interface NotebookRepository extends JpaRepository<Notebook, String> {
 }

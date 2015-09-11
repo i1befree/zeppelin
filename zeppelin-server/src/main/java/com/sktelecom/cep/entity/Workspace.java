@@ -3,7 +3,6 @@ package com.sktelecom.cep.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +55,12 @@ public class Workspace implements Serializable {
 
   @OneToMany(mappedBy = "pk.workspace")
   private List<WorkspaceShare> workspaceShares = new ArrayList<>();
+
+  @PrePersist
+  public void prePersist() {
+    if (this.updateDate == null)
+      this.updateDate = new Date();
+  }
 
   public String getWrkspcId() {
     return wrkspcId;

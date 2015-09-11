@@ -1,7 +1,6 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,11 +13,9 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_share")
-public class WorkspaceShare implements Serializable{
+public class WorkspaceShare implements Serializable {
   /**
-   * 
    * @author Administrator
-   *
    */
   @Embeddable
   public static class WorkspaceSharePk implements Serializable {
@@ -30,11 +27,11 @@ public class WorkspaceShare implements Serializable{
     @JoinColumn(name = "user_id")
     private User user;
 
-    protected WorkspaceSharePk(){
+    protected WorkspaceSharePk() {
 
     }
 
-    public WorkspaceSharePk(Workspace workspace, User user){
+    public WorkspaceSharePk(Workspace workspace, User user) {
       this.workspace = workspace;
       this.user = user;
     }
@@ -57,6 +54,12 @@ public class WorkspaceShare implements Serializable{
   @Column(name = "update_user_id")
   private String updateUserId;
 
+  @PrePersist
+  public void prePersist() {
+    if (this.updateDate == null)
+      this.updateDate = new Date();
+  }
+
   public WorkspaceSharePk getPk() {
     return pk;
   }
@@ -65,11 +68,11 @@ public class WorkspaceShare implements Serializable{
     this.pk = pk;
   }
 
-  public Workspace getWorkspace(){
+  public Workspace getWorkspace() {
     return this.pk.workspace;
   }
 
-  public User getUser(){
+  public User getUser() {
     return this.pk.user;
   }
 

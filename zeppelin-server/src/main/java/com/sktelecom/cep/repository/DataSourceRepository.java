@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * DataSourceRepository
  */
-@Repository("dataSourceRepository")
+@Repository("DataSourceRepository")
 public interface DataSourceRepository extends JpaRepository<DataSource, String> {
 }

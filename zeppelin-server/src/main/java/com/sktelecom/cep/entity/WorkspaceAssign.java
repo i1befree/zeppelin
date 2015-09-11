@@ -1,7 +1,6 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -56,6 +55,12 @@ public class WorkspaceAssign implements Serializable {
 
   @Column(name = "update_user_id")
   private String updateUserId;
+
+  @PrePersist
+  public void prePersist() {
+    if (this.updateDate == null)
+      this.updateDate = new Date();
+  }
 
   public WorkspaceAssignPk getPk() {
     return pk;

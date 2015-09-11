@@ -43,8 +43,8 @@ public class NotebookRepositoryTest {
     notebook.setNoteName("Notebook test");
     notebook.setUpdateDate(new Date(System.currentTimeMillis()));
     notebook.setOwner(admin);
-    notebook.setShareType(ShareType.PRIVATE);
-    notebook.setObjStatus(Status.ACTIVE);
+    notebook.setShareType(ShareType.NONE);
+    notebook.setObjStatus(Status.CREATED);
     notebook.setWrkspcObjType(ObjectType.NOTEBOOK);
 
     WorkspaceAssign assign = new WorkspaceAssign();

@@ -3,7 +3,6 @@ package com.sktelecom.cep.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,17 +19,17 @@ import java.util.Set;
 @Inheritance(strategy=InheritanceType.JOINED)
 public class WorkspaceObject implements Serializable{
   public enum Status{
-    ACTIVE,
-    DELTED
+    CREATED,
+    DROPPED
   }
 
   public enum ShareType{
-    PRIVATE,
-    SHARED
+    NONE,
+    ALL
   }
 
   public enum ObjectType{
-    DATASOURCE,
+    DATSRC,
     NOTEBOOK
   }
 

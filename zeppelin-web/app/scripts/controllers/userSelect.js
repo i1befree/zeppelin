@@ -30,7 +30,7 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
 		columnDefs : [
 		  {name:'name'  		, displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
 		  {name:'id'    		, displayName: 'ID'  , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'userGrpNm' , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
+		  {name:'role.name' , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};
   
@@ -50,13 +50,13 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
 	
   $scope.getMemberList = function() {
   	var formData = {
-      beginRowNum : 0,
-      rowsPerPage : 10000
-    };
+    		pageNumber : $scope.currentPage-1,
+    		pageSize   : 100000
+      };
     UserService.getUserList(formData).then(function(result) {
     	var notAddedMembers = [];
     	//추가된 user 는 빼고 목록에 추가한다.
-    	angular.forEach(result, function(item, index) {
+    	angular.forEach(result.content, function(item, index) {
       	if(!$scope.parentMemberIdsObject.hasOwnProperty(item.id)) {
     			this.push(item);
     		}

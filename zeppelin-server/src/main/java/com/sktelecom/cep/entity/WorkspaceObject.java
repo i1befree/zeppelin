@@ -1,5 +1,7 @@
 package com.sktelecom.cep.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -17,6 +19,8 @@ import java.util.Set;
 @Table(name = "workspace_object")
 public class WorkspaceObject implements Serializable{
   @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "wrkspc_obj_id")
   private String wrkspcObjId;
 

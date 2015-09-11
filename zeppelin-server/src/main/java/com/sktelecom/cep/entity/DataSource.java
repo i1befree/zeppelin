@@ -1,5 +1,7 @@
 package com.sktelecom.cep.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -15,6 +17,8 @@ import java.util.Date;
 @Table(name = "datasource")
 public class DataSource implements Serializable {
   @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "datasource_id")
   private String datasourceId;
 

@@ -1,5 +1,7 @@
 package com.sktelecom.cep.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -17,6 +19,8 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable {
   @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "id", nullable = false)
   private String id;
 

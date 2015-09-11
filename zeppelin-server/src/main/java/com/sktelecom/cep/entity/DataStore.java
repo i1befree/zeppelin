@@ -1,5 +1,7 @@
 package com.sktelecom.cep.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -39,7 +41,8 @@ public class DataStore implements Serializable {
   }
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
   @Column(name = "datstore_id")
   private String id;
 

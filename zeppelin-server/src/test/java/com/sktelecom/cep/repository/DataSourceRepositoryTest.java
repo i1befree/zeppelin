@@ -44,7 +44,7 @@ public class DataSourceRepositoryTest {
     dataSource.setDescription("datasource test");
     dataSource.setSrcObjName("workspace");
     dataSource.setUpdateDate(new Date(System.currentTimeMillis()));
-    dataSource.setUpdateUserId("admin");
+    dataSource.setLastModifiedUser(admin);
     dataSource.setCreator(admin);
     dataSource.setOwner(admin);
     dataSource.setObjStatus(DataSource.Status.CREATED);

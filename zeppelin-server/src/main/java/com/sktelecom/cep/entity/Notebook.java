@@ -9,12 +9,12 @@ import java.util.Date;
  * Notebook
  */
 @Entity
-@PrimaryKeyJoinColumn(name="note_id", referencedColumnName = "wrkspc_obj_id")
+@PrimaryKeyJoinColumn(name = "note_id", referencedColumnName = "wrkspc_obj_id")
 public class Notebook extends WorkspaceObject{
-  @Column(name="note_name")
+  @Column(name = "note_name")
   private String noteName;
 
-  @Column(name="update_date")
+  @Column(name = "update_date")
   private Date updateDate;
 
 

@@ -15,7 +15,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "datasource")
-@PrimaryKeyJoinColumn(name="datasource_id", referencedColumnName = "wrkspc_obj_id")
+@PrimaryKeyJoinColumn(name = "datasource_id", referencedColumnName = "wrkspc_obj_id")
 public class DataSource extends WorkspaceObject implements Serializable {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "datstore_id")
@@ -36,8 +36,9 @@ public class DataSource extends WorkspaceObject implements Serializable {
   @Column(name = "update_date")
   private Date updateDate;
 
-  @Column(name = "update_user_id")
-  private String updateUserId;
+  @OneToOne
+  @JoinColumn(name = "update_user_id", referencedColumnName = "id")
+  private User lastModifiedUser;
 
   public DataStore getDataStore() {
     return dataStore;
@@ -87,11 +88,11 @@ public class DataSource extends WorkspaceObject implements Serializable {
     this.updateDate = updateDate;
   }
 
-  public String getUpdateUserId() {
-    return updateUserId;
+  public User getLastModifiedUser() {
+    return lastModifiedUser;
   }
 
-  public void setUpdateUserId(String updateUserId) {
-    this.updateUserId = updateUserId;
+  public void setLastModifiedUser(User lastModifiedUser) {
+    this.lastModifiedUser = lastModifiedUser;
   }
 }

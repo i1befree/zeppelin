@@ -14,11 +14,13 @@ import java.util.List;
  *
  * @author 박상민
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace")
 public class Workspace implements Serializable {
+  /**
+   * Type of workspace
+   */
   public static enum Type {
     PERSONAL,
     SHARE

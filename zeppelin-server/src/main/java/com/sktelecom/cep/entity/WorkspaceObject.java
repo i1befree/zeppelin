@@ -16,18 +16,27 @@ import java.util.Set;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_object")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class WorkspaceObject implements Serializable{
+  /**
+   * Status of workspace's object
+   */
   public enum Status{
     CREATED,
     DROPPED
   }
 
+  /**
+   * Type of workspace's share
+   */
   public enum ShareType{
     NONE,
     ALL
   }
 
+  /**
+   * Type of workspace's object
+   */
   public enum ObjectType{
     DATSRC,
     NOTEBOOK
@@ -52,11 +61,11 @@ public class WorkspaceObject implements Serializable{
   private Status objStatus;
 
   @OneToOne
-  @JoinColumn(name="create_user_id", referencedColumnName = "id")
+  @JoinColumn(name = "create_user_id", referencedColumnName = "id")
   private User creator;
 
   @OneToOne
-  @JoinColumn(name="own_user_id", referencedColumnName = "id")
+  @JoinColumn(name = "own_user_id", referencedColumnName = "id")
   private User owner;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.workspaceObject")

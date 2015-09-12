@@ -94,12 +94,12 @@ public class DataStore implements Serializable {
     if (this.getType() == Type.DATABASE) {
       //checkstyle 버그로 인해서 indentation 이 이상하게 작동함. 여기 indentation 을 항상 유지해야함.
       switch (this.getSubType()) {
-        case MSSQL:
-          return "jdbc:mysql://" + this.getHostName() + ":" + this.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
-        case ORACLE:
-          return "jdbc:oracle:thin:@" + this.getHostName() + ":" + this.getPortNum();
-        case MYSQL:
-          return "jdbc:microsoft:sqlserver:" + this.getHostName() + ":" + this.getPortNum();
+          case MSSQL:
+            return "jdbc:mysql://" + this.getHostName() + ":" + this.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
+          case ORACLE:
+            return "jdbc:oracle:thin:@" + this.getHostName() + ":" + this.getPortNum();
+          case MYSQL:
+            return "jdbc:microsoft:sqlserver:" + this.getHostName() + ":" + this.getPortNum();
       }
     }
 

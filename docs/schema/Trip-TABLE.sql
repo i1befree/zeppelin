@@ -159,11 +159,12 @@ CREATE TABLE trip.workspace
 
 CREATE TABLE trip.workspace_assign
 (
+	assign_id varchar(36) NOT NULL COMMENT '할당 ID',
 	wrkspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
 	wrkspc_obj_id varchar(36) NOT NULL COMMENT 'wrkspc_obj_id',
 	update_date datetime NOT NULL COMMENT '변경시각',
 	update_user_id varchar(45) NOT NULL COMMENT '변경자ID',
-	PRIMARY KEY (wrkspc_id, wrkspc_obj_id)
+	PRIMARY KEY (assign_id)
 ) ENGINE = InnoDB COMMENT = '워크스페이스 할당' DEFAULT CHARACTER SET utf8;
 
 
@@ -181,11 +182,12 @@ CREATE TABLE trip.workspace_object
 
 CREATE TABLE trip.workspace_share
 (
+	share_id varchar(36) NOT NULL COMMENT '공유 ID',
 	wrkspc_id varchar(36) NOT NULL COMMENT '워크스페이스 ID',
 	user_id varchar(45) NOT NULL COMMENT '사용ID',
 	update_date datetime NOT NULL COMMENT '변경시각',
 	update_user_id varchar(45) NOT NULL COMMENT '변경자ID',
-	PRIMARY KEY (wrkspc_id, user_id)
+	PRIMARY KEY (share_id)
 ) ENGINE = InnoDB COMMENT = '새 테이블' DEFAULT CHARACTER SET utf8;
 
 

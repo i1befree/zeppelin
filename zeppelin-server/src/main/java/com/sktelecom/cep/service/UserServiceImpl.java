@@ -2,7 +2,6 @@ package com.sktelecom.cep.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -14,11 +13,17 @@ import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
+import com.sktelecom.cep.entity.Workspace;
+import com.sktelecom.cep.entity.WorkspaceShare;
+import com.sktelecom.cep.repository.RoleRepository;
 import com.sktelecom.cep.repository.UserRepository;
+import com.sktelecom.cep.repository.WorkspaceRepository;
+import com.sktelecom.cep.repository.WorkspaceShareRepository;
+import com.sktelecom.cep.service.mapping.UserServiceMapper;
+import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.Role;
 import com.sktelecom.cep.vo.User;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.UserVo;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Service 구현체.
@@ -38,53 +43,88 @@ public class UserServiceImpl implements UserService {
 
   @Inject
   private UserRepository userRepository;
+  
+  @Inject
+  private RoleRepository roleRepository;
+    
+  @Inject
+  private WorkspaceRepository workspaceRepository;
+
+  @Inject
+  private WorkspaceShareRepository workspaceShareRepository;
+
+  @Inject
+  private UserServiceMapper userServiceMapper;
 
   @Override
-  public int create(User user) {
+  public int create(UserVo userVo) {
     
-    String wrkspcId = UUID.randomUUID().toString();
+    com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
+    if(user != null) {
+      throw new IllegalStateException("이미 존재하는 사용자 아이디입니다.");
+    }
+    
     Workspace workspace = new Workspace();
-    workspace.setWrkspcId(wrkspcId);
-    workspace.setWrkspcName(user.getId());
+    workspace.setWrkspcName(userVo.getId());
     workspace.setDescription("Personal Workspace");
-    workspace.setWrkspcType("PERSONAL");
-    workspace.setAdminUserId(user.getId());
-    workspace.setUpdateUserId(user.getId());
-    workspaceDao.create(workspace);
+    workspace.setWrkspcType(Workspace.Type.PERSONAL);
+    workspace.setAdminUserId(userVo.getUpdateUserId());
+    workspace.setUpdateUserId(userVo.getUpdateUserId());
+    com.sktelecom.cep.entity.Workspace savedWorkspace = workspaceRepository.save(workspace);
+         
+    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+    
+    com.sktelecom.cep.entity.User newUser = new com.sktelecom.cep.entity.User();
+    userServiceMapper.mapUserVoToUserEntity(userVo, newUser);
+    newUser.setWorkspace(workspace);
+    newUser.setRole(role);
+    com.sktelecom.cep.entity.User savedUser = userRepository.save(newUser);
     
     WorkspaceShare workspaceShare = new WorkspaceShare();
-    workspaceShare.setWrkspcId(wrkspcId);
-    workspaceShare.setUserId(user.getId());
-    workspaceShare.setUpdateUserId(user.getId());
-    workspaceDao.insertMembers(workspaceShare);
+    workspaceShare.setWorkspace(savedWorkspace);
+    workspaceShare.setUser(savedUser);
+    workspaceShare.setUpdateUserId(userVo.getUpdateUserId());
+    workspaceShareRepository.save(workspaceShare);
     
-    user.setWrkspcId(wrkspcId);
-    int resultInt = userDao.create(user);
-    //todo 사용자 계정 생성시, workspace personal default 하나 생성
-    return resultInt;
+    return 1;
   }
 
   @Override
-  public int update(User user) {
-    int resultInt = userDao.update(user);
-    return resultInt;
+  public UserVo update(UserVo userVo) {    
+    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+    
+    com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
+    userServiceMapper.mapUserVoToUserEntity(userVo, user);
+    user.setRole(role);
+    com.sktelecom.cep.entity.User updatedUser = userRepository.save(user);
+    return userServiceMapper.mapUserEntityToUserVo(updatedUser);
   }
 
   @Override
-  public int updateByManager(User user) {
-    int resultInt = userDao.updateByManager(user);
-    return resultInt;
+  public int updateByManager(UserVo user) {
+    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
+    userServiceMapper.mapUserVoToUserEntity(user, userEntity);
+    com.sktelecom.cep.entity.User userEntitySaved = userRepository.save(userEntity);
+    return 1;
   }
 
   @Override
-  public int delete(User user) {
-    int resultInt = userDao.delete(user);
-    return resultInt;
+  public void delete(UserVo userVo) {
+    workspaceShareRepository.deleteByUserId(userVo.getId());
+    
+    com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
+    String wrkspcId = user.getWorkspace().getWrkspcId();    
+    userRepository.delete(userVo.getId());
+
+    workspaceRepository.delete(wrkspcId);    
   }
 
   @Override
-  public User getInfo(User user) {
-    User userInfo = userDao.getInfo(user);
+  public UserVo getInfo(UserVo user) {
+    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
+    
+    //convert from entity to vo 
+    UserVo userInfo = userServiceMapper.mapUserEntityToUserVo(userEntity);
     return userInfo;
   }
 
@@ -95,26 +135,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<User> getList(User user) {
-    if (user.getQuery() != null && !"".equals(user.getQuery())) {
-      user.setQuery(user.getQuery() + "%");
-    }
-
-    List<User> userList = new ArrayList<User>();
-    long totalCount = userDao.getListCount(user);
-    if (totalCount > 0) {
-      userList = userDao.getList(user);
-      if (userList != null && userList.size() > 0) {
-        userList.get(0).setTotalCount(totalCount);
-      }
-    }
-    return userList;
-  }
-
-  @Override
-  public Page<com.sktelecom.cep.entity.User> getListByPage(Pageable pageable) {
-    Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);    
-    return result;
+  public PageVo<UserVo> getListByPage(Pageable pageable) {
+    Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);
+    
+    //convert from entity to vo 
+    PageVo<UserVo> page = userServiceMapper.mapListUserEntityToUserVo(result);   
+    return page;
   }
 
   @Override

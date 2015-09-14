@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +18,10 @@ import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.common.UserGroupCodeEnum;
 import com.sktelecom.cep.service.UserService;
+import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.Role;
-import com.sktelecom.cep.vo.SearchParam;
-import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserVo;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Controller.
@@ -39,37 +38,6 @@ public class UserController {
   private UserService userService;
 
   /**
-   * 사용자 생성 요청.
-   * 
-   * @param user
-   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
-   */
-  // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/user/createRequest", method = RequestMethod.POST)
-  @ResponseBody
-  // / @endcond
-  public SimpleResultMessage createRequest(@RequestBody User user, HttpSession session) {
-    logger.debug("id {}", user.getId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "사용자를 생성하지 못하였습니다.");
-
-    User resultInfo = userService.getInfo(user);
-    if (resultInfo != null) {
-      message.setRsCode("FAIL");
-      message.setRsMessage("사용자가 존재 합니다.");
-      return message;
-    }
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    user.setUpdateUserId(userSession.getId());
-    int resultInt = userService.create(user);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("사용자를 생성하였습니다.");
-    }
-    return message;
-  }
-
-  /**
    * 사용자 생성.
    * 
    * @param user
@@ -79,25 +47,13 @@ public class UserController {
   @RequestMapping(value = "/user/create", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage create(@RequestBody User user, HttpSession session) {
+  public SimpleResultMessage create(@RequestBody UserVo user, HttpSession session) {
     logger.debug("id {}", user.getId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "사용자가 존재 합니다.");
-
-    User resultInfo = userService.getInfo(user);
-    if (resultInfo != null) {
-      message.setRsCode("FAIL");
-      message.setRsMessage("사용자가 존재 합니다.");
-      return message;
-    }
+    
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
     user.setUpdateUserId(userSession.getId());
-    int resultInt = userService.create(user);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("사용자를 생성하였습니다.");
-    }
-    return message;
+    userService.create(user);
+    return new SimpleResultMessage("SUCCESS", "사용자를 생성하였습니다.");
   }
 
   /**
@@ -111,25 +67,19 @@ public class UserController {
   @RequestMapping(value = "/user/update", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage update(@RequestBody User user, HttpSession session) {
+  public SimpleResultMessage update(@RequestBody UserVo user, HttpSession session) {
     logger.debug("id {}", user.getId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "사용자 정보 수정을 실패하였습니다.");
-    int resultInt = 0;
+    
     // 유저가 관리자 여부에 따라서 수정처리를 다르게 한다.
-    user.setPasswd(user.getPasswd() != null ? user.getPasswd().trim() : null);
+    user.setPasswd(user.getPasswd() != null && !"".equals(user.getPasswd().trim()) ? user.getPasswd().trim() : null);
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
     user.setUpdateUserId(userSession.getId());
     if (UserGroupCodeEnum.MANAGER.getValue().equals(userSession.getUserGrpCd())) {
-      resultInt = userService.updateByManager(user); // 관리자 경우만
+      int resultInt = userService.updateByManager(user); // 관리자 경우만
     } else {
-      resultInt = userService.update(user);
+      UserVo updatedUser = userService.update(user);
     }
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("사용자 정보를 수정하였습니다.");
-    }
-    return message;
+    return new SimpleResultMessage("SUCCESS", "사용자 정보를 수정하였습니다.");
   }
 
   /**
@@ -142,17 +92,11 @@ public class UserController {
   @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage delete(@RequestBody User user) {
+  public SimpleResultMessage delete(@RequestBody UserVo user) {
     logger.debug("id {}", user.getId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "사용자를 삭제 하였습니다.");
-
-    int resultInt = userService.delete(user);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("사용자를 생성하였습니다.");
-    }
-    return message;
+    
+    userService.delete(user);
+    return new SimpleResultMessage("SUCCESS", "사용자를 삭제하였습니다.");
   }
 
   /**
@@ -165,11 +109,10 @@ public class UserController {
   @RequestMapping(value = "/user/getInfo", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public User getInfo(@RequestBody User user) {
-    User resultInfo = userService.getInfo(user);
-    resultInfo.setUserGrpNm(UserGroupCodeEnum.getDescByValue(user
-        .getUserGrpCd()));
-
+  public UserVo getInfo(@RequestBody UserVo user) {
+    logger.debug("id {}", user.getId());
+    
+    UserVo resultInfo = userService.getInfo(user);
     return resultInfo;
   }
 
@@ -184,9 +127,13 @@ public class UserController {
   @RequestMapping(value = "/user/getList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public Page<com.sktelecom.cep.entity.User> getList(@RequestBody SearchParam search) {
-    PageRequest pageRequest = new PageRequest(search.getPageNumber(), search.getPageSize());
-    Page<com.sktelecom.cep.entity.User> result = userService.getListByPage(pageRequest);
+  public PageVo<UserVo> getList(@RequestBody PageVo<UserVo> pageVo) {
+    PageRequest pageRequest = new PageRequest(pageVo.getPageNumber(), pageVo.getPageSize());
+    PageVo<UserVo> result = userService.getListByPage(pageRequest);
+    List<UserVo> list = result.getContent();
+    for(UserVo user : list) {
+      user.setPasswd("");
+    }
     return result;
   }
 

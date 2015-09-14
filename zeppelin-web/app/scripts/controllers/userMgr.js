@@ -37,7 +37,7 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
     };
     UserService.getUserList(formData).then(function(result) {
       $scope.list = result.content;
-      $scope.totalCount = result.totalElements;
+      $scope.totalCount = result.totalCount;
     }, function(error) {
       console.info(error);
     });
@@ -120,7 +120,7 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
         alert('[' + nameMap[$scope.mode] + '] ' + result.rsMessage);
       }
     }, function(error) {
-      alert(error);
+    	alert(error.rsMessage);
     });
   };
 

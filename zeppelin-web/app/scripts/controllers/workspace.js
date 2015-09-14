@@ -42,7 +42,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
 		getDatasourceList(workspaceId);
 	}
 	
-	$scope.createNewNote = function() {    
+	$scope.createNewNote = function() {   
     $rootScope.$emit('sendNewEvent', {op: 'NEW_NOTE', data:{userId: Authentication.getId(), workspaceId:workspaceId}});
   };
   

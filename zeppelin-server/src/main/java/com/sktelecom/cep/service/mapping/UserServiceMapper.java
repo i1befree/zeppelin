@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,15 @@ public class UserServiceMapper extends AbstractServiceMapper {
     modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(
         MatchingStrategies.STRICT);
+    
+    
+//    PropertyMap<User, UserVo> orderMap = new PropertyMap<User, UserVo>() {
+//      protected void configure() {
+//        skip().setWorkspace(null);
+//      }
+//    };
+//      
+//    modelMapper.addMappings(orderMap);
   }
 
   /**

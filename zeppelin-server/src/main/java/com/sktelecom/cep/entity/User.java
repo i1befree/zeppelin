@@ -54,9 +54,11 @@ public class User implements Serializable {
   private Workspace workspace;
 
   //차후 Relationship의 갱신이 필요하다(이유 : Role 기반 권한 관리가 될 경우 Role 쪽이 복잡해 질 수 있음).
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_grp_cd", referencedColumnName = "role_cd")
-  private Role role;
+//  @ManyToOne(fetch = FetchType.LAZY)
+//  @JoinColumn(name = "user_grp_cd", referencedColumnName = "role_cd")
+//  private Role role;
+  @Column(name = "user_grp_cd")
+  private String userGrpCd;
 
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
@@ -65,6 +67,14 @@ public class User implements Serializable {
   public void prePersist() {
     if (this.updateDate == null)
       this.updateDate = new Date();
+  }
+
+  public String getUserGrpCd() {
+    return userGrpCd;
+  }
+
+  public void setUserGrpCd(String userGrpCd) {
+    this.userGrpCd = userGrpCd;
   }
 
   public String getId() {
@@ -131,13 +141,13 @@ public class User implements Serializable {
     this.workspace = workspace;
   }
 
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
+//  public Role getRole() {
+//    return role;
+//  }
+//
+//  public void setRole(Role role) {
+//    this.role = role;
+//  }
 
   public List<WorkspaceShare> getWorkspaceShares() {
     return workspaceShares;

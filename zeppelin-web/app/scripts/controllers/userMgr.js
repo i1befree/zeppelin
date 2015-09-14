@@ -50,7 +50,17 @@ angular.module('zeppelinWebApp').controller('UserMgrCtrl', function($scope, $rou
       console.info(error);
     });
   };
-
+  
+  $scope.getRoleName = function(userGrpCd) {
+  	var roleName = '';
+    angular.forEach($scope.roles, function(item, index) {
+    	if(item.code === userGrpCd) {
+    		roleName = item.name;
+    	}
+    });
+    return roleName;
+  };
+  
   var userFormDefaultValue = {
     id : "",
     name : "",

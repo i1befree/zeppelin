@@ -44,7 +44,7 @@
 				<td class="text-center">{{info.name}}</td>
 				<td class="text-center">{{info.email}}</td>
 				<td class="text-center">{{info.tel}}</td>
-				<td class="text-center">{{info.role.name}}</td>
+				<td class="text-center">{{getRoleName(info.userGrpCd)}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -137,7 +137,7 @@
           <div class="form-group">
             <label for="userGrpCd" class="col-sm-4 control-label text-left">User Segmentation</label>
             <div class="col-sm-8" ng-class="{ 'has-error': userForm.userGrpCd.$invalid }">
-              <select class="form-control view_selsct" ng-model="user.role.code" name="userGrpCd" id="userGrpCd" ng-options="option.code as option.name for option in roles" required ng-disabled="!Authentication.isAdmin()"></select>
+              <select class="form-control view_selsct" ng-model="user.userGrpCd" name="userGrpCd" id="userGrpCd" ng-options="option.code as option.name for option in roles" required ng-disabled="!Authentication.isAdmin()"></select>
             </div>
           </div>
 

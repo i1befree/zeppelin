@@ -1,6 +1,5 @@
 package com.sktelecom.cep.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +21,7 @@ import com.sktelecom.cep.repository.WorkspaceShareRepository;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.Role;
+import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserVo;
 
@@ -72,12 +72,12 @@ public class UserServiceImpl implements UserService {
     workspace.setUpdateUserId(userVo.getUpdateUserId());
     com.sktelecom.cep.entity.Workspace savedWorkspace = workspaceRepository.save(workspace);
          
-    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+    //com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
     
     com.sktelecom.cep.entity.User newUser = new com.sktelecom.cep.entity.User();
     userServiceMapper.mapUserVoToUserEntity(userVo, newUser);
     newUser.setWorkspace(workspace);
-    newUser.setRole(role);
+    //newUser.setRole(role);
     com.sktelecom.cep.entity.User savedUser = userRepository.save(newUser);
     
     WorkspaceShare workspaceShare = new WorkspaceShare();
@@ -91,11 +91,15 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserVo update(UserVo userVo) {    
-    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+//    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+//    RoleVo updatableUserRole = new RoleVo();
+//    updatableUserRole.setId(role.getId());
+//    updatableUserRole.setName(role.getName());
+//    updatableUserRole.setCode(role.getCode());
+//    userVo.setRole(updatableUserRole);
     
     com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
     userServiceMapper.mapUserVoToUserEntity(userVo, user);
-    user.setRole(role);
     com.sktelecom.cep.entity.User updatedUser = userRepository.save(user);
     return userServiceMapper.mapUserEntityToUserVo(updatedUser);
   }

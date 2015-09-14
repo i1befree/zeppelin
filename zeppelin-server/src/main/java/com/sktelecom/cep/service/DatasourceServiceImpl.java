@@ -35,6 +35,7 @@ import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataStoreRepository;
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.Datastore;
 import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
@@ -150,26 +151,26 @@ public class DatasourceServiceImpl implements DatasourceService {
   public List<LayoutSchema> loadDatasourceMetadata(Datasource datasource) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
-    DataStore pDatastoreInfo = new DataStore();
+    Datastore pDatastoreInfo = new Datastore();
     pDatastoreInfo.setId(datasource.getDatstoreId());
-    DataStore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
+    Datastore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
     
     schemas = layoutMap.get(datasource.getDatstoreId());
     if (schemas != null) {
       return schemas;
     }
     
-    if (DataStore.Type.INTERNAL == datastoreInfo.getType()) {
+    if (Datastore.Type.INTERNAL == datastoreInfo.getType()) {
       schemas = getElasticSearch(datastoreInfo);
-    } else if (DataStore.Type.DATABASE == datastoreInfo.getType()) {
+    } else if (Datastore.Type.DATABASE == datastoreInfo.getType()) {
       schemas = getDatabase(datastoreInfo);
-    } else if (DataStore.Type.HDFS == datastoreInfo.getType()) {
+    } else if (Datastore.Type.HDFS == datastoreInfo.getType()) {
       
     }
     return schemas;
   }
   
-  private List<LayoutSchema> getElasticSearch(DataStore datastoreInfo) {
+  private List<LayoutSchema> getElasticSearch(Datastore datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "cep").build();
@@ -219,26 +220,26 @@ public class DatasourceServiceImpl implements DatasourceService {
     return schemas;
   }
   
-  private List<LayoutSchema> getDatabase(DataStore datastoreInfo) {
+  private List<LayoutSchema> getDatabase(Datastore datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     //default MYSQL
     String DRIVER = "com.mysql.jdbc.Driver";
     String URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
     
-    if (DataStore.SubType.MYSQL == datastoreInfo.getSubType()) {
+    if (Datastore.SubType.MYSQL == datastoreInfo.getSubType()) {
       // DRIVER = "com.mysql.jdbc.Driver";
       // URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
       
-    } else if (DataStore.SubType.ORACLE == datastoreInfo.getSubType()) {
+    } else if (Datastore.SubType.ORACLE == datastoreInfo.getSubType()) {
       DRIVER = "oracle.jdbc.driver.OracleDriver";
       URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
       
-    } else if (DataStore.SubType.MSSQL == datastoreInfo.getSubType()) {
+    } else if (Datastore.SubType.MSSQL == datastoreInfo.getSubType()) {
       DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
       URL = "jdbc:microsoft:sqlserver:" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
       
-    } else if (DataStore.SubType.GENERIC == datastoreInfo.getSubType()) {
+    } else if (Datastore.SubType.GENERIC == datastoreInfo.getSubType()) {
       return schemas;
     }
     
@@ -314,7 +315,7 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<DataStore> getDatastoreAllList(DataStore dataStore) {
+  public List<Datastore> getDatastoreAllList(Datastore dataStore) {
     return datastoreDao.getList(dataStore);
   }
   

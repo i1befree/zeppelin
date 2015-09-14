@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
-import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.service.DatasourceService;
 import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.Datastore;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.Workspace;
@@ -167,8 +167,8 @@ public class DatasourceController {
   @RequestMapping(value = "/datasource/getDatastoreAllList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<DataStore> getDatastoreAllList(@RequestBody DataStore dataStore) throws Exception {
-    List<DataStore> resultList = datasourceService.getDatastoreAllList(dataStore);
+  public List<Datastore> getDatastoreAllList(@RequestBody Datastore dataStore) throws Exception {
+    List<Datastore> resultList = datasourceService.getDatastoreAllList(dataStore);
     return resultList;
   }
   

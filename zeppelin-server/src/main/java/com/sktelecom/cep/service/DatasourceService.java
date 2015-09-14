@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.Datastore;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceAssign;
@@ -77,6 +77,6 @@ public interface DatasourceService {
    * @param dataStore
    * @return
    */
-  List<DataStore> getDatastoreAllList(DataStore datastore);
+  List<Datastore> getDatastoreAllList(Datastore datastore);
 
 }

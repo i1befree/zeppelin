@@ -6,12 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.sktelecom.cep.entity.DataStore;
+import com.sktelecom.cep.vo.Datastore;
 
 /**
  * dataStore관리 - dataStore CRUD 담당 Dao.
  *
- * Mybatis mapper 로써 resources/com/sktelecom/voc/doc/DataStoreMapper.xml 과 1:1
+ * Mybatis mapper 로써 resources/com/sktelecom/voc/doc/DatastoreMapper.xml 과 1:1
  * 매핑한다.
  *
  * @author 박상민
@@ -27,7 +27,7 @@ public interface DatastoreDao {
    * @param dataStore
    * @return
    */
-  int create(DataStore dataStore);
+  int create(Datastore dataStore);
 
   /**
    * dataStore 수정.
@@ -35,7 +35,7 @@ public interface DatastoreDao {
    * @param dataStore
    * @return
    */
-  int update(DataStore dataStore);
+  int update(Datastore dataStore);
 
   /**
    * dataStore 삭제.
@@ -43,7 +43,7 @@ public interface DatastoreDao {
    * @param dataStore
    * @return
    */
-  int delete(DataStore dataStore);
+  int delete(Datastore dataStore);
 
   /**
    * dataStore 정보 조회.
@@ -51,7 +51,7 @@ public interface DatastoreDao {
    * @param dataStore
    * @return
    */
-  DataStore getInfo(DataStore dataStore);
+  Datastore getInfo(Datastore dataStore);
 
   /**
    * dataStore 목록 조회.
@@ -59,6 +59,6 @@ public interface DatastoreDao {
    * @param dataStore
    * @return
    */
-  List<DataStore> getList(DataStore dataStore);
+  List<Datastore> getList(Datastore dataStore);
 
 }

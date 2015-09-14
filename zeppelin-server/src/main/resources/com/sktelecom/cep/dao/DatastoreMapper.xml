@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sktelecom.cep.dao.DatastoreDao">
 
-    <resultMap id="DatastoreMap" type="com.sktelecom.cep.entity.DataStore">
+    <resultMap id="DatastoreMap" type="com.sktelecom.cep.vo.Datastore">
         <result property="id" column="datstore_id" />
         <result property="name" column="datstore_name" />
         <result property="type" column="datstore_type" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
@@ -15,22 +15,22 @@
         <result property="description" column="description" />
         <result property="updateTime" column="update_date" javaType="java.sql.Timestamp" />
         <result property="updateUserId" column="update_user_id" />
-        <collection property="properties" ofType="com.sktelecom.cep.entity.DataStoreProperty">
+        <collection property="properties" ofType="com.sktelecom.cep.vo.DatastoreProperty">
             <id property="id" column="datastore_id"/>
             <result property="name" column="prop_name"/>
             <result property="value" column="prop_value"/>
         </collection>
     </resultMap>
-    <resultMap id="DatastorePropertyMap" type="com.sktelecom.cep.entity.DataStoreProperty">
+    <resultMap id="DatastorePropertyMap" type="com.sktelecom.cep.vo.DatastoreProperty">
         <result property="id" column="datstore_id" />
     </resultMap>
 
-    <insert id="create" parameterType="com.sktelecom.cep.entity.DataStore">
+    <insert id="create" parameterType="com.sktelecom.cep.vo.Datastore">
         INSERT INTO datastore(datstore_id, datstore_name, datstore_type, datstore_subtype, host_name, port_num, cred_user_info, cred_pass_info, description, update_date, update_user_id)
         VALUES (#{id}, #{name}, #{type}, #{subType}, #{hostName}, #{portNum}, #{credUserInfo}, #{credPassInfo}, #{description}, NOW(), #{updateUserId})
     </insert>
 
-    <update id="update" parameterType="com.sktelecom.cep.entity.DataStore">
+    <update id="update" parameterType="com.sktelecom.cep.vo.Datastore">
         UPDATE datastore
         SET datstore_name = #{name}
 	        ,datstore_type = #{type}
@@ -45,18 +45,18 @@
         WHERE datstore_id = #{id}
     </update>
 
-    <delete id="delete" parameterType="com.sktelecom.cep.entity.DataStore">
+    <delete id="delete" parameterType="com.sktelecom.cep.vo.Datastore">
         DELETE FROM datastore
         WHERE datstore_id = #{id}
     </delete>
 
-    <select id="getInfo" parameterType="com.sktelecom.cep.entity.DataStore" resultMap="DatastoreMap">
+    <select id="getInfo" parameterType="com.sktelecom.cep.vo.Datastore" resultMap="DatastoreMap">
         SELECT datstore_id, datstore_name, datstore_type, datstore_subtype, host_name, port_num, cred_user_info, cred_pass_info, description, update_date, update_user_id
         FROM datastore
         WHERE datstore_id = #{id}
     </select>
 
-    <select id="getList" resultMap="DatastoreMap" parameterType="com.sktelecom.cep.entity.DataStore">
+    <select id="getList" resultMap="DatastoreMap" parameterType="com.sktelecom.cep.vo.Datastore">
         SELECT datstore_id, datstore_name, datstore_type, datstore_subtype, host_name, port_num, cred_user_info, cred_pass_info, description, update_date, update_user_id
         FROM datastore
     </select>

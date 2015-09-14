@@ -1,17 +1,23 @@
 package com.sktelecom.cep.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.PrimaryKeyJoinColumn;
-import java.util.Date;
+import javax.persistence.Table;
 
 /**
  * Notebook
  */
+@SuppressWarnings("serial")
 @Entity
-@PrimaryKeyJoinColumn(name = "note_id", referencedColumnName = "wrkspc_obj_id")
-public class Notebook extends WorkspaceObject{
+@Table(name = "notebook")
+@DiscriminatorValue("NOTEBOOK")
+@PrimaryKeyJoinColumn(name = "note_id")
+public class Notebook extends WorkspaceObject {
   @Column(name = "note_name")
   private String noteName;
 

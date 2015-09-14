@@ -1,10 +1,21 @@
 package com.sktelecom.cep.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * ValueObject.
@@ -31,13 +42,14 @@ public class User implements Serializable {
   @Column(name = "tel")
   private String tel;
 
+  @Temporal(TemporalType.TIMESTAMP)
   @Column(name = "update_date")
   private Date updateDate;
 
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  @OneToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "wrkspc_id")
   private Workspace workspace;
 
@@ -46,8 +58,8 @@ public class User implements Serializable {
   @JoinColumn(name = "user_grp_cd", referencedColumnName = "role_cd")
   private Role role;
 
-  @OneToMany(mappedBy = "pk.user", fetch = FetchType.LAZY)
-  private List<WorkspaceShare> sharedWorkspace = new ArrayList<>();
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
 
   @PrePersist
   public void prePersist() {
@@ -127,11 +139,13 @@ public class User implements Serializable {
     this.role = role;
   }
 
-  public List<WorkspaceShare> getSharedWorkspace() {
-    return sharedWorkspace;
+  public List<WorkspaceShare> getWorkspaceShares() {
+    return workspaceShares;
   }
 
-  public void setSharedWorkspace(List<WorkspaceShare> sharedWorkspace) {
-    this.sharedWorkspace = sharedWorkspace;
+  public void setWorkspaceShares(List<WorkspaceShare> workspaceShares) {
+    this.workspaceShares = workspaceShares;
   }
+
+  
 }

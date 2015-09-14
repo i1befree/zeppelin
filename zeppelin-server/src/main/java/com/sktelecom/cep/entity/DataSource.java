@@ -1,7 +1,18 @@
 package com.sktelecom.cep.entity;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  * ValueObject.
@@ -11,10 +22,13 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "datasource")
-@PrimaryKeyJoinColumn(name = "datasource_id", referencedColumnName = "wrkspc_obj_id")
+@DiscriminatorValue("DATSRC")
+@PrimaryKeyJoinColumn(name = "datasource_id")
 public class DataSource extends WorkspaceObject {
+  
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "datstore_id")
+  @JsonManagedReference
   private DataStore dataStore;
 
   @Column(name = "datsrc_name")
@@ -36,18 +50,6 @@ public class DataSource extends WorkspaceObject {
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
   private User lastModifiedUser;
 
-  @Override
-  @PrePersist
-  public void prePersist() {
-    super.prePersist();
-
-    if (updateDate == null)
-      this.updateDate = new Date();
-
-    //저장시에 최종 수정자가 정해지지 않으면 생성자로 자동으로 채워준다.
-    if (lastModifiedUser == null && this.getCreator() != null)
-      this.lastModifiedUser = this.getCreator();
-  }
 
   public DataStore getDataStore() {
     return dataStore;

@@ -1,19 +1,33 @@
 package com.sktelecom.cep.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * DataStore.
  *
  * @author Administrator
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "datastore")
 @NamedQuery(name = "DataStore.count", query = "select count(o) from DataStore o where upper(o.name) like ?1")

@@ -1,79 +1,84 @@
 package com.sktelecom.cep.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * ValueObject.
  *
  * @author 박상민
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_share")
 public class WorkspaceShare implements Serializable {
-  /**
-   * @author Administrator
-   */
-  @Embeddable
-  public static class WorkspaceSharePk implements Serializable {
-    @ManyToOne
-    @JoinColumn(name = "wrkspc_id")
-    private Workspace workspace;
+  
+  @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  @Column(name = "share_id")
+  private String id;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "wrkspc_id")
+  private Workspace workspace;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    protected WorkspaceSharePk() {
-
-    }
-
-    public WorkspaceSharePk(Workspace workspace, User user) {
-      this.workspace = workspace;
-      this.user = user;
-    }
-
-    public Workspace getWorkspace() {
-      return workspace;
-    }
-
-    public User getUser() {
-      return user;
-    }
-  }
-
-  @EmbeddedId
-  private WorkspaceSharePk pk;
-
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private User user;
+  
   @Column(name = "update_date")
   private Date updateDate;
 
   @Column(name = "update_user_id")
   private String updateUserId;
-
+ 
   @PrePersist
   public void prePersist() {
     if (this.updateDate == null)
-      this.updateDate = new Date();
+      this.updateDate = new Date();;
   }
 
-  public WorkspaceSharePk getPk() {
-    return pk;
+  public String getId() {
+    return id;
   }
 
-  public void setPk(WorkspaceSharePk pk) {
-    this.pk = pk;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public Workspace getWorkspace() {
-    return this.pk.workspace;
+    return workspace;
+  }
+
+  public void setWorkspace(Workspace workspace) {
+    this.workspace = workspace;
+    if (!workspace.getWorkspaceShares().contains(this)) {
+      workspace.getWorkspaceShares().add(this);
+    }
   }
 
   public User getUser() {
-    return this.pk.user;
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+    if (!user.getWorkspaceShares().contains(this)) {
+      user.getWorkspaceShares().add(this);
+    }
   }
 
   public Date getUpdateDate() {

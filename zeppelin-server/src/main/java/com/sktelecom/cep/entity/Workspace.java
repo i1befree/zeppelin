@@ -1,12 +1,22 @@
 package com.sktelecom.cep.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * ValueObject.
@@ -50,16 +60,16 @@ public class Workspace implements Serializable {
   @Column(name = "update_user_id")
   private String updateUserId;
 
-  @OneToMany(mappedBy = "pk.workspace")
-  private List<WorkspaceAssign> workspaceAssigns = new ArrayList<>();
+  @OneToMany(mappedBy = "workspace", fetch = FetchType.LAZY)
+  private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
 
-  @OneToMany(mappedBy = "pk.workspace")
-  private List<WorkspaceShare> workspaceShares = new ArrayList<>();
-
+  @OneToMany(mappedBy = "workspace", fetch = FetchType.LAZY)
+  List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
+  
   @PrePersist
   public void prePersist() {
     if (this.updateDate == null)
-      this.updateDate = new Date();
+      this.updateDate = new Date();;
   }
 
   public String getWrkspcId() {

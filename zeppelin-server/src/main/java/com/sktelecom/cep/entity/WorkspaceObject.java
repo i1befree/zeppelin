@@ -1,23 +1,36 @@
 package com.sktelecom.cep.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * ValueObject.
  *
  * @author 박상민
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "workspace_object")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class WorkspaceObject implements Serializable{
+@DiscriminatorColumn(name = "wrkspc_obj_type")
+public abstract class WorkspaceObject implements Serializable {
   /**
    * Status of workspace's object
    */
@@ -68,23 +81,14 @@ public class WorkspaceObject implements Serializable{
   @JoinColumn(name = "own_user_id", referencedColumnName = "id")
   private User owner;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.workspaceObject")
-  private Set<WorkspaceAssign> workspaceAssigns = new HashSet<>();
-
-  @PrePersist
-  public void prePersist() {
-    //신규 생성 시에는 이 두 값은 같다.
-    if (this.owner == null && this.creator != null)
-      this.owner = this.creator;
-    else if (this.creator == null && this.owner != null)
-      this.creator = this.owner;
-  }
-
-  public Set<WorkspaceAssign> getWorkspaceAssigns() {
+  @OneToMany(mappedBy = "workspaceObject")
+  List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
+  
+  public List<WorkspaceAssign> getWorkspaceAssigns() {
     return workspaceAssigns;
   }
 
-  public void setWorkspaceAssigns(Set<WorkspaceAssign> workspaceAssigns) {
+  public void setWorkspaceAssigns(List<WorkspaceAssign> workspaceAssigns) {
     this.workspaceAssigns = workspaceAssigns;
   }
 

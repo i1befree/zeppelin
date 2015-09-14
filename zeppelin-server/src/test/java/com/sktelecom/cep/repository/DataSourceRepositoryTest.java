@@ -53,7 +53,8 @@ public class DataSourceRepositoryTest {
 
     // Assign to workspace
     WorkspaceAssign assign = new WorkspaceAssign();
-    assign.setPk(new WorkspaceAssign.WorkspaceAssignPk(dataSource, admin.getWorkspace()));
+    assign.setWorkspaceObject(dataSource);
+    assign.setWorkspace(admin.getWorkspace());
     assign.setUpdateDate(new Date(System.currentTimeMillis()));
     assign.setUpdateUserId(admin.getId());
 

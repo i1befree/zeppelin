@@ -48,7 +48,8 @@ public class NotebookRepositoryTest {
     notebook.setWrkspcObjType(ObjectType.NOTEBOOK);
 
     WorkspaceAssign assign = new WorkspaceAssign();
-    assign.setPk(new WorkspaceAssign.WorkspaceAssignPk(notebook, admin.getWorkspace()));
+    assign.setWorkspaceObject(notebook);
+    assign.setWorkspace(admin.getWorkspace());
     assign.setUpdateDate(new Date(System.currentTimeMillis()));
     assign.setUpdateUserId(admin.getId());
 

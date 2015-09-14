@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
   public int create(UserVo userVo) {
     
     com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
-    if(user != null) {
+    if (user != null) {
       throw new IllegalStateException("이미 존재하는 사용자 아이디입니다.");
     }
     

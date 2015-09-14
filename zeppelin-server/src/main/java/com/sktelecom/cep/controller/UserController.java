@@ -131,7 +131,7 @@ public class UserController {
     PageRequest pageRequest = new PageRequest(pageVo.getPageNumber(), pageVo.getPageSize());
     PageVo<UserVo> result = userService.getListByPage(pageRequest);
     List<UserVo> list = result.getContent();
-    for(UserVo user : list) {
+    for (UserVo user : list) {
       user.setPasswd("");
     }
     return result;

@@ -7,9 +7,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- * 페이징 처리 ValueObject.
+ * 페이징 vo.
+ * @author Administrator
  *
- * @author 박상민
+ * @param <T>
  */
 @SuppressWarnings("serial")
 // / @cond doxygen don't parsing in here
@@ -21,7 +22,6 @@ public class PageVo<T> implements Serializable {
   
   private int pageSize;
   
-  // 페이징대상이 되는 데이터 총 건수 
   private long totalCount;
 
   List<T> content = new ArrayList<T>();

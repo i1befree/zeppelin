@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // / @endcond
 public class WorkspaceShare extends Paging {
 
+  private String shareId;
   private String wrkspcId;
   private String userId;
   private Date updateDate;
@@ -22,6 +23,12 @@ public class WorkspaceShare extends Paging {
   //extra
   private String wrkspcType;
     
+  public String getShareId() {
+    return shareId;
+  }
+  public void setShareId(String shareId) {
+    this.shareId = shareId;
+  }
   public String getWrkspcType() {
     return wrkspcType;
   }

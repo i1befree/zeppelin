@@ -117,8 +117,8 @@
     </select>
     
     <insert id="insertMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">
-        INSERT INTO workspace_share(wrkspc_id, user_id, update_date, update_user_id)
-        VALUES (#{wrkspcId}, #{userId}, NOW(), #{updateUserId})
+        INSERT INTO workspace_share(share_id, wrkspc_id, user_id, update_date, update_user_id)
+        VALUES (#{shareId}, #{wrkspcId}, #{userId}, NOW(), #{updateUserId})
     </insert>
     
     <delete id="deleteMembers" parameterType="com.sktelecom.cep.vo.WorkspaceShare">

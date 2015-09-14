@@ -14,11 +14,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // / @endcond
 public class WorkspaceAssign {
 
+  private String assignId;
   private String wrkspcId;
   private String wrkspcObjId;
   private Date updateDate;
   private String updateUserId;
   
+  public String getAssignId() {
+    return assignId;
+  }
+  public void setAssignId(String assignId) {
+    this.assignId = assignId;
+  }
   public String getWrkspcId() {
     return wrkspcId;
   }

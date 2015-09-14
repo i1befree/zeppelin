@@ -12,8 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 /**
  * ValueObject.
  *
@@ -26,9 +24,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @PrimaryKeyJoinColumn(name = "datasource_id")
 public class DataSource extends WorkspaceObject {
   
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "datstore_id")
-  @JsonManagedReference
   private DataStore dataStore;
 
   @Column(name = "datsrc_name")
@@ -46,7 +43,7 @@ public class DataSource extends WorkspaceObject {
   @Column(name = "update_date")
   private Date updateDate;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
   private User lastModifiedUser;
 

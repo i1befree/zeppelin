@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -73,15 +74,15 @@ public abstract class WorkspaceObject implements Serializable {
   @Enumerated(EnumType.STRING)
   private Status objStatus;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "create_user_id", referencedColumnName = "id")
   private User creator;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "own_user_id", referencedColumnName = "id")
   private User owner;
 
-  @OneToMany(mappedBy = "workspaceObject")
+  @OneToMany(mappedBy = "workspaceObject", fetch = FetchType.LAZY)
   List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
   
   public List<WorkspaceAssign> getWorkspaceAssigns() {

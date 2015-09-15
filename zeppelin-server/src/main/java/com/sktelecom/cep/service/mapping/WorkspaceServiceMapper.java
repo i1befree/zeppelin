@@ -46,16 +46,16 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     WorkspaceVo workspaceVo = mapEntityToVo(workspace, WorkspaceVo.class);
     
     List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
-    for(WorkspaceAssign assign : assignList) {
+    for (WorkspaceAssign assign : assignList) {
       WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
-      if(workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
+      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
         DataSource datasource = (DataSource) workspaceObjectEntity.getTarget();
         
         DatasourceVo dsvo = mapEntityToVo(datasource, DatasourceVo.class);
         dsvo.setDatastore(mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
         workspaceVo.getDatasources().add(dsvo);
         
-      } else if(workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.NOTEBOOK) {
+      } else if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.NOTEBOOK) {
         workspaceVo.getNotebooks().add(mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class));
       }
     }
@@ -66,9 +66,9 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     List<DatasourceVo> list = new ArrayList<DatasourceVo>();
     
     List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
-    for(WorkspaceAssign assign : assignList) {
+    for (WorkspaceAssign assign : assignList) {
       WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
-      if(workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
+      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
         DataSource datasource = (DataSource) workspaceObjectEntity.getTarget();
         
         DatasourceVo dsvo = mapEntityToVo(datasource, DatasourceVo.class);

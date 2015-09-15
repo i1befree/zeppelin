@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import com.sktelecom.cep.common.CommCode;
 
+/**
+ * WorkspaceObjectVo.
+ * @author Administrator
+ *
+ */
 @SuppressWarnings("serial")
 public abstract class WorkspaceObjectVo implements Serializable {
   

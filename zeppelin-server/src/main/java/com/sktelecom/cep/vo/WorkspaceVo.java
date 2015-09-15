@@ -1,10 +1,12 @@
 package com.sktelecom.cep.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sktelecom.cep.entity.Workspace.Type;
+import com.sktelecom.cep.common.CommCode;
 
 /**
  * ValueObject.
@@ -18,10 +20,12 @@ public class WorkspaceVo implements Serializable {
   private String wrkspcId;
   private String wrkspcName;
   private String description;
-  private Type wrkspcType;
+  private CommCode.WorkspaceType wrkspcType;
   private String adminUserId;
   private Date updateDate;
-  private String updateUserId;
+  private String updateUserId;  
+  private List<NotebookVo> notebooks = new ArrayList<NotebookVo>();
+  private List<DatasourceVo> datasources = new ArrayList<DatasourceVo>();
   
   public String getWrkspcId() {
     return wrkspcId;
@@ -41,10 +45,10 @@ public class WorkspaceVo implements Serializable {
   public void setDescription(String description) {
     this.description = description;
   }
-  public Type getWrkspcType() {
+  public CommCode.WorkspaceType getWrkspcType() {
     return wrkspcType;
   }
-  public void setWrkspcType(Type wrkspcType) {
+  public void setWrkspcType(CommCode.WorkspaceType wrkspcType) {
     this.wrkspcType = wrkspcType;
   }
   public String getAdminUserId() {
@@ -65,5 +69,18 @@ public class WorkspaceVo implements Serializable {
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
   }
+  public List<NotebookVo> getNotebooks() {
+    return notebooks;
+  }
+  public void setNotebooks(List<NotebookVo> notebooks) {
+    this.notebooks = notebooks;
+  }
+  public List<DatasourceVo> getDatasources() {
+    return datasources;
+  }
+  public void setDatasources(List<DatasourceVo> datasources) {
+    this.datasources = datasources;
+  }
+  
   
 }

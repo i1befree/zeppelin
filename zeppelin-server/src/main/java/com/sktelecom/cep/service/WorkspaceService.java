@@ -5,12 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceSummary;
+import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
  * 작업공간관리 - 작업공간 CRUD 담당 Service.
@@ -115,5 +116,7 @@ public interface WorkspaceService {
    * @param workspace
    * @return
    */
-  List<Datasource> getDatasourceList(Workspace workspace);
+  List<DatasourceVo> getDatasourceList(WorkspaceVo workspace);
+  
+  WorkspaceVo getWorkspaceObject(WorkspaceVo workspace);
 }

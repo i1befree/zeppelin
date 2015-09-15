@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.entity.Workspace;
@@ -21,7 +22,6 @@ import com.sktelecom.cep.repository.WorkspaceShareRepository;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.Role;
-import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserVo;
 
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     Workspace workspace = new Workspace();
     workspace.setWrkspcName(userVo.getId());
     workspace.setDescription("Personal Workspace");
-    workspace.setWrkspcType(Workspace.Type.PERSONAL);
+    workspace.setWrkspcType(CommCode.WorkspaceType.PERSONAL);
     workspace.setAdminUserId(userVo.getUpdateUserId());
     workspace.setUpdateUserId(userVo.getUpdateUserId());
     com.sktelecom.cep.entity.Workspace savedWorkspace = workspaceRepository.save(workspace);

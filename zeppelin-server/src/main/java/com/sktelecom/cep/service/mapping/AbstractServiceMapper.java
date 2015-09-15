@@ -83,4 +83,46 @@ public abstract class AbstractServiceMapper {
     }
   }
 
+  /**
+   * Mapping from entity to vo.
+   * @param entity
+   * @param voClass
+   * @return
+   */
+  public <I, O> O mapEntityToVo(I entity, Class<O> voClass) {
+    if (entity == null) {
+      return null;
+    }
+
+    // --- Generic mapping
+    return map(entity, voClass);
+  }
+  
+  /**
+   * List Mapping from entity to vo.
+   * @param list
+   * @param voClass
+   * @return
+   */
+  public <I, O> List<O> mapListEntityToVo(List<I> list, Class<O> voClass) {
+    List<O> voList = new ArrayList<O>();
+    for (I entity : list) {
+      voList.add(mapEntityToVo(entity, voClass));
+    }
+    return voList;
+  }
+
+  /**
+   * Mapping from vo to entity.
+   * @param vo
+   * @param entity
+   */
+  public <V, E> void mapVoToEntity(V vo, E entity) {
+    if (vo == null) {
+      return;
+    }
+    // --- Generic mapping
+    map(vo, entity);
+  }
+
 }

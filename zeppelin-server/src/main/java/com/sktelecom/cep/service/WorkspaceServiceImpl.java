@@ -12,13 +12,16 @@ import org.springframework.stereotype.Service;
 import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.NotebookDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
-import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.repository.WorkspaceRepository;
+import com.sktelecom.cep.service.mapping.WorkspaceServiceMapper;
+import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceSummary;
+import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
  * 사용자관리 - 사용자 CRUD 담당 Service 구현체.
@@ -38,6 +41,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Inject
   private DatasourceDao datasourceDao;
+
+  @Inject
+  private WorkspaceRepository workspaceRepository;
+
+  @Inject
+  private WorkspaceServiceMapper workspaceServiceMapper;
 
   @Override
   public int create(Workspace workspace) {
@@ -155,8 +164,20 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
-  public List<Datasource> getDatasourceList(Workspace workspace) {
-    List<Datasource> list = datasourceDao.getListByWrkspcIid(workspace);
-    return list;
+  public List<DatasourceVo> getDatasourceList(WorkspaceVo workspace) {
+    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    
+    //convert from entity to vo 
+    return workspaceServiceMapper.mapDatasourceVoFromEntity(entity);
+//    List<Datasource> list = datasourceDao.getListByWrkspcIid(workspace);
+//    return list;
+  }
+  
+  @Override
+  public WorkspaceVo getWorkspaceObject(WorkspaceVo workspace) {
+    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    
+    //convert from entity to vo 
+    return workspaceServiceMapper.mapWorkspaceVoFromEntity(entity);
   }
 }

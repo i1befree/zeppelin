@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -43,19 +42,19 @@ public class UserServiceMapper extends AbstractServiceMapper {
   }
 
   /**
-   * Mapping from 'UserEntity' to 'User'
+   * Mapping from entity to vo
    * 
    * @param UserEntity
    */
-  public UserVo mapUserEntityToUserVo(User userEntity) {
-    if (userEntity == null) {
+  public UserVo mapUserEntityToUserVo(User entity) {
+    if (entity == null) {
       return null;
     }
 
     // --- Generic mapping
-    UserVo userVo = map(userEntity, UserVo.class);
-    userVo.setPasswd(null);
-    return userVo;
+    UserVo vo = map(entity, UserVo.class);
+    vo.setPasswd(null);
+    return vo;
   }
 
   /**
@@ -64,40 +63,37 @@ public class UserServiceMapper extends AbstractServiceMapper {
    * @param list
    * @return
    */
-  public PageVo<UserVo> mapListUserEntityToUserVo(Page<User> list) {
-    PageVo<UserVo> page = new PageVo<UserVo>();
-    page.setTotalCount(list.getTotalElements());
-    page.setPageSize(list.getSize());
-    List<UserVo> beans = new ArrayList<UserVo>();
-    for (com.sktelecom.cep.entity.User userEntity : list.getContent()) {
-      beans.add(mapUserEntityToUserVo(userEntity));
+  public PageVo<UserVo> mapListUserEntityToUserVo(Page<User> page) {
+    PageVo<UserVo> pageVo = new PageVo<UserVo>();
+    pageVo.setTotalCount(page.getTotalElements());
+    pageVo.setPageSize(page.getSize());
+    List<UserVo> listVo = new ArrayList<UserVo>();
+    for (com.sktelecom.cep.entity.User entity : page.getContent()) {
+      listVo.add(mapUserEntityToUserVo(entity));
     }
-    page.setContent(beans);
+    pageVo.setContent(listVo);
 
-    return page;
+    return pageVo;
   }
 
   /**
-   * Mapping from 'User' to 'UserEntity'
+   * Mapping from vo to Entity
    * 
    * @param User
    * @param UserEntity
    */
-  public void mapUserVoToUserEntity(UserVo userVo, User userEntity) {
-    if (userVo == null) {
+  public void mapUserVoToUserEntity(UserVo vo, User entity) {
+    if (vo == null) {
       return;
     }
-    String passwd = userEntity.getPasswd();
+    String passwd = entity.getPasswd();
     // --- Generic mapping
-    map(userVo, userEntity);
-    if (userVo.getPasswd() == null) {
-      userEntity.setPasswd(passwd);
+    map(vo, entity);
+    if (vo.getPasswd() == null) {
+      entity.setPasswd(passwd);
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected ModelMapper getModelMapper() {
     return modelMapper;

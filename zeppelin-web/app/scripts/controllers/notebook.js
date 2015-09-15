@@ -112,8 +112,8 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   
   $scope.loadDatasourceMetadata = function(datasource) {
   	$scope.selectDatasource = datasource.srcObjName;
-		if($scope.schema[datasource.datstoreId] !== undefined) {
-			//$scope.gridOptionsForSchema.data = $scope.schema[datasource.datstoreId];
+		if($scope.schema[datasource.datastore.id] !== undefined) {
+			//$scope.gridOptionsForSchema.data = $scope.schema[datasource.datastore.id];
 			var isContain = false;
 			angular.forEach($scope.datasourceTableSchema, function(table, index) {
 				if(table.name === datasource.srcObjName) {
@@ -124,8 +124,8 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 				$scope.datasourceTableSchema.push({name:datasource.srcObjName, columns: getTableSchema(datasource)});
 			}
 		} else {
-	  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datstoreId}).then(function(result) {
-	  		$scope.schema[datasource.datstoreId] = result;
+	  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datastore.id}).then(function(result) {
+	  		$scope.schema[datasource.datastore.id] = result;
 	  		var isContain = false;
 				angular.forEach($scope.datasourceTableSchema, function(table, index) {
 					if(table.name === datasource.srcObjName) {
@@ -143,7 +143,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   
   function getTableSchema(datasource) {
   	var tableSchema = undefined;
-		var schemas = $scope.schema[datasource.datstoreId];
+		var schemas = $scope.schema[datasource.datastore.id];
 		angular.forEach(schemas, function(schema, index) {
 			if(schema.name === datasource.containerName) {
 				var tables = schema.tables;
@@ -154,7 +154,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 				});
 			}
 		});
-		console.info('loadDatasourceMetadata', datasource.datstoreId, datasource.containerName, datasource.srcObjName, tableSchema);	
+		console.info('loadDatasourceMetadata', datasource.datastore.id, datasource.containerName, datasource.srcObjName, tableSchema);	
 		return tableSchema;
   }
   

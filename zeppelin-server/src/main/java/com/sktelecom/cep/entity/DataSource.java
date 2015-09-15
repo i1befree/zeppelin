@@ -24,10 +24,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "datasource_id")
 public class DataSource extends WorkspaceObject {
   
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "datstore_id")
-  private DataStore dataStore;
-
   @Column(name = "datsrc_name")
   private String datsrcName;
 
@@ -46,6 +42,10 @@ public class DataSource extends WorkspaceObject {
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
   private User lastModifiedUser;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "datstore_id")
+  private DataStore dataStore;
 
 
   public DataStore getDataStore() {

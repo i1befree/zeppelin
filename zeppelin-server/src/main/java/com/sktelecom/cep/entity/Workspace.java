@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sktelecom.cep.common.CommCode;
+
 /**
  * ValueObject.
  *
@@ -27,14 +29,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name = "workspace")
 public class Workspace implements Serializable {
-  /**
-   * Type of workspace
-   */
-  public static enum Type {
-    PERSONAL,
-    SHARE
-  }
-
+  
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -49,7 +44,7 @@ public class Workspace implements Serializable {
 
   @Column(name = "wrkspc_type")
   @Enumerated(EnumType.STRING)
-  private Type wrkspcType;
+  private CommCode.WorkspaceType wrkspcType;
 
   @Column(name = "admin_user_id")
   private String adminUserId;
@@ -64,7 +59,7 @@ public class Workspace implements Serializable {
   private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
 
   @OneToMany(mappedBy = "workspace", fetch = FetchType.LAZY)
-  List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
+  private List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
   
   @PrePersist
   public void prePersist() {
@@ -96,11 +91,11 @@ public class Workspace implements Serializable {
     this.description = description;
   }
 
-  public Type getWrkspcType() {
+  public CommCode.WorkspaceType getWrkspcType() {
     return wrkspcType;
   }
 
-  public void setWrkspcType(Type wrkspcType) {
+  public void setWrkspcType(CommCode.WorkspaceType wrkspcType) {
     this.wrkspcType = wrkspcType;
   }
 

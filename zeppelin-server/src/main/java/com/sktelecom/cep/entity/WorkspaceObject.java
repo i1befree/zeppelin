@@ -21,6 +21,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sktelecom.cep.common.CommCode;
+
 /**
  * ValueObject.
  *
@@ -32,30 +34,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "wrkspc_obj_type")
 public abstract class WorkspaceObject implements Serializable {
-  /**
-   * Status of workspace's object
-   */
-  public enum Status{
-    CREATED,
-    DROPPED
-  }
-
-  /**
-   * Type of workspace's share
-   */
-  public enum ShareType{
-    NONE,
-    ALL
-  }
-
-  /**
-   * Type of workspace's object
-   */
-  public enum ObjectType{
-    DATSRC,
-    NOTEBOOK
-  }
-
+  
   @Id
   @GeneratedValue(generator = "uuid")
   @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -64,15 +43,15 @@ public abstract class WorkspaceObject implements Serializable {
 
   @Column(name = "wrkspc_obj_type")
   @Enumerated(EnumType.STRING)
-  private ObjectType wrkspcObjType;
+  private CommCode.ObjectType wrkspcObjType;
 
   @Column(name = "share_type")
   @Enumerated(EnumType.STRING)
-  private ShareType shareType;
+  private CommCode.ShareType shareType;
 
   @Column(name = "obj_status")
   @Enumerated(EnumType.STRING)
-  private Status objStatus;
+  private CommCode.Status objStatus;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "create_user_id", referencedColumnName = "id")
@@ -84,6 +63,14 @@ public abstract class WorkspaceObject implements Serializable {
 
   @OneToMany(mappedBy = "workspaceObject", fetch = FetchType.LAZY)
   List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
+  
+  /**
+   * 하위의 실제 객체를 리턴한다. jpa 의 객체 탐색에서 하위객체로 돌려 받지 못한다.
+   * @return
+   */
+  public WorkspaceObject getTarget() {
+    return this;
+  };
   
   public List<WorkspaceAssign> getWorkspaceAssigns() {
     return workspaceAssigns;
@@ -101,27 +88,27 @@ public abstract class WorkspaceObject implements Serializable {
     this.wrkspcObjId = wrkspcObjId;
   }
 
-  public ObjectType getWrkspcObjType() {
+  public CommCode.ObjectType getWrkspcObjType() {
     return wrkspcObjType;
   }
 
-  public void setWrkspcObjType(ObjectType wrkspcObjType) {
+  public void setWrkspcObjType(CommCode.ObjectType wrkspcObjType) {
     this.wrkspcObjType = wrkspcObjType;
   }
 
-  public ShareType getShareType() {
+  public CommCode.ShareType getShareType() {
     return shareType;
   }
 
-  public void setShareType(ShareType shareType) {
+  public void setShareType(CommCode.ShareType shareType) {
     this.shareType = shareType;
   }
 
-  public Status getObjStatus() {
+  public CommCode.Status getObjStatus() {
     return objStatus;
   }
 
-  public void setObjStatus(Status objStatus) {
+  public void setObjStatus(CommCode.Status objStatus) {
     this.objStatus = objStatus;
   }
 

@@ -22,6 +22,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sktelecom.cep.common.CommCode;
+
 /**
  * DataStore.
  *
@@ -32,25 +34,6 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "datastore")
 @NamedQuery(name = "DataStore.count", query = "select count(o) from DataStore o where upper(o.name) like ?1")
 public class DataStore implements Serializable {
-
-  /**
-   * Type of DataStore.
-   */
-  public static enum Type {
-    INTERNAL,
-    DATABASE,
-    HDFS
-  }
-
-  /**
-   * if type is DATABASE, choose this one.
-   */
-  public static enum SubType {
-    MYSQL,
-    MSSQL,
-    ORACLE,
-    GENERIC
-  }
 
   @Id
   @GeneratedValue(generator = "uuid")
@@ -63,11 +46,11 @@ public class DataStore implements Serializable {
 
   @Column(name = "datstore_type")
   @Enumerated(EnumType.STRING)
-  private Type type;
+  private CommCode.DataStoreType type;
 
   @Column(name = "datstore_subtype")
   @Enumerated(EnumType.STRING)
-  private SubType subType;
+  private CommCode.SubType subType;
 
   @Column(name = "host_name")
   private String hostName;
@@ -105,7 +88,7 @@ public class DataStore implements Serializable {
   }
 
   public String getDatabaseUrl() {
-    if (this.getType() == Type.DATABASE) {
+    if (this.getType() == CommCode.DataStoreType.DATABASE) {
       //checkstyle 버그로 인해서 indentation 이 이상하게 작동함. 여기 indentation 을 항상 유지해야함.
       switch (this.getSubType()) {
           case MSSQL:
@@ -114,6 +97,8 @@ public class DataStore implements Serializable {
             return "jdbc:oracle:thin:@" + this.getHostName() + ":" + this.getPortNum();
           case MYSQL:
             return "jdbc:microsoft:sqlserver:" + this.getHostName() + ":" + this.getPortNum();
+          default:
+            break;
       }
     }
 
@@ -136,19 +121,19 @@ public class DataStore implements Serializable {
     this.name = name;
   }
 
-  public Type getType() {
+  public CommCode.DataStoreType getType() {
     return type;
   }
 
-  public void setType(Type type) {
+  public void setType(CommCode.DataStoreType type) {
     this.type = type;
   }
 
-  public SubType getSubType() {
+  public CommCode.SubType getSubType() {
     return subType;
   }
 
-  public void setSubType(SubType subType) {
+  public void setSubType(CommCode.SubType subType) {
     this.subType = subType;
   }
 

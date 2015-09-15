@@ -2051,7 +2051,7 @@ console.info('data', data);
     
   $scope.onDroppedDatasoruce = function(event, ui) {
   	var position = $scope.editor.getCursorPosition();
-  	$scope.editor.getSession().insert(position, "\"" + $scope.dragDatasource.datsrcName + "\"");
+  	$scope.editor.getSession().insert(position, " source:\"" + $scope.dragDatasource.datsrcName + "\" ");
   	$scope.$parent.toggleSidebar();
   };
   

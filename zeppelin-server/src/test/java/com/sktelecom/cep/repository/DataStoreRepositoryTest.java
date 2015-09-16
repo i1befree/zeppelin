@@ -52,7 +52,7 @@ public class DataStoreRepositoryTest {
     dataStore.setPortNum(3306);
     dataStore.setSubType(CommCode.DataStoreSubType.MSSQL);
     dataStore.setType(CommCode.DataStoreType.DATABASE);
-    dataStore.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+    dataStore.setUpdateDate(new Timestamp(System.currentTimeMillis()));
     dataStore.setUpdator(admin);
     dataStore.setUsername(admin.getName());
 
@@ -73,7 +73,7 @@ public class DataStoreRepositoryTest {
   @Test
   public void testFindByNameOrderByUpdateTimeDesc(){
     Pageable pageable = new PageRequest(0, 10);
-    Page<DataStore> dataStores = dataStoreRepository.findByNameLikeOrderByUpdateTimeDesc("%mymeta%", pageable);
+    Page<DataStore> dataStores = dataStoreRepository.findByNameLikeOrderByUpdateDateDesc("%mymeta%", pageable);
 
     assertEquals(1, dataStores.getTotalPages());
   }

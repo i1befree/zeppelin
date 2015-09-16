@@ -177,7 +177,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
       
       com.sktelecom.cep.entity.WorkspaceShare share = new com.sktelecom.cep.entity.WorkspaceShare();
       share.setWorkspace(workspace);
-      share.setUpdateDate(shareVo.getUpdateDate());
       share.setUpdateUserId(shareVo.getUpdateUserId());
       share.setUser(user);
       

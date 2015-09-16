@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -47,6 +49,11 @@ public class DataSource extends WorkspaceObject {
   @JoinColumn(name = "datstore_id")
   private DataStore dataStore;
 
+  @PrePersist
+  @PreUpdate
+  public void prePersist() {
+    updateDate = new Date();
+  }
 
   public DataStore getDataStore() {
     return dataStore;

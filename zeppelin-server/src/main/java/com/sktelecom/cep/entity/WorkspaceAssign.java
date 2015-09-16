@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -46,9 +47,9 @@ public class WorkspaceAssign implements Serializable {
   private String updateUserId;
 
   @PrePersist
+  @PreUpdate
   public void prePersist() {
-    if (this.updateDate == null)
-      this.updateDate = new Date();
+    updateDate = new Date();
   }
 
   public String getId() {

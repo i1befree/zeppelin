@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -62,9 +63,9 @@ public class Workspace implements Serializable {
   private List<WorkspaceAssign> workspaceAssigns = new ArrayList<WorkspaceAssign>();
   
   @PrePersist
+  @PreUpdate
   public void prePersist() {
-    if (this.updateDate == null)
-      this.updateDate = new Date();;
+    updateDate = new Date();
   }
 
   public String getWrkspcId() {

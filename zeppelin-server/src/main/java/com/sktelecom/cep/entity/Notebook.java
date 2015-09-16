@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -25,9 +26,9 @@ public class Notebook extends WorkspaceObject {
   private Date updateDate;
 
   @PrePersist
-  protected void updateDates() {
-    if (updateDate == null)
-      updateDate = new Date();
+  @PreUpdate
+  public void prePersist() {
+    updateDate = new Date();
   }
 
   public String getNoteName() {

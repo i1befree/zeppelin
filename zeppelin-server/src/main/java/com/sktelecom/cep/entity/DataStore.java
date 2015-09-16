@@ -1,7 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -68,7 +69,7 @@ public class DataStore implements Serializable {
   private String description;
 
   @Column(name = "update_date")
-  private Timestamp updateTime;
+  private Date updateDate;
 
   @ManyToOne
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
@@ -82,9 +83,9 @@ public class DataStore implements Serializable {
   private Set<DataSource> dataSources = new HashSet<>();
 
   @PrePersist
+  @PreUpdate
   public void prePersist() {
-    if (this.updateTime == null)
-      this.updateTime = new Timestamp(System.currentTimeMillis());
+    updateDate = new Date();
   }
 
   public String getDatabaseUrl() {
@@ -177,12 +178,12 @@ public class DataStore implements Serializable {
     this.description = description;
   }
 
-  public Timestamp getUpdateTime() {
-    return updateTime;
+  public Date getUpdateDate() {
+    return updateDate;
   }
 
-  public void setUpdateTime(Timestamp updateTime) {
-    this.updateTime = updateTime;
+  public void setUpdateDate(Date updateDate) {
+    this.updateDate = updateDate;
   }
 
   public User getUpdator() {

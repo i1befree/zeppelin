@@ -1,6 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,15 +53,10 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
 
+  @PrePersist
   @PreUpdate
   public void prePersist() {
-    this.updateDate = new Date();
-  }
-
-  @PrePersist
-  public void setPersonalWorkspace(){
-    if (this.updateDate == null)
-      this.updateDate = new Date();
+    updateDate = new Date();
   }
 
   public String getUserGrpCd() {

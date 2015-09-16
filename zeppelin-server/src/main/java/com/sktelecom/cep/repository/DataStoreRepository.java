@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("DataStoreRepository")
 public interface DataStoreRepository extends JpaRepository<DataStore, String> {
-  Page<DataStore> findByNameLikeOrderByUpdateTimeDesc(String name, Pageable pageable);
+  Page<DataStore> findByNameLikeOrderByUpdateDateDesc(String name, Pageable pageable);
 }

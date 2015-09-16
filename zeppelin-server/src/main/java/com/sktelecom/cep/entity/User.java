@@ -1,21 +1,10 @@
 package com.sktelecom.cep.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * ValueObject.
@@ -63,8 +52,13 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
   private List<WorkspaceShare> workspaceShares = new ArrayList<WorkspaceShare>();
 
-  @PrePersist
+  @PreUpdate
   public void prePersist() {
+    this.updateDate = new Date();
+  }
+
+  @PrePersist
+  public void setPersonalWorkspace(){
     if (this.updateDate == null)
       this.updateDate = new Date();
   }
@@ -156,6 +150,4 @@ public class User implements Serializable {
   public void setWorkspaceShares(List<WorkspaceShare> workspaceShares) {
     this.workspaceShares = workspaceShares;
   }
-
-  
 }

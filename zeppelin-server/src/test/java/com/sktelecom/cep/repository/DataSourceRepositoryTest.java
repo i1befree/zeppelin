@@ -5,8 +5,15 @@ import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.WorkspaceAssign;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 
@@ -15,22 +22,27 @@ import static org.junit.Assert.assertNotNull;
 /**
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:repository-test-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataSourceRepositoryTest {
-  static GenericXmlApplicationContext ctx;
+  @Autowired
+  DataSourceRepository dataSourceRepository;
+
+  @Autowired
+  UserRepository userRepository;
+
+  @Autowired
+  DataStoreRepository dataStoreRepository;
 
   @BeforeClass
   public static void setUp() {
-    ctx = new GenericXmlApplicationContext();
-    ctx.load("classpath:repository-test-context.xml");
-    ctx.refresh();
   }
 
   @Test
   public void testSave() {
-    DataSourceRepository dataSourceRepository = ctx.getBean("DataSourceRepository", DataSourceRepository.class);
-    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
-    DataStoreRepository dataStoreRepository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
-
     DataStore dataStore = dataStoreRepository.findOne("23caae00-506b-11e5-bb39-063b17d52e29");
     assertNotNull(dataStore);
 

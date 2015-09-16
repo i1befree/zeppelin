@@ -7,8 +7,13 @@ import com.sktelecom.cep.entity.WorkspaceObject.ObjectType;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 
@@ -20,22 +25,24 @@ import static org.junit.Assert.assertNotNull;
 /**
  * NotebookRepository 테스트용 클래스
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:repository-test-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotebookRepositoryTest {
-  static GenericXmlApplicationContext ctx;
+  @Autowired
+  NotebookRepository notebookRepository;
+
+  @Autowired
+  UserRepository userRepository;
 
   @BeforeClass
   public static void setUp() {
-    ctx = new GenericXmlApplicationContext();
-    ctx.load("classpath:repository-test-context.xml");
-    ctx.refresh();
   }
 
   @Test
   public void testSave() {
-    NotebookRepository notebookRepository = ctx.getBean("NotebookRepository", NotebookRepository.class);
-    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
-
     User admin = userRepository.findOne("admin");
 
     Notebook notebook = new Notebook();
@@ -58,9 +65,7 @@ public class NotebookRepositoryTest {
 
   @Test
   public void testFindOne() {
-    NotebookRepository repository = ctx.getBean("NotebookRepository", NotebookRepository.class);
-
-    Notebook notebook = repository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eez");
+    Notebook notebook = notebookRepository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eez");
     assertNotNull(notebook);
 
     assertEquals("note test", notebook.getNoteName());

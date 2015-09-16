@@ -1,16 +1,15 @@
 package com.sktelecom.cep.repository;
 
+import com.sktelecom.cep.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import com.sktelecom.cep.entity.Role;
 
 /**
  * RoleRepository.
  * @author Sangmin Park
  *
  */
-@Repository
+@Repository("RoleRepository")
 public interface RoleRepository extends JpaRepository<Role, String> {
   Role findByCode(String roleCd);
 }

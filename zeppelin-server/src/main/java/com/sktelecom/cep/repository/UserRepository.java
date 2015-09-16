@@ -14,4 +14,5 @@ import org.springframework.stereotype.Repository;
 @Repository("UserRepository")
 public interface UserRepository extends JpaRepository<User, String> {
   Page<User> findByNameLikeOrderByNameAsc(String name, Pageable pageable);
+  Page<User> findByIdLikeOrderByIdDesc(String id, Pageable pageable);
 }

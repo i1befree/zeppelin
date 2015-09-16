@@ -108,7 +108,7 @@ CREATE TABLE user
   id             VARCHAR(45) NOT NULL,
   name           VARCHAR(100),
   passwd         VARCHAR(500),
-  wrkspc_id      VARCHAR(36) NOT NULL,
+  wrkspc_id      VARCHAR(36),
   email          VARCHAR(50),
   tel            VARCHAR(14),
   user_grp_cd    VARCHAR(2),

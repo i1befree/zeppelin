@@ -8,32 +8,39 @@ import java.sql.Timestamp;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:repository-test-context.xml")
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataStoreRepositoryTest {
-  static GenericXmlApplicationContext ctx;
+  @Autowired
+  DataStoreRepository dataStoreRepository;
+
+  @Autowired
+  UserRepository userRepository;
 
   @BeforeClass
   public static void setUp(){
-    ctx = new GenericXmlApplicationContext();
-    ctx.load("classpath:repository-test-context.xml");
-    ctx.refresh();
   }
 
   @Test
   public void testSave(){
-    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
-    UserRepository userRepository = ctx.getBean("UserRepository", UserRepository.class);
-
     User admin = userRepository.findOne("admin");
     assertNotNull(admin);
 
@@ -49,7 +56,7 @@ public class DataStoreRepositoryTest {
     dataStore.setUpdator(admin);
     dataStore.setUsername(admin.getName());
 
-    DataStore returnVal = repository.save(dataStore);
+    DataStore returnVal = dataStoreRepository.save(dataStore);
 
     assertNotNull(returnVal.getId());
     assertEquals("database test", returnVal.getName());
@@ -57,8 +64,7 @@ public class DataStoreRepositoryTest {
 
   @Test
   public void testFindOne(){
-    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
-    DataStore dataStore = repository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eea");
+    DataStore dataStore = dataStoreRepository.findOne("5c9439ee-ca70-4878-9e38-0ca6d3bd6eea");
 
     assertNotNull(dataStore);
     assertEquals("mymeta", dataStore.getName());
@@ -66,9 +72,8 @@ public class DataStoreRepositoryTest {
 
   @Test
   public void testFindByNameOrderByUpdateTimeDesc(){
-    DataStoreRepository repository = ctx.getBean("DataStoreRepository", DataStoreRepository.class);
     Pageable pageable = new PageRequest(0, 10);
-    Page<DataStore> dataStores = repository.findByNameLikeOrderByUpdateTimeDesc("%mymeta%", pageable);
+    Page<DataStore> dataStores = dataStoreRepository.findByNameLikeOrderByUpdateTimeDesc("%mymeta%", pageable);
 
     assertEquals(1, dataStores.getTotalPages());
   }

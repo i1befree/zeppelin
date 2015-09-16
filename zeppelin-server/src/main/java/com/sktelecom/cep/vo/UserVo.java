@@ -22,9 +22,15 @@ public class UserVo implements Serializable {
   private Date updateDate;
   private String updateUserId;
   //private WorkspaceVo workspace;
-  //private RoleVo role;
   private String userGrpCd;
-
+  private RoleVo role;
+  
+  public RoleVo getRole() {
+    return role;
+  }
+  public void setRole(RoleVo role) {
+    this.role = role;
+  }
   public String getUserGrpCd() {
     return userGrpCd;
   }

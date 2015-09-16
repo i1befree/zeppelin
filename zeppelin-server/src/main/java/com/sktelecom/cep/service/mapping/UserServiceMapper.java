@@ -8,8 +8,12 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.sktelecom.cep.entity.Role;
 import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.Workspace;
+import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.vo.PageVo;
+import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -46,7 +50,7 @@ public class UserServiceMapper extends AbstractServiceMapper {
    * 
    * @param UserEntity
    */
-  public UserVo mapUserEntityToUserVo(User entity) {
+  public UserVo mapEntityToVo(User entity) {
     if (entity == null) {
       return null;
     }
@@ -63,13 +67,13 @@ public class UserServiceMapper extends AbstractServiceMapper {
    * @param list
    * @return
    */
-  public PageVo<UserVo> mapListUserEntityToUserVo(Page<User> page) {
+  public PageVo<UserVo> mapListEntityToVo(Page<User> page) {
     PageVo<UserVo> pageVo = new PageVo<UserVo>();
     pageVo.setTotalCount(page.getTotalElements());
     pageVo.setPageSize(page.getSize());
     List<UserVo> listVo = new ArrayList<UserVo>();
     for (com.sktelecom.cep.entity.User entity : page.getContent()) {
-      listVo.add(mapUserEntityToUserVo(entity));
+      listVo.add(mapEntityToVo(entity));
     }
     pageVo.setContent(listVo);
 
@@ -77,12 +81,62 @@ public class UserServiceMapper extends AbstractServiceMapper {
   }
 
   /**
+   * workspace 공유 멤버 목록을 가져온다.
+   * @param workspace
+   * @param roles
+   * @return
+   */
+  public List<UserVo> mapListUserVoFromWorkspaceEntity(Workspace workspace, List<Role> roles) {
+    List<UserVo> list = new ArrayList<UserVo>();
+    
+    List<WorkspaceShare> shareList = workspace.getWorkspaceShares();
+    for (WorkspaceShare share : shareList) {
+      UserVo userVo = mapEntityToVo(share.getUser());
+      userVo.setRole(getMatchRole(roles, userVo.getUserGrpCd()));
+      list.add(userVo);
+    }
+    return list;
+  }
+
+  /**
+   * 유저목록entity 를 vo 목록으로 리턴
+   * @param userList
+   * @param roles
+   * @return
+   */
+  public List<UserVo> mapListUserVoFromEntity(List<User> userList, List<Role> roles) {
+    List<UserVo> list = new ArrayList<UserVo>();
+    
+    for (User userEntity : userList) {
+      UserVo userVo = mapEntityToVo(userEntity);
+      userVo.setRole(getMatchRole(roles, userVo.getUserGrpCd()));
+      list.add(userVo);
+    }
+    return list;
+  }
+
+  /**
+   * 사용자 그룹코드와 같은 role을 리턴한다.
+   * @param roles
+   * @param roleCode
+   * @return
+   */
+  public RoleVo getMatchRole(List<Role> roles, String roleCode) {
+    for (Role roleEntity : roles) {
+      if (roleCode.equals(roleEntity.getCode())) {
+        return mapEntityToVo(roleEntity, RoleVo.class);
+      }
+    }
+    return null;
+  }
+  
+  /**
    * Mapping from vo to Entity
    * 
    * @param User
    * @param UserEntity
    */
-  public void mapUserVoToUserEntity(UserVo vo, User entity) {
+  public void mapVoToEntity(UserVo vo, User entity) {
     if (vo == null) {
       return;
     }

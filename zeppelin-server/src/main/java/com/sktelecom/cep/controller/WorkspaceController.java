@@ -20,6 +20,7 @@ import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
@@ -197,6 +198,11 @@ public class WorkspaceController {
     return workspaceService.getDatasourceList(workspace);
   }
   
+  /**
+   * 작업공간 조회 (데이타소스목록, 노트북 목록 포함)
+   * @param workspace
+   * @return
+   */
   @RequestMapping(value = "/workspace/getWorkspaceObject", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
@@ -240,8 +246,8 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/getWorkspaceMemberList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<WorkspaceMember> getWorkspaceMemberList(@RequestBody Workspace workspace) {
-    List<WorkspaceMember> list = workspaceService.getWorkspaceMemberList(workspace);
+  public List<UserVo> getWorkspaceMemberList(@RequestBody WorkspaceVo workspace) {
+    List<UserVo> list = workspaceService.getWorkspaceMemberList(workspace);
     return list;
   }
   

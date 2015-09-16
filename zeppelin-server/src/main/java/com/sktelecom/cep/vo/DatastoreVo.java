@@ -19,7 +19,7 @@ public class DatastoreVo implements Serializable {
   private String id;
   private String name;
   private CommCode.DataStoreType type;
-  private CommCode.SubType subType;
+  private CommCode.DataStoreSubType subType;
   private String hostName;
   private int portNum;
   private String username;
@@ -46,10 +46,10 @@ public class DatastoreVo implements Serializable {
   public void setType(CommCode.DataStoreType type) {
     this.type = type;
   }
-  public CommCode.SubType getSubType() {
+  public CommCode.DataStoreSubType getSubType() {
     return subType;
   }
-  public void setSubType(CommCode.SubType subType) {
+  public void setSubType(CommCode.DataStoreSubType subType) {
     this.subType = subType;
   }
   public String getHostName() {

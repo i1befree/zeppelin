@@ -43,15 +43,15 @@ public abstract class WorkspaceObject implements Serializable {
 
   @Column(name = "wrkspc_obj_type")
   @Enumerated(EnumType.STRING)
-  private CommCode.ObjectType wrkspcObjType;
+  private CommCode.WorkspaceObjectType wrkspcObjType;
 
   @Column(name = "share_type")
   @Enumerated(EnumType.STRING)
-  private CommCode.ShareType shareType;
+  private CommCode.WorkspaceObjectShareType shareType;
 
   @Column(name = "obj_status")
   @Enumerated(EnumType.STRING)
-  private CommCode.Status objStatus;
+  private CommCode.WorkspaceObjectStatus objStatus;
 
   @OneToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "create_user_id", referencedColumnName = "id")
@@ -88,27 +88,27 @@ public abstract class WorkspaceObject implements Serializable {
     this.wrkspcObjId = wrkspcObjId;
   }
 
-  public CommCode.ObjectType getWrkspcObjType() {
+  public CommCode.WorkspaceObjectType getWrkspcObjType() {
     return wrkspcObjType;
   }
 
-  public void setWrkspcObjType(CommCode.ObjectType wrkspcObjType) {
+  public void setWrkspcObjType(CommCode.WorkspaceObjectType wrkspcObjType) {
     this.wrkspcObjType = wrkspcObjType;
   }
 
-  public CommCode.ShareType getShareType() {
+  public CommCode.WorkspaceObjectShareType getShareType() {
     return shareType;
   }
 
-  public void setShareType(CommCode.ShareType shareType) {
+  public void setShareType(CommCode.WorkspaceObjectShareType shareType) {
     this.shareType = shareType;
   }
 
-  public CommCode.Status getObjStatus() {
+  public CommCode.WorkspaceObjectStatus getObjStatus() {
     return objStatus;
   }
 
-  public void setObjStatus(CommCode.Status objStatus) {
+  public void setObjStatus(CommCode.WorkspaceObjectStatus objStatus) {
     this.objStatus = objStatus;
   }
 

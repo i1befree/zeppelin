@@ -1,21 +1,20 @@
 package com.sktelecom.cep.repository;
 
-import com.sktelecom.cep.entity.Notebook;
-import com.sktelecom.cep.entity.User;
-import com.sktelecom.cep.entity.WorkspaceAssign;
-import com.sktelecom.cep.entity.WorkspaceObject.ObjectType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.Date;
+
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-import java.sql.Date;
-
-import static com.sktelecom.cep.entity.WorkspaceObject.ShareType;
-import static com.sktelecom.cep.entity.WorkspaceObject.Status;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.sktelecom.cep.common.CommCode;
+import com.sktelecom.cep.entity.Notebook;
+import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.WorkspaceAssign;
 
 /**
  * NotebookRepository 테스트용 클래스
@@ -43,9 +42,9 @@ public class NotebookRepositoryTest {
     notebook.setNoteName("Notebook test");
     notebook.setUpdateDate(new Date(System.currentTimeMillis()));
     notebook.setOwner(admin);
-    notebook.setShareType(ShareType.NONE);
-    notebook.setObjStatus(Status.CREATED);
-    notebook.setWrkspcObjType(ObjectType.NOTEBOOK);
+    notebook.setShareType(CommCode.WorkspaceObjectShareType.NONE);
+    notebook.setObjStatus(CommCode.WorkspaceObjectStatus.CREATED);
+    notebook.setWrkspcObjType(CommCode.WorkspaceObjectType.NOTEBOOK);
 
     WorkspaceAssign assign = new WorkspaceAssign();
     assign.setWorkspaceObject(notebook);

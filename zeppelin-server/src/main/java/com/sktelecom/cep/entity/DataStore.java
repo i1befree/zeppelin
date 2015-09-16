@@ -50,7 +50,7 @@ public class DataStore implements Serializable {
 
   @Column(name = "datstore_subtype")
   @Enumerated(EnumType.STRING)
-  private CommCode.SubType subType;
+  private CommCode.DataStoreSubType subType;
 
   @Column(name = "host_name")
   private String hostName;
@@ -129,11 +129,11 @@ public class DataStore implements Serializable {
     this.type = type;
   }
 
-  public CommCode.SubType getSubType() {
+  public CommCode.DataStoreSubType getSubType() {
     return subType;
   }
 
-  public void setSubType(CommCode.SubType subType) {
+  public void setSubType(CommCode.DataStoreSubType subType) {
     this.subType = subType;
   }
 

@@ -1,9 +1,11 @@
 package com.sktelecom.cep.repository;
 
+import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.WorkspaceAssign;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -47,9 +49,9 @@ public class DataSourceRepositoryTest {
     dataSource.setLastModifiedUser(admin);
     dataSource.setCreator(admin);
     dataSource.setOwner(admin);
-    dataSource.setObjStatus(DataSource.Status.CREATED);
-    dataSource.setShareType(DataSource.ShareType.NONE);
-    dataSource.setWrkspcObjType(DataSource.ObjectType.DATSRC);
+    dataSource.setObjStatus(CommCode.WorkspaceObjectStatus.CREATED);
+    dataSource.setShareType(CommCode.WorkspaceObjectShareType.NONE);
+    dataSource.setWrkspcObjType(CommCode.WorkspaceObjectType.DATSRC);
 
     // Assign to workspace
     WorkspaceAssign assign = new WorkspaceAssign();

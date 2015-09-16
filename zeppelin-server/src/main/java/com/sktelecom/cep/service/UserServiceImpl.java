@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     //com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
     
     com.sktelecom.cep.entity.User newUser = new com.sktelecom.cep.entity.User();
-    userServiceMapper.mapUserVoToUserEntity(userVo, newUser);
+    userServiceMapper.mapVoToEntity(userVo, newUser);
     newUser.setWorkspace(workspace);
     //newUser.setRole(role);
     com.sktelecom.cep.entity.User savedUser = userRepository.save(newUser);
@@ -99,15 +99,15 @@ public class UserServiceImpl implements UserService {
 //    userVo.setRole(updatableUserRole);
     
     com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
-    userServiceMapper.mapUserVoToUserEntity(userVo, user);
+    userServiceMapper.mapVoToEntity(userVo, user);
     com.sktelecom.cep.entity.User updatedUser = userRepository.save(user);
-    return userServiceMapper.mapUserEntityToUserVo(updatedUser);
+    return userServiceMapper.mapEntityToVo(updatedUser);
   }
 
   @Override
   public int updateByManager(UserVo user) {
     com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
-    userServiceMapper.mapUserVoToUserEntity(user, userEntity);
+    userServiceMapper.mapVoToEntity(user, userEntity);
     com.sktelecom.cep.entity.User userEntitySaved = userRepository.save(userEntity);
     return 1;
   }
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
     
     //convert from entity to vo 
-    UserVo userInfo = userServiceMapper.mapUserEntityToUserVo(userEntity);
+    UserVo userInfo = userServiceMapper.mapEntityToVo(userEntity);
     return userInfo;
   }
 
@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
     Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);
     
     //convert from entity to vo 
-    PageVo<UserVo> page = userServiceMapper.mapListUserEntityToUserVo(result);   
+    PageVo<UserVo> page = userServiceMapper.mapListEntityToVo(result);   
     return page;
   }
 

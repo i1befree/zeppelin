@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Notebook;
+import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceMember;
 import com.sktelecom.cep.vo.WorkspaceShare;
@@ -96,7 +97,7 @@ public interface WorkspaceService {
    * @param workspace
    * @return
    */
-  List<WorkspaceMember> getWorkspaceMemberList(Workspace workspace);
+  List<UserVo> getWorkspaceMemberList(WorkspaceVo workspace);
 
   /**
    * 작업공간 공유 사용자를 추가한다.

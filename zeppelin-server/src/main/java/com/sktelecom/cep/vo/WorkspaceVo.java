@@ -26,7 +26,14 @@ public class WorkspaceVo implements Serializable {
   private String updateUserId;  
   private List<NotebookVo> notebooks = new ArrayList<NotebookVo>();
   private List<DatasourceVo> datasources = new ArrayList<DatasourceVo>();
+  private List<UserVo> users = new ArrayList<UserVo>();
   
+  public List<UserVo> getUsers() {
+    return users;
+  }
+  public void setUsers(List<UserVo> users) {
+    this.users = users;
+  }
   public String getWrkspcId() {
     return wrkspcId;
   }

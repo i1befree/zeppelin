@@ -9,12 +9,16 @@ import org.springframework.stereotype.Component;
 
 import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataSource;
+import com.sktelecom.cep.entity.Role;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceAssign;
 import com.sktelecom.cep.entity.WorkspaceObject;
+import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.NotebookVo;
+import com.sktelecom.cep.vo.RoleVo;
+import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -37,7 +41,8 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
   }
 
   /**
-   * List Mapping from entity to vo
+   * List Mapping from entity to vo.
+   * workspace 에 notebook list, datasource list 를 포함한다.
    * 
    * @param list
    * @return
@@ -48,27 +53,32 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
     for (WorkspaceAssign assign : assignList) {
       WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
-      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
+      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.DATSRC) {
         DataSource datasource = (DataSource) workspaceObjectEntity.getTarget();
         
         DatasourceVo dsvo = mapEntityToVo(datasource, DatasourceVo.class);
         dsvo.setDatastore(mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
         workspaceVo.getDatasources().add(dsvo);
         
-      } else if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.NOTEBOOK) {
+      } else if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.NOTEBOOK) {
         workspaceVo.getNotebooks().add(mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class));
       }
     }
     return workspaceVo;
   }
 
-  public List<DatasourceVo> mapDatasourceVoFromEntity(Workspace workspace) {
+  /**
+   * workspace 에서 datasource 목록만 추출한다.
+   * @param workspace
+   * @return
+   */
+  public List<DatasourceVo> mapListDatasourceVoFromEntity(Workspace workspace) {
     List<DatasourceVo> list = new ArrayList<DatasourceVo>();
     
     List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
     for (WorkspaceAssign assign : assignList) {
       WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
-      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.ObjectType.DATSRC) {
+      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.DATSRC) {
         DataSource datasource = (DataSource) workspaceObjectEntity.getTarget();
         
         DatasourceVo dsvo = mapEntityToVo(datasource, DatasourceVo.class);
@@ -79,6 +89,7 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     }
     return list;
   }
+  
 
   @Override
   protected ModelMapper getModelMapper() {

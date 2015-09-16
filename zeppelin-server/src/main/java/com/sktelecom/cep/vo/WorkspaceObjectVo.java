@@ -13,9 +13,9 @@ import com.sktelecom.cep.common.CommCode;
 public abstract class WorkspaceObjectVo implements Serializable {
   
   private String wrkspcObjId;
-  private CommCode.ObjectType wrkspcObjType;
-  private CommCode.ShareType shareType;
-  private CommCode.Status objStatus;
+  private CommCode.WorkspaceObjectType wrkspcObjType;
+  private CommCode.WorkspaceObjectShareType shareType;
+  private CommCode.WorkspaceObjectStatus objStatus;
   private UserVo creator;
   private UserVo owner;
 
@@ -27,27 +27,27 @@ public abstract class WorkspaceObjectVo implements Serializable {
     this.wrkspcObjId = wrkspcObjId;
   }
 
-  public CommCode.ObjectType getWrkspcObjType() {
+  public CommCode.WorkspaceObjectType getWrkspcObjType() {
     return wrkspcObjType;
   }
 
-  public void setWrkspcObjType(CommCode.ObjectType wrkspcObjType) {
+  public void setWrkspcObjType(CommCode.WorkspaceObjectType wrkspcObjType) {
     this.wrkspcObjType = wrkspcObjType;
   }
 
-  public CommCode.ShareType getShareType() {
+  public CommCode.WorkspaceObjectShareType getShareType() {
     return shareType;
   }
 
-  public void setShareType(CommCode.ShareType shareType) {
+  public void setShareType(CommCode.WorkspaceObjectShareType shareType) {
     this.shareType = shareType;
   }
 
-  public CommCode.Status getObjStatus() {
+  public CommCode.WorkspaceObjectStatus getObjStatus() {
     return objStatus;
   }
 
-  public void setObjStatus(CommCode.Status objStatus) {
+  public void setObjStatus(CommCode.WorkspaceObjectStatus objStatus) {
     this.objStatus = objStatus;
   }
 

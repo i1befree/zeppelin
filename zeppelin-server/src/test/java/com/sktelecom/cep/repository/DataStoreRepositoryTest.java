@@ -1,8 +1,10 @@
 package com.sktelecom.cep.repository;
 
-import com.sktelecom.cep.entity.DataStore;
-import com.sktelecom.cep.entity.DataStore.SubType;
-import com.sktelecom.cep.entity.User;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.sql.Timestamp;
+
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -12,11 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.sql.Timestamp;
-
-import static com.sktelecom.cep.entity.DataStore.Type;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.sktelecom.cep.common.CommCode;
+import com.sktelecom.cep.entity.DataStore;
+import com.sktelecom.cep.entity.User;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataStoreRepositoryTest {
@@ -43,8 +43,8 @@ public class DataStoreRepositoryTest {
     dataStore.setHostName("cep1");
     dataStore.setPassword("mytest");
     dataStore.setPortNum(3306);
-    dataStore.setSubType(SubType.MSSQL);
-    dataStore.setType(Type.DATABASE);
+    dataStore.setSubType(CommCode.DataStoreSubType.MSSQL);
+    dataStore.setType(CommCode.DataStoreType.DATABASE);
     dataStore.setUpdateTime(new Timestamp(System.currentTimeMillis()));
     dataStore.setUpdator(admin);
     dataStore.setUsername(admin.getName());

@@ -21,18 +21,18 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
 		enableSelectAll: true,
     onRegisterApi : function(gridApi){
     	gridApi.selection.on.rowSelectionChanged($scope,function(row){
-    		$scope.selected[row.entity.userId] = row.isSelected;
+    		$scope.selected[row.entity.id] = row.isSelected;
       });
     	gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
     		angular.forEach(rows, function(row, index) {
-    			$scope.selected[row.entity.userId] = row.isSelected;
+    			$scope.selected[row.entity.id] = row.isSelected;
     		});
       });
     },
 		columnDefs : [
-		  {name:'userName'  , displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'userId'    , displayName: 'ID'  , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'roleName'  , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
+		  {name:'name'  , displayName: 'Name', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'id'    , displayName: 'ID'  , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
+		  {name:'role.name'  , displayName: 'Role', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	$scope.display = 'info';
@@ -69,7 +69,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
 			$scope.memberList = result;
 			$scope.gridOptionsForMember.data = $scope.memberList;
 			angular.forEach($scope.memberList, function(item, index) {
-  			$scope.selected[item.userId] = false;
+  			$scope.selected[item.id] = false;
   		});
   	}, function(error) {
   		alert(error);

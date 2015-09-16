@@ -18,7 +18,7 @@ public class CommCode {
   /**
    * Status of workspace's object
    */
-  public enum Status {
+  public enum WorkspaceObjectStatus {
     CREATED,
     DROPPED
   }
@@ -26,7 +26,7 @@ public class CommCode {
   /**
    * Type of workspace's share
    */
-  public enum ShareType {
+  public enum WorkspaceObjectShareType {
     NONE,
     ALL
   }
@@ -34,7 +34,7 @@ public class CommCode {
   /**
    * Type of workspace's object
    */
-  public enum ObjectType {
+  public enum WorkspaceObjectType {
     DATSRC,
     NOTEBOOK
   }
@@ -42,7 +42,7 @@ public class CommCode {
   /**
    * Type of DataStore.
    */
-  public static enum DataStoreType {
+  public enum DataStoreType {
     INTERNAL,
     DATABASE,
     HDFS
@@ -51,7 +51,7 @@ public class CommCode {
   /**
    * if type is DATABASE, choose this one.
    */
-  public static enum SubType {
+  public enum DataStoreSubType {
     MYSQL,
     MSSQL,
     ORACLE,

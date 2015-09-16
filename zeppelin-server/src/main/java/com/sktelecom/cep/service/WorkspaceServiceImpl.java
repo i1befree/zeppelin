@@ -13,7 +13,9 @@ import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.NotebookDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.repository.RoleRepository;
+import com.sktelecom.cep.repository.UserRepository;
 import com.sktelecom.cep.repository.WorkspaceRepository;
+import com.sktelecom.cep.repository.WorkspaceShareRepository;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.service.mapping.WorkspaceServiceMapper;
 import com.sktelecom.cep.vo.DatasourceVo;
@@ -46,6 +48,12 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Inject
   private WorkspaceRepository workspaceRepository;
+
+  @Inject
+  private WorkspaceShareRepository workspaceShareRepository;
+
+  @Inject
+  private UserRepository userRepository;
 
   @Inject
   private WorkspaceServiceMapper workspaceServiceMapper;
@@ -159,21 +167,31 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
-  public int insertMembers(List<WorkspaceShare> wsList) {
-    int resultInt = 0;
-    for (WorkspaceShare item : wsList) {
-      resultInt += workspaceDao.insertMembers(item);
+  public int insertMembers(WorkspaceVo workspaceVo, List<WorkspaceShare> wsList) {
+    com.sktelecom.cep.entity.Workspace workspace = new com.sktelecom.cep.entity.Workspace();
+    workspace.setWrkspcId(workspaceVo.getWrkspcId());
+    
+    for (WorkspaceShare shareVo : wsList) {
+      com.sktelecom.cep.entity.User user = new com.sktelecom.cep.entity.User();
+      user.setId(shareVo.getUserId());
+      
+      com.sktelecom.cep.entity.WorkspaceShare share = new com.sktelecom.cep.entity.WorkspaceShare();
+      share.setWorkspace(workspace);
+      share.setUpdateDate(shareVo.getUpdateDate());
+      share.setUpdateUserId(shareVo.getUpdateUserId());
+      share.setUser(user);
+      
+      workspaceShareRepository.save(share);
     }
-    return resultInt;
+    return 1;
   }
 
   @Override
-  public int deleteMembers(List<WorkspaceShare> wsList) {
-    int resultInt = 0;
-    for (WorkspaceShare item : wsList) {
-      resultInt += workspaceDao.deleteMembers(item);
+  public int deleteMembers(WorkspaceVo workspaceVo, List<WorkspaceShare> wsList) {
+    for (WorkspaceShare shareVo : wsList) {
+      workspaceShareRepository.deleteByWorkspaceWrkspcIdAndUserId(workspaceVo.getWrkspcId(), shareVo.getUserId());
     }
-    return resultInt;
+    return 1;
   }
 
   @Override

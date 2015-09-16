@@ -275,7 +275,9 @@ public class WorkspaceController {
       share.setUpdateUserId(userSession.getId());
       wsList.add(share);
     }
-    int resultInt = workspaceService.insertMembers(wsList);
+    WorkspaceVo workspace = new WorkspaceVo();
+    workspace.setWrkspcId(workspaceMember.getWrkspcId());
+    int resultInt = workspaceService.insertMembers(workspace, wsList);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
       message.setRsMessage("작업공간 멤버추가를 수정하였습니다.");
@@ -307,7 +309,9 @@ public class WorkspaceController {
       share.setUpdateUserId(userSession.getId());
       wsList.add(share);
     }
-    int resultInt = workspaceService.deleteMembers(wsList);
+    WorkspaceVo workspace = new WorkspaceVo();
+    workspace.setWrkspcId(workspaceMember.getWrkspcId());
+    int resultInt = workspaceService.deleteMembers(workspace, wsList);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
       message.setRsMessage("작업공간 멤버삭제를 수정하였습니다.");

@@ -1,7 +1,10 @@
 package com.sktelecom.cep.repository;
 
-import com.sktelecom.cep.entity.User;
-import com.sktelecom.cep.entity.Workspace;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.Date;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,10 +18,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.sktelecom.cep.common.CommCode;
+import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.Workspace;
 
 /**
  * UserRepositoryTest
@@ -77,7 +79,7 @@ public class UserRepositoryTest {
     workspace.setDescription("Personal workspace");
     workspace.setUpdateDate(new Date());
     workspace.setUpdateUserId(user.getId());
-    workspace.setWrkspcType(Workspace.Type.PERSONAL);
+    workspace.setWrkspcType(CommCode.WorkspaceType.PERSONAL);
 
     Workspace retWorkspace = workspaceRepository.save(workspace);
 

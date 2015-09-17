@@ -19,7 +19,7 @@ import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.common.UserGroupCodeEnum;
 import com.sktelecom.cep.service.UserService;
 import com.sktelecom.cep.vo.PageVo;
-import com.sktelecom.cep.vo.Role;
+import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.UserVo;
 
@@ -143,7 +143,7 @@ public class UserController {
    */
   @RequestMapping(value = "/user/getRole", method = RequestMethod.POST)
   @ResponseBody
-  public List<Role> getRole(){
+  public List<RoleVo> getRole(){
     return userService.getRole();
   }
 

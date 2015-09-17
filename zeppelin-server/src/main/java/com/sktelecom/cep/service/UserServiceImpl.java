@@ -12,17 +12,16 @@ import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.common.CipherUtils;
 import com.sktelecom.cep.common.CommCode;
-import com.sktelecom.cep.dao.UserDao;
-import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.repository.RoleRepository;
 import com.sktelecom.cep.repository.UserRepository;
 import com.sktelecom.cep.repository.WorkspaceRepository;
 import com.sktelecom.cep.repository.WorkspaceShareRepository;
+import com.sktelecom.cep.service.mapping.RoleServiceMapper;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.vo.PageVo;
-import com.sktelecom.cep.vo.Role;
+import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -34,12 +33,6 @@ import com.sktelecom.cep.vo.UserVo;
 public class UserServiceImpl implements UserService {
 
   static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-
-  @Inject
-  private UserDao userDao;
-
-  @Inject
-  private WorkspaceDao workspaceDao;
 
   @Inject
   private UserRepository userRepository;
@@ -55,6 +48,11 @@ public class UserServiceImpl implements UserService {
 
   @Inject
   private UserServiceMapper userServiceMapper;
+  
+  @Inject
+  private RoleServiceMapper roleServiceMapper;
+  
+  
 
   @Override
   public int create(UserVo userVo) {
@@ -151,8 +149,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<Role> getRole() {
-    return this.userDao.getRole();
+  public List<RoleVo> getRole() {
+    List<com.sktelecom.cep.entity.Role> roleEntity = roleRepository.findAll();
+    
+    //convert from entity to vo 
+    return roleServiceMapper.mapListEntityToVo(roleEntity, RoleVo.class);
   }
 
 }

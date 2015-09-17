@@ -7,8 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 
 import com.sktelecom.cep.vo.PageVo;
-import com.sktelecom.cep.vo.Role;
-import com.sktelecom.cep.vo.User;
+import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -79,5 +78,5 @@ public interface UserService {
    * 사용자 그룹 목록 가져오기.
    * @return
    */
-  List<Role> getRole();
+  List<RoleVo> getRole();
 }

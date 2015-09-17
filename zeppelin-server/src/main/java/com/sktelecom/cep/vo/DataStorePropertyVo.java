@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author 박상민
  */
 @SuppressWarnings("serial")
-public class DatastoreProperty implements Serializable{
+public class DataStorePropertyVo implements Serializable{
   private String id;
   private String name;
   private String value;

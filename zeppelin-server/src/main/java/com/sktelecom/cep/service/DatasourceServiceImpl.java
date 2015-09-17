@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.inject.Inject;
@@ -27,24 +26,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.common.CommCode;
-import com.sktelecom.cep.dao.DatasourceDao;
-import com.sktelecom.cep.dao.DatastoreDao;
-import com.sktelecom.cep.dao.WorkspaceAssignDao;
-import com.sktelecom.cep.dao.WorkspaceObjectDao;
 import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataSourceRepository;
 import com.sktelecom.cep.service.mapping.DatasourceServiceMapper;
-import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.Datastore;
+import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
-import com.sktelecom.cep.vo.WorkspaceAssign;
-import com.sktelecom.cep.vo.WorkspaceObject;
+import com.sktelecom.cep.vo.WorkspaceObjectVo;
 
 /**
  * 데이타소스 - 데이타소스 CRUD 담당 Service 구현체.
@@ -55,18 +48,6 @@ import com.sktelecom.cep.vo.WorkspaceObject;
 public class DatasourceServiceImpl implements DatasourceService {
 
   static final Logger LOG = LoggerFactory.getLogger(DatasourceServiceImpl.class);
-
-  @Inject
-  private DatasourceDao datasourceDao;
-  
-  @Inject
-  private DatastoreDao datastoreDao;
-  
-  @Inject
-  private WorkspaceObjectDao workspaceObjectDao;
-  
-  @Inject
-  private WorkspaceAssignDao workspaceAssignDao;
 
   @Inject
   private DataSourceRepository dataSourceRepository;
@@ -102,38 +83,39 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<Datasource> getList(Datasource datasource) {
-    List<Datasource> datasourceList = datasourceDao.getList(datasource);
-    return datasourceList;
+  public List<DatasourceVo> getList(DatasourceVo datasource) {
+//    List<DatasourceVo> datasourceList = datasourceDao.getList(datasource);
+//    return datasourceList;
+    return null;
   }
 
   @Override
-  public int saveAssignWorkspace(WorkspaceObject workspaceObject) {
-    if ("ALL".equals(workspaceObject.getShareType())) {
-      //remove all
-      //update sharetype
-      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
-      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
-      
-      //데이타소스를 모든 갖업공간에 할당한다.
-      workspaceObjectDao.updateForShareType(workspaceObject);
-    } else {
-      //remove all
-      //add
-      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
-      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
-      
-      for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
-        info.setAssignId(UUID.randomUUID().toString());
-        info.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-        workspaceAssignDao.create(info);
-      }
-      //데이타소스를 모든 갖업공간에 할당한다.
-      workspaceObject.setShareType("NONE");
-      workspaceObjectDao.updateForShareType(workspaceObject);
-    }
+  public int saveAssignWorkspace(WorkspaceObjectVo workspaceObject) {
+//    if ("ALL".equals(workspaceObject.getShareType())) {
+//      //remove all
+//      //update sharetype
+//      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
+//      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+//      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
+//      
+//      //데이타소스를 모든 갖업공간에 할당한다.
+//      workspaceObjectDao.updateForShareType(workspaceObject);
+//    } else {
+//      //remove all
+//      //add
+//      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
+//      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+//      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
+//      
+//      for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
+//        info.setAssignId(UUID.randomUUID().toString());
+//        info.setWrkspcObjId(workspaceObject.getWrkspcObjId());
+//        workspaceAssignDao.create(info);
+//      }
+//      //데이타소스를 모든 갖업공간에 할당한다.
+//      workspaceObject.setShareType("NONE");
+//      workspaceObjectDao.updateForShareType(workspaceObject);
+//    }
     return 1;
   }
 
@@ -145,29 +127,29 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<LayoutSchema> loadDatasourceMetadata(Datasource datasource) {
+  public List<LayoutSchema> loadDatasourceMetadata(DatasourceVo datasource) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
-    Datastore pDatastoreInfo = new Datastore();
-    pDatastoreInfo.setId(datasource.getDatstoreId());
-    Datastore datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
-    
-    schemas = layoutMap.get(datasource.getDatstoreId());
-    if (schemas != null) {
-      return schemas;
-    }
-    
-    if (Datastore.Type.INTERNAL == datastoreInfo.getType()) {
-      schemas = getElasticSearch(datastoreInfo);
-    } else if (Datastore.Type.DATABASE == datastoreInfo.getType()) {
-      schemas = getDatabase(datastoreInfo);
-    } else if (Datastore.Type.HDFS == datastoreInfo.getType()) {
-      
-    }
+//    DatastoreVo pDatastoreInfo = new DatastoreVo();
+//    pDatastoreInfo.setId(datasource.getDatstoreId());
+//    DatastoreVo datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
+//    
+//    schemas = layoutMap.get(datasource.getDatstoreId());
+//    if (schemas != null) {
+//      return schemas;
+//    }
+//    
+//    if (CommCode.DataStoreType.INTERNAL == datastoreInfo.getType()) {
+//      schemas = getElasticSearch(datastoreInfo);
+//    } else if (CommCode.DataStoreType.DATABASE == datastoreInfo.getType()) {
+//      schemas = getDatabase(datastoreInfo);
+//    } else if (CommCode.DataStoreType.HDFS == datastoreInfo.getType()) {
+//      
+//    }
     return schemas;
   }
   
-  private List<LayoutSchema> getElasticSearch(Datastore datastoreInfo) {
+  private List<LayoutSchema> getElasticSearch(DatastoreVo datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "cep").build();
@@ -217,26 +199,26 @@ public class DatasourceServiceImpl implements DatasourceService {
     return schemas;
   }
   
-  private List<LayoutSchema> getDatabase(Datastore datastoreInfo) {
+  private List<LayoutSchema> getDatabase(DatastoreVo datastoreInfo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     //default MYSQL
     String DRIVER = "com.mysql.jdbc.Driver";
     String URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
     
-    if (Datastore.SubType.MYSQL == datastoreInfo.getSubType()) {
+    if (CommCode.DataStoreSubType.MYSQL == datastoreInfo.getSubType()) {
       // DRIVER = "com.mysql.jdbc.Driver";
       // URL = "jdbc:mysql://" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum() + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8";
       
-    } else if (Datastore.SubType.ORACLE == datastoreInfo.getSubType()) {
+    } else if (CommCode.DataStoreSubType.ORACLE == datastoreInfo.getSubType()) {
       DRIVER = "oracle.jdbc.driver.OracleDriver";
       URL = "jdbc:oracle:thin:@" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
       
-    } else if (Datastore.SubType.MSSQL == datastoreInfo.getSubType()) {
+    } else if (CommCode.DataStoreSubType.MSSQL == datastoreInfo.getSubType()) {
       DRIVER = "com.microsoft.jdbc.sqlserver.SQLServerDriver";
       URL = "jdbc:microsoft:sqlserver:" + datastoreInfo.getHostName() + ":" + datastoreInfo.getPortNum();
       
-    } else if (Datastore.SubType.GENERIC == datastoreInfo.getSubType()) {
+    } else if (CommCode.DataStoreSubType.GENERIC == datastoreInfo.getSubType()) {
       return schemas;
     }
     
@@ -312,8 +294,9 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<Datastore> getDatastoreAllList(Datastore dataStore) {
-    return datastoreDao.getList(dataStore);
+  public List<DatastoreVo> getDatastoreAllList(DatastoreVo dataStore) {
+    //return datastoreDao.getList(dataStore);
+    return null;
   }
   
 }

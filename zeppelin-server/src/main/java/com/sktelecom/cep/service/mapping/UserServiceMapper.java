@@ -150,7 +150,7 @@ public class UserServiceMapper extends AbstractServiceMapper {
   /**
    * Mapping from vo to Entity
    * 
-   * @param User
+   * @param UserVo
    * @param UserEntity
    */
   public void mapVoToEntity(UserVo vo, User entity) {

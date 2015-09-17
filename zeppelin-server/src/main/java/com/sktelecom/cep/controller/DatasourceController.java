@@ -14,14 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.DatasourceService;
-import com.sktelecom.cep.vo.Datasource;
 import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.Datastore;
+import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.UserSessionVo;
 import com.sktelecom.cep.vo.UserVo;
-import com.sktelecom.cep.vo.WorkspaceAssign;
-import com.sktelecom.cep.vo.WorkspaceObject;
+import com.sktelecom.cep.vo.WorkspaceObjectVo;
 
 /**
  * Datasource -  Controller.
@@ -77,8 +75,8 @@ public class DatasourceController {
   @RequestMapping(value = "/datasource/getList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Datasource> getList(@RequestBody Datasource datasource) {
-    List<Datasource> resultList = datasourceService.getList(datasource);
+  public List<DatasourceVo> getList(@RequestBody DatasourceVo datasource) {
+    List<DatasourceVo> resultList = datasourceService.getList(datasource);
     return resultList;
   }
   
@@ -92,25 +90,25 @@ public class DatasourceController {
   @RequestMapping(value = "/datasource/saveAssignWorkspace", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage saveAssignWorkspace(@RequestBody WorkspaceObject workspaceObject, HttpSession session) {
+  public SimpleResultMessage saveAssignWorkspace(@RequestBody WorkspaceObjectVo workspaceObject, HttpSession session) {
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "데이타소스를 작업공간에 할당하기를 실패하였습니다.");
 
     UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
-    for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
-      info.setUpdateUserId(userSession.getId());
-    }
-    int resultInt = datasourceService.saveAssignWorkspace(workspaceObject);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("데이타소스를 작업공간에 할당하기를 성공하였습니다");
-    }
+//    for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
+//      info.setUpdateUserId(userSession.getId());
+//    }
+//    int resultInt = datasourceService.saveAssignWorkspace(workspaceObject);
+//    if (resultInt > 0) {
+//      message.setRsCode("SUCCESS");
+//      message.setRsMessage("데이타소스를 작업공간에 할당하기를 성공하였습니다");
+//    }
     return message;
   }
    
   @RequestMapping(value = "/datasource/loadDatasourceMetadata", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<LayoutSchema> loadDatasourceMetadata(@RequestBody Datasource datasource) throws Exception {
+  public List<LayoutSchema> loadDatasourceMetadata(@RequestBody DatasourceVo datasource) throws Exception {
     List<LayoutSchema> resultList = datasourceService.loadDatasourceMetadata(datasource);
     return resultList;
   }
@@ -124,8 +122,8 @@ public class DatasourceController {
   @RequestMapping(value = "/datasource/getDatastoreAllList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Datastore> getDatastoreAllList(@RequestBody Datastore dataStore) throws Exception {
-    List<Datastore> resultList = datasourceService.getDatastoreAllList(dataStore);
+  public List<DatastoreVo> getDatastoreAllList(@RequestBody DatastoreVo dataStore) throws Exception {
+    List<DatastoreVo> resultList = datasourceService.getDatastoreAllList(dataStore);
     return resultList;
   }
   

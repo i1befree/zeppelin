@@ -11,8 +11,8 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class WorkspaceAssignVo implements Serializable {
   private String id;
-  private WorkspaceObject workspaceObject;
-  private Workspace workspace;
+  private WorkspaceObjectVo workspaceObject;
+  private WorkspaceVo workspace;
   private Date updateDate;
   private String updateUserId;
   
@@ -22,16 +22,16 @@ public class WorkspaceAssignVo implements Serializable {
   public void setId(String id) {
     this.id = id;
   }
-  public WorkspaceObject getWorkspaceObject() {
+  public WorkspaceObjectVo getWorkspaceObject() {
     return workspaceObject;
   }
-  public void setWorkspaceObject(WorkspaceObject workspaceObject) {
+  public void setWorkspaceObject(WorkspaceObjectVo workspaceObject) {
     this.workspaceObject = workspaceObject;
   }
-  public Workspace getWorkspace() {
+  public WorkspaceVo getWorkspace() {
     return workspace;
   }
-  public void setWorkspace(Workspace workspace) {
+  public void setWorkspace(WorkspaceVo workspace) {
     this.workspace = workspace;
   }
   public Date getUpdateDate() {

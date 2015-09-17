@@ -20,7 +20,7 @@ import com.sktelecom.cep.common.UserGroupCodeEnum;
 import com.sktelecom.cep.service.UserService;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.RoleVo;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserSessionVo;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -50,7 +50,7 @@ public class UserController {
   public SimpleResultMessage create(@RequestBody UserVo user, HttpSession session) {
     logger.debug("id {}", user.getId());
     
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
     user.setUpdateUserId(userSession.getId());
     userService.create(user);
     return new SimpleResultMessage("SUCCESS", "사용자를 생성하였습니다.");
@@ -72,7 +72,7 @@ public class UserController {
     
     // 유저가 관리자 여부에 따라서 수정처리를 다르게 한다.
     user.setPasswd(user.getPasswd() != null && !"".equals(user.getPasswd().trim()) ? user.getPasswd().trim() : null);
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
     user.setUpdateUserId(userSession.getId());
     if (UserGroupCodeEnum.MANAGER.getValue().equals(userSession.getUserGrpCd())) {
       int resultInt = userService.updateByManager(user); // 관리자 경우만

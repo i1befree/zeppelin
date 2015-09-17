@@ -1,9 +1,11 @@
 package com.sktelecom.cep.repository;
 
-import com.sktelecom.cep.entity.WorkspaceShare;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.sktelecom.cep.entity.WorkspaceShare;
 
 /**
  * WorkspaceShareRepository.
@@ -22,4 +24,5 @@ public interface WorkspaceShareRepository extends JpaRepository<WorkspaceShare, 
    */
   void deleteByWorkspaceWrkspcIdAndUserId(String wrkspcId, String userId);
 
+  List<WorkspaceShare> findByUserId(String userId);
 }

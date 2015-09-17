@@ -6,10 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Datastore;
 import com.sktelecom.cep.vo.LayoutSchema;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
@@ -27,7 +26,7 @@ public interface DatasourceService {
    * @param datasource
    * @return
    */
-  int create(Datasource datasource);
+  void create(DatasourceVo datasource);
 
   /**
    * datasource 목록 조회.
@@ -38,13 +37,6 @@ public interface DatasourceService {
   List<Datasource> getList(Datasource datasource);
 
   /**
-   * workspace 목록 조회
-   * @param workspace
-   * @return
-   */
-  List<Workspace> getWorkspaceList(Workspace workspace);
-
-  /**
    * datasource 를 작업공간에 할당하기
    * @param workspaceObject
    * @return
@@ -52,18 +44,11 @@ public interface DatasourceService {
   int saveAssignWorkspace(WorkspaceObject workspaceObject);
 
   /**
-   * 데이타소스에 할당된 workspace 조회
-   * @param workspaceAssign
+   * dataSourceVo 정보 조회 (할당 작업공간 목록 포함)
+   * @param dataSourceVo
    * @return
    */
-  List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign);
-
-  /**
-   * workspaceObject 정보 조회
-   * @param workspaceObject
-   * @return
-   */
-  WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject);
+  DatasourceVo getDatasourceObjectInfo(DatasourceVo datasourceVo);
 
   /**
    * store 별로 스키마, 테이블, 컬럼 정보들을 가져온다.

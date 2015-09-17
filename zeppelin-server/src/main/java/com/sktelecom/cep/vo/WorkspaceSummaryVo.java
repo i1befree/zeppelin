@@ -1,5 +1,7 @@
 package com.sktelecom.cep.vo;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -7,10 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  * @author 박상민
  */
+@SuppressWarnings("serial")
 // / @cond doxygen don't parsing in here
 @JsonIgnoreProperties(ignoreUnknown = true)
 // / @endcond
-public class WorkspaceSummary {
+public class WorkspaceSummaryVo implements Serializable {
 
   private String wrkspcId;
   private String wrkspcName;

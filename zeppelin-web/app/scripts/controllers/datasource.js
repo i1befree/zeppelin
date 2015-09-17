@@ -24,7 +24,6 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
       	if(row.isSelected) {
       		$scope.datasource = row.entity;
       		getWorkspaceObjectInfo();
-      		getAssignedWorkspaceList();
       	} else {
       		$scope.datasource = {};
       		$scope.workspaceObject = {};
@@ -65,20 +64,14 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   };
   
   function getWorkspaceObjectInfo() {
-  	UtilService.httpPost('/datasource/getWorkspaceObjectInfo', {wrkspcObjId : $scope.datasource.datasourceId}).then(function(result) {
+  	UtilService.httpPost('/datasource/getDatasourceObjectInfo', {wrkspcObjId : $scope.datasource.datasourceId}).then(function(result) {
   		$scope.workspaceObject = result;
   		$scope.shareTypeAll = $scope.workspaceObject.shareType === 'ALL' ? true : false;
-  	}, function(error) {
-  		alert(error);
-  	});
-  };
-  
-  function getAssignedWorkspaceList() {
-  	var formData = {
-        wrkspcObjId : $scope.datasource.datasourceId
-      };
-  	UtilService.httpPost('/datasource/getAssignedWorkspaceList', formData).then(function(result) {
-  		$scope.gridOptionsForAssignedWorkspace.data = result;
+  		if($scope.shareTypeAll) {
+  			$scope.gridOptionsForAssignedWorkspace.data = [];
+  		} else {
+  			$scope.gridOptionsForAssignedWorkspace.data = $scope.workspaceObject.workspaces;
+  		}
   	}, function(error) {
   		alert(error);
   	});

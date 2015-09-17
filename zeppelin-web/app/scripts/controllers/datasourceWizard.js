@@ -14,7 +14,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   
   $scope.schema = {};
   $scope.datastore = {};
-  $scope.datasource = {};
+  $scope.datasource = {datastore : {}};
   $scope.selectedRow = {
   	container: undefined, srcObj: undefined
   };
@@ -91,7 +91,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	function getDatastoreAllList() {
   	UtilService.httpPost('/datasource/getDatastoreAllList', {}).then(function(result) {
   		$scope.datastoreList = result;
-      $scope.datasource.datstoreId = $scope.datastoreList[0].id;
+      $scope.datasource.datastore.id = $scope.datastoreList[0].id;
       $scope.getLayoutSchemaList();
   	}, function(error) {
   		alert(error);
@@ -102,14 +102,14 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
   	$scope.gridOptionsForSchema.data = [];
   	$scope.gridOptionsForTable.data = [];
 		$scope.gridOptionsForColumn.data = [];
-//  	if($scope.schema[$scope.datasource.datstoreId] !== undefined) {
-//  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
+//  	if($scope.schema[$scope.datasource.datastore.id] !== undefined) {
+//  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datastore.id];
 //  		return;
 //  	}
 		console.info('$scope.datasource', $scope.datasource);
-  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datstoreId}).then(function(result) {
-  		$scope.schema[$scope.datasource.datstoreId] = result;
-  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datstoreId];
+  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datastore.id}).then(function(result) {
+  		$scope.schema[$scope.datasource.datastore.id] = result;
+  		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datastore.id];
   	}, function(error) {
   		alert(error);
   	});
@@ -153,8 +153,8 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 		switch($scope.wizardCurrentStep) {
 			case 1: 
 				angular.forEach($scope.datastoreList, function(item, index) {
-		  		console.info(item.id , $scope.datasource.datstoreId);
-		  		if(item.id === $scope.datasource.datstoreId) {
+		  		console.info(item.id , $scope.datasource.datastore.id);
+		  		if(item.id === $scope.datasource.datastore.id) {
 		  			$scope.datastore = item;
 		  		}
 		  	});

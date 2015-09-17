@@ -18,7 +18,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
 import com.sktelecom.cep.common.CepConstant;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserSessionVo;
 
 /**
  * MVC Controller 로 진입전에 웹호출에 대하여 세션유무에 따라서 로직처리를 담당하는 Interceptor.
@@ -39,7 +39,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
    * </pre>
    */
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, CepConstant.USER_SESSION);
+    UserSessionVo userSession = (UserSessionVo) WebUtils.getSessionAttribute(request, CepConstant.USER_SESSION);
     logger.debug("request.getRequestURI()==>" + request.getRequestURI());
     if (userSession == null) {
       String headerAccept = request.getHeader("Accept");

@@ -1,6 +1,5 @@
 package com.sktelecom.cep.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,9 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.sktelecom.cep.dao.DatasourceDao;
-import com.sktelecom.cep.dao.NotebookDao;
-import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.repository.RoleRepository;
 import com.sktelecom.cep.repository.UserRepository;
 import com.sktelecom.cep.repository.WorkspaceRepository;
@@ -19,13 +15,10 @@ import com.sktelecom.cep.repository.WorkspaceShareRepository;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.service.mapping.WorkspaceServiceMapper;
 import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.Notebook;
-import com.sktelecom.cep.vo.User;
+import com.sktelecom.cep.vo.NotebookVo;
 import com.sktelecom.cep.vo.UserVo;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceShareVo;
-import com.sktelecom.cep.vo.WorkspaceSummary;
+import com.sktelecom.cep.vo.WorkspaceSummaryVo;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -37,15 +30,6 @@ import com.sktelecom.cep.vo.WorkspaceVo;
 public class WorkspaceServiceImpl implements WorkspaceService {
 
   static final Logger LOG = LoggerFactory.getLogger(WorkspaceServiceImpl.class);
-
-  @Inject
-  private WorkspaceDao workspaceDao;
-  
-  @Inject
-  private NotebookDao notebookDao;
-  
-  @Inject
-  private DatasourceDao datasourceDao;
 
   @Inject
   private WorkspaceRepository workspaceRepository;
@@ -65,93 +49,41 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   @Inject
   private RoleRepository roleRepository;
   
-  @Override
-  public int create(Workspace workspace) {
-    int resultInt = workspaceDao.create(workspace);
-    return resultInt;
-  }
 
   @Override
-  public int update(Workspace workspace) {
-    int resultInt = workspaceDao.update(workspace);
-    return resultInt;
-  }
-
-  @Override
-  public int delete(Workspace workspace) {
-    int resultInt = workspaceDao.delete(workspace);
-    return resultInt;
-  }
-
-  @Override
-  public Workspace getInfo(Workspace workspace) {
-    Workspace WorkspaceInfo = workspaceDao.getInfo(workspace);
-    return WorkspaceInfo;
-  }
-
-  @Override
-  public List<Workspace> getList(Workspace workspace) {
-    List<Workspace> WorkspaceList = new ArrayList<Workspace>();
-    workspace.setWrkspcType("PERSONAL");
-    List<Workspace> personalList = workspaceDao.getListByType(workspace);
-    WorkspaceList.addAll(personalList);
+  public List<WorkspaceVo> getWorkspaceList() {
+    List<com.sktelecom.cep.entity.Workspace> workspaceList = workspaceRepository.findAll();
     
-    workspace.setWrkspcType("SHARED");
-    List<Workspace> sharedList = workspaceDao.getListByType(workspace);
-    WorkspaceList.addAll(sharedList);
-    
-    return WorkspaceList;
-  }
-  
-  @Override
-  public List<Workspace> getListByUserId(String userId) {
-    WorkspaceShare workspaceShare = new WorkspaceShare();
-    workspaceShare.setUserId(userId);
-    
-    List<Workspace> workspaceList = new ArrayList<Workspace>();
-    workspaceShare.setWrkspcType("PERSONAL");
-    List<Workspace> personalList = workspaceDao.getListByTypeUserId(workspaceShare);
-    if (personalList != null && personalList.size() > 0) {
-      Workspace personalRoot = new Workspace();
-      personalRoot.setpId("ROOT");
-      personalRoot.setWrkspcId("PERSONAL");
-      personalRoot.setWrkspcName("Personal");
-      personalRoot.setWrkspcType("PERSONAL");
-      workspaceList.add(personalRoot);
-    }
-    workspaceList.addAll(personalList);
-    
-    workspaceShare.setWrkspcType("SHARED");
-    List<Workspace> sharedList = workspaceDao.getListByTypeUserId(workspaceShare);
-    if (sharedList != null && sharedList.size() > 0) {
-      Workspace sharedRoot = new Workspace();
-      sharedRoot.setpId("ROOT");
-      sharedRoot.setWrkspcId("SHARED");
-      sharedRoot.setWrkspcName("Shared");
-      sharedRoot.setWrkspcType("SHARED");
-      workspaceList.add(sharedRoot);
-    }
-    workspaceList.addAll(sharedList);
-    
-    return workspaceList;
+    //convert from entity to vo 
+    return workspaceServiceMapper.mapListEntityToVo(workspaceList, WorkspaceVo.class);
   }
 
   @Override
-  public List<Notebook> getNotebookList(Workspace workspace) {
-    List<Notebook> notebookList = notebookDao.getListByWorkspaceId(workspace);
-    return notebookList;
+  public List<WorkspaceVo> getWorkspaceListByUserId(String userId) {    
+    List<com.sktelecom.cep.entity.WorkspaceShare> shareList = workspaceShareRepository.findByUserId(userId);
+    
+    //convert from entity to vo 
+    return workspaceServiceMapper.getListWorkspaceVoFromEntity(shareList);
   }
 
   @Override
-  public List<Notebook> getLastestNotebookListByUserId(String userId) {
-    User pUser = new User();
-    pUser.setId(userId);
-    List<Notebook> notebookList = notebookDao.getLastestNotebookListByUserId(pUser);
-    return notebookList;
+  public List<NotebookVo> getNotebookList(WorkspaceVo workspace) {
+    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    
+    //convert from entity to vo 
+    return workspaceServiceMapper.mapListNotebookVoFromEntity(entity);
   }
 
   @Override
-  public WorkspaceSummary getWorkspaceSummaryInfo(WorkspaceVo workspace) {
+  public List<NotebookVo> getLastestNotebookListByUserId(String userId) {
+    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(userId);
+    
+    //convert from entity to vo 
+    return userServiceMapper.mapListLastestNotebookFromUserEntity(userEntity);
+  }
+
+  @Override
+  public WorkspaceSummaryVo getWorkspaceSummaryInfo(WorkspaceVo workspace) {
     com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     //convert from entity to vo 
@@ -165,8 +97,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     List<com.sktelecom.cep.entity.Role> roles = roleRepository.findAll();
     //convert from entity to vo 
     return userServiceMapper.mapListUserVoFromWorkspaceEntity(entity, roles);
-//    List<UserVo> list = workspaceDao.getWorkspaceMemberList(workspace);
-//    return list;
   }
 
   @Override
@@ -202,8 +132,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     
     //convert from entity to vo 
     return workspaceServiceMapper.mapListDatasourceVoFromEntity(entity);
-//    List<Datasource> list = datasourceDao.getListByWrkspcIid(workspace);
-//    return list;
   }
   
   @Override

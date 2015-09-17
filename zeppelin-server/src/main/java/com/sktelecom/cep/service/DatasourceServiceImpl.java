@@ -26,20 +26,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.dao.DatasourceDao;
 import com.sktelecom.cep.dao.DatastoreDao;
 import com.sktelecom.cep.dao.WorkspaceAssignDao;
-import com.sktelecom.cep.dao.WorkspaceDao;
 import com.sktelecom.cep.dao.WorkspaceObjectDao;
+import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
+import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.exception.BizException;
-import com.sktelecom.cep.repository.DataStoreRepository;
+import com.sktelecom.cep.repository.DataSourceRepository;
+import com.sktelecom.cep.service.mapping.DatasourceServiceMapper;
 import com.sktelecom.cep.vo.Datasource;
+import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.Datastore;
 import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
-import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceAssign;
 import com.sktelecom.cep.vo.WorkspaceObject;
 
@@ -60,49 +63,48 @@ public class DatasourceServiceImpl implements DatasourceService {
   private DatastoreDao datastoreDao;
   
   @Inject
-  private WorkspaceDao workspaceDao;
-  
-  @Inject
   private WorkspaceObjectDao workspaceObjectDao;
   
   @Inject
   private WorkspaceAssignDao workspaceAssignDao;
 
   @Inject
-  private DataStoreRepository dataStoreRepository;
+  private DataSourceRepository dataSourceRepository;
   
-  
+  @Inject
+  private DatasourceServiceMapper datasourceServiceMapper;
+
   private Map<String, List<LayoutSchema>> layoutMap = new ConcurrentHashMap<String, List<LayoutSchema>>();
   
   
   @Override
-  public int create(Datasource datasource) {
-    String wrkspcObjId = UUID.randomUUID().toString();
+  public void create(DatasourceVo datasource) {
+    User user = new User();
+    user.setId(datasource.getCreator().getId());
     
-    WorkspaceObject workspaceObject = new WorkspaceObject();
-    workspaceObject.setWrkspcObjId(wrkspcObjId);
-    workspaceObject.setWrkspcObjType("DATSRC");
-    workspaceObject.setShareType("NONE");
-    workspaceObject.setObjStatus("CREATED");
-    workspaceObject.setCreateUserId(datasource.getUpdateUserId());
-    workspaceObject.setOwnUserId(workspaceObject.getCreateUserId());
-    workspaceObjectDao.create(workspaceObject);
+    DataStore dataStore = new DataStore();
+    dataStore.setId(datasource.getDatastore().getId());
     
-    datasource.setDatasourceId(wrkspcObjId);
-    int resultInt = datasourceDao.create(datasource);
-    return resultInt;
+    com.sktelecom.cep.entity.DataSource dataSourceObject = new com.sktelecom.cep.entity.DataSource();    
+    datasourceServiceMapper.mapVoToEntity(datasource, dataSourceObject);
+    
+    dataSourceObject.setCreator(user);
+    dataSourceObject.setObjStatus(CommCode.WorkspaceObjectStatus.CREATED);
+    dataSourceObject.setOwner(user);
+    dataSourceObject.setShareType(CommCode.WorkspaceObjectShareType.NONE);
+    dataSourceObject.setWrkspcObjType(CommCode.WorkspaceObjectType.DATSRC);
+    
+    dataSourceObject.setLastModifiedUser(user);
+    dataSourceObject.setDataStore(dataStore);
+    
+    dataSourceRepository.save(dataSourceObject);
+    
   }
 
   @Override
   public List<Datasource> getList(Datasource datasource) {
     List<Datasource> datasourceList = datasourceDao.getList(datasource);
     return datasourceList;
-  }
-
-  @Override
-  public List<Workspace> getWorkspaceList(Workspace workspace) {
-    List<Workspace> list = workspaceDao.getList(workspace);
-    return list;
   }
 
   @Override
@@ -136,15 +138,10 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign) {
-    List<Workspace> list = workspaceDao.getAssignedWorkspaceList(workspaceAssign);
-    return list;
-  }
-
-  @Override
-  public WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject) {
-    WorkspaceObject info = workspaceObjectDao.getInfo(workspaceObject);
-    return info;
+  public DatasourceVo getDatasourceObjectInfo(DatasourceVo datasourceVo) {
+    DataSource datasource = dataSourceRepository.findOne(datasourceVo.getWrkspcObjId());
+  
+    return datasourceServiceMapper.getDatasourceVoWithAssignedWorkspaceFromEntity(datasource);
   }
 
   @Override

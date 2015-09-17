@@ -18,8 +18,8 @@ import com.sktelecom.cep.exception.AutyorityException;
 import com.sktelecom.cep.exception.SessionTimeoutException;
 import com.sktelecom.cep.service.UserAccessLogService;
 import com.sktelecom.cep.service.UserService;
-import com.sktelecom.cep.vo.UserAccessLog;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserAccessLogVo;
+import com.sktelecom.cep.vo.UserSessionVo;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -67,7 +67,7 @@ public class LoginoutController {
 
     UserVo user = userService.getCheckLoginUserInfo(loginInfo);
     if (user != null) {
-      UserSession userSession = new UserSession();
+      UserSessionVo userSession = new UserSessionVo();
       userSession.setId(user.getId());
       userSession.setName(user.getName());
       userSession.setEmail(user.getEmail());
@@ -84,8 +84,8 @@ public class LoginoutController {
       // 접속로그 기록 시작
       logger.debug("접속로그 기록 시작");
       try {
-        UserAccessLog userAccessLog = new UserAccessLog();
-        userAccessLog.setId(user.getId());
+        UserAccessLogVo userAccessLog = new UserAccessLogVo();
+        userAccessLog.setUserId(user.getId());
         userAccessLogService.create(userAccessLog);
       } catch (Exception e) {
         // 로그 기록만 남기기 때문에, Exception 을 던지지 않는다.

@@ -9,10 +9,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.sktelecom.cep.common.CipherUtils;
+import com.sktelecom.cep.common.CommCode;
+import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.Role;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.Workspace;
+import com.sktelecom.cep.entity.WorkspaceAssign;
+import com.sktelecom.cep.entity.WorkspaceObject;
 import com.sktelecom.cep.entity.WorkspaceShare;
+import com.sktelecom.cep.vo.DatasourceVo;
+import com.sktelecom.cep.vo.DatastoreVo;
+import com.sktelecom.cep.vo.NotebookVo;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserVo;
@@ -44,6 +51,15 @@ public class UserServiceMapper extends AbstractServiceMapper {
 //    };
 //      
 //    modelMapper.addMappings(orderMap);
+  }
+
+  @Override
+  protected ModelMapper getModelMapper() {
+    return modelMapper;
+  }
+
+  protected void setModelMapper(ModelMapper modelMapper) {
+    this.modelMapper = modelMapper;
   }
 
   /**
@@ -151,13 +167,28 @@ public class UserServiceMapper extends AbstractServiceMapper {
     }
   }
 
-  @Override
-  protected ModelMapper getModelMapper() {
-    return modelMapper;
-  }
-
-  protected void setModelMapper(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+  /**
+   * 최근 노트북 목록을 조회한다.
+   * @param userEntity
+   * @return
+   */
+  public List<NotebookVo> mapListLastestNotebookFromUserEntity(User userEntity) {
+    List<NotebookVo> list = new ArrayList<NotebookVo>();
+    
+    List<WorkspaceShare> shareList = userEntity.getWorkspaceShares();
+    for (WorkspaceShare share : shareList) {
+      Workspace workspace = share.getWorkspace();
+      List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
+      for (WorkspaceAssign assign : assignList) {
+        WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
+        if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.NOTEBOOK) {
+          NotebookVo notebookVo = mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class);
+          notebookVo.setWrkspcId(workspace.getWrkspcId());
+          list.add(notebookVo);
+        }
+      }
+    }
+    return list;
   }
 
 }

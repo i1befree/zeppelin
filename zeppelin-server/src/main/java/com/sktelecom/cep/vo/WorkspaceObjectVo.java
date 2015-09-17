@@ -18,7 +18,8 @@ public abstract class WorkspaceObjectVo implements Serializable {
   private CommCode.WorkspaceObjectStatus objStatus;
   private UserVo creator;
   private UserVo owner;
-
+  
+  
   public String getWrkspcObjId() {
     return wrkspcObjId;
   }
@@ -67,6 +68,6 @@ public abstract class WorkspaceObjectVo implements Serializable {
     this.owner = owner;
   }
 
-  
+    
 }
 

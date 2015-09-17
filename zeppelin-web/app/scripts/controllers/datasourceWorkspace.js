@@ -61,13 +61,17 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
 	function init() {
 		getWorkspaceObjectInfo();
 		getWorkspaceList();
-		getAssignedWorkspaceList();
 	}
 	
 	function getWorkspaceObjectInfo() {
-  	UtilService.httpPost('/datasource/getWorkspaceObjectInfo', {wrkspcObjId : $scope.datasourceId}).then(function(result) {
+  	UtilService.httpPost('/datasource/getDatasourceObjectInfo', {wrkspcObjId : $scope.datasourceId}).then(function(result) {
   		$scope.workspaceObject = result;
   		$scope.shareType = $scope.workspaceObject.shareType === 'ALL' ? true : false;
+  		if($scope.shareTypeAll) {
+  			$scope.gridOptionsForAssignedWorkspace.data = [];
+  		} else {
+  			$scope.gridOptionsForAssignedWorkspace.data = $scope.workspaceObject.workspaces;
+  		}
   	}, function(error) {
   		alert(error);
   	});
@@ -78,24 +82,13 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
         beginRowNum : 0,
         rowsPerPage : 100000
       };
-  	UtilService.httpPost('/datasource/getWorkspaceList', formData).then(function(result) {
+  	UtilService.httpPost('/workspace/getWorkspaceList', formData).then(function(result) {
   		$scope.gridOptionsForWorkspace.data = result;
   	}, function(error) {
   		alert(error);
   	});
   };
-  
-  function getAssignedWorkspaceList() {
-  	var formData = {
-        wrkspcObjId : $scope.datasourceId
-      };
-  	UtilService.httpPost('/datasource/getAssignedWorkspaceList', formData).then(function(result) {
-  		$scope.gridOptionsForAssignedWorkspace.data = result;
-  	}, function(error) {
-  		alert(error);
-  	});
-  };
-  
+    
   $scope.isRowChecked = function(selectedData) {
 		for (var id in selectedData) {
       if (selectedData.hasOwnProperty(id)) {

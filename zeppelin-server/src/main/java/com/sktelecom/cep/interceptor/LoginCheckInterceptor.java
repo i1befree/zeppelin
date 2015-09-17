@@ -39,12 +39,6 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
    * </pre>
    */
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-    UserSession puserSession = new UserSession();
-    puserSession.setId("admin");
-    puserSession.setName("관리자");
-    puserSession.setUserGrpCd("1");
-    WebUtils.setSessionAttribute(request, CepConstant.USER_SESSION, puserSession);
-    
     UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, CepConstant.USER_SESSION);
     logger.debug("request.getRequestURI()==>" + request.getRequestURI());
     if (userSession == null) {

@@ -18,9 +18,9 @@ import com.sktelecom.cep.exception.AutyorityException;
 import com.sktelecom.cep.exception.SessionTimeoutException;
 import com.sktelecom.cep.service.UserAccessLogService;
 import com.sktelecom.cep.service.UserService;
-import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserAccessLog;
 import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserVo;
 
 /**
  * 로그인처리를 담당, 로그아웃처리, 유효한세션인지 체크, 세션타임아웃예외를 발생시키는 Controller.
@@ -61,11 +61,11 @@ public class LoginoutController {
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage login(@RequestBody User loginInfo, HttpSession session) {
+  public SimpleResultMessage login(@RequestBody UserVo loginInfo, HttpSession session) {
     logger.debug("id {}", loginInfo.getId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "사용자와 패스워드가 올바르지 않습니다.");
 
-    User user = userService.getCheckLoginUserInfo(loginInfo);
+    UserVo user = userService.getCheckLoginUserInfo(loginInfo);
     if (user != null) {
       UserSession userSession = new UserSession();
       userSession.setId(user.getId());

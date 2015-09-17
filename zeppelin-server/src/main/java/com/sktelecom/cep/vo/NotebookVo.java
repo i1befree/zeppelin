@@ -15,9 +15,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 // / @endcond
 public class NotebookVo extends WorkspaceObjectVo {
 
+  private String noteId;
   private String noteName;
   private Date updateDate;
   
+  public String getNoteId() {
+    return noteId;
+  }
+  public void setNoteId(String noteId) {
+    this.noteId = noteId;
+  }
   public String getNoteName() {
     return noteName;
   }

@@ -17,8 +17,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "notebook")
 @DiscriminatorValue("NOTEBOOK")
-@PrimaryKeyJoinColumn(name = "note_id")
+@PrimaryKeyJoinColumn(name = "wrkspc_obj_id")
 public class Notebook extends WorkspaceObject {
+  @Column(name = "note_id")
+  private String noteId;
+
   @Column(name = "note_name")
   private String noteName;
 
@@ -29,6 +32,14 @@ public class Notebook extends WorkspaceObject {
   @PreUpdate
   public void prePersist() {
     updateDate = new Date();
+  }
+
+  public String getNoteId() {
+    return noteId;
+  }
+
+  public void setNoteId(String noteId) {
+    this.noteId = noteId;
   }
 
   public String getNoteName() {

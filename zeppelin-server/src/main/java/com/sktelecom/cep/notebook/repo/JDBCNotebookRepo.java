@@ -68,7 +68,7 @@ public class JDBCNotebookRepo implements NotebookRepo {
     StringBuffer sb = new StringBuffer();
     sb.append("select nb.note_id, nb.note_name, nb.note_content, wo.own_user_id as user_id ");
     sb.append("  from notebook nb ");
-    sb.append("       inner join workspace_object wo ON wo.wrkspc_obj_id = nb.note_id AND wo.obj_status != 'DROPPED' ");
+    sb.append("       inner join workspace_object wo ON wo.wrkspc_obj_id = nb.wrkspc_obj_id AND wo.obj_status != 'DROPPED' ");
     List<NoteInfo> infos = jdbcTemplate.query(sb.toString(), new RowMapper<NoteInfo>() {
       public NoteInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
         NoteInfo info = null;
@@ -110,7 +110,7 @@ public class JDBCNotebookRepo implements NotebookRepo {
       StringBuffer sb = new StringBuffer();
       sb.append("select nb.note_id, nb.note_name, nb.note_content, wo.own_user_id as user_id ");
       sb.append("  from notebook nb ");
-      sb.append("       inner join workspace_object wo on wo.wrkspc_obj_id = nb.note_id ");
+      sb.append("       inner join workspace_object wo on wo.wrkspc_obj_id = nb.wrkspc_obj_id ");
       sb.append(" where nb.note_id = ? ");
       Note note = jdbcTemplate.queryForObject(sb.toString(), new Object[] { noteId }, new RowMapper<Note>() {
         public Note mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -143,12 +143,13 @@ public class JDBCNotebookRepo implements NotebookRepo {
       if (note.getName() == null) {
         note.setName("Note " + note.id());
       }
+      String wrkspcObjId = UUID.randomUUID().toString();
       String assignId = UUID.randomUUID().toString();
       //share_type : ALL / ASSIGN / NONE
       //obj_status : CREATED, SHARED, DROPPED
-      jdbcTemplate.update("insert into workspace_object(wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id) values (?, ?, ?, ?, ?, ?)", note.id(), "NOTEBOOK", "NONE", "CREATED", note.getUserId(), note.getUserId());
-      jdbcTemplate.update("insert into workspace_assign(assign_id, wrkspc_id, wrkspc_obj_id, update_date, update_user_id) values (?, ?, ?, NOW(), ?)", assignId, note.getWorkspaceId(), note.id(), note.getUserId());
-      jdbcTemplate.update("insert into notebook(note_id, note_name, note_content, update_date, update_user_id) values (?, ?, ?, NOW(), ?)", note.id(), note.getName(), json, note.getUserId());
+      jdbcTemplate.update("insert into workspace_object(wrkspc_obj_id, wrkspc_obj_type, share_type, obj_status, create_user_id, own_user_id) values (?, ?, ?, ?, ?, ?)", wrkspcObjId, "NOTEBOOK", "NONE", "CREATED", note.getUserId(), note.getUserId());
+      jdbcTemplate.update("insert into workspace_assign(assign_id, wrkspc_id, wrkspc_obj_id, update_date, update_user_id) values (?, ?, ?, NOW(), ?)", assignId, note.getWorkspaceId(), wrkspcObjId, note.getUserId());
+      jdbcTemplate.update("insert into notebook(wrkspc_obj_id, note_id, note_name, note_content, update_date, update_user_id) values (?, ?, ?, ?, NOW(), ?)", wrkspcObjId, note.id(), note.getName(), json, note.getUserId());
     } else {
       jdbcTemplate.update("update notebook set note_content = ?, note_name = ?, update_date = NOW(), update_user_id = ? where note_id = ?", json, note.getName(), note.getUserId(), note.id());
     }

@@ -82,7 +82,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceCtrl', function($scope, $r
   };
   
   $scope.goNotebook = function(note) {    
-  	$location.path('/notebook/' + note.wrkspcObjId + '/wrkspcId/' + workspaceId);
+  	$location.path('/notebook/' + note.noteId + '/wrkspcId/' + workspaceId);
   };
 
   init();

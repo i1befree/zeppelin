@@ -22,8 +22,7 @@ import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserSession;
 import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceMember;
-import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.WorkspaceShareVo;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
@@ -232,7 +231,7 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/getWorkspaceSummaryInfo", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public WorkspaceSummary getWorkspaceSummaryInfo(@RequestBody Workspace workspace) {
+  public WorkspaceSummary getWorkspaceSummaryInfo(@RequestBody WorkspaceVo workspace) {
     WorkspaceSummary workspaceSummary = workspaceService.getWorkspaceSummaryInfo(workspace);
     return workspaceSummary;
   }
@@ -262,21 +261,21 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/addMembers", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage addMembers(@RequestBody WorkspaceMember workspaceMember, HttpSession session) {
-    logger.debug("id {}", workspaceMember.getWrkspcId());
+  public SimpleResultMessage addMembers(@RequestBody WorkspaceShareVo workspaceShareVo, HttpSession session) {
+    logger.debug("id {}", workspaceShareVo.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 추가를 실패하였습니다.");
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
     
-    List<WorkspaceShare> wsList = new ArrayList<WorkspaceShare>();
-    for (String userId : workspaceMember.getMembers()) {
-      WorkspaceShare share = new WorkspaceShare();
-      share.setWrkspcId(workspaceMember.getWrkspcId());
+    List<WorkspaceShareVo> wsList = new ArrayList<WorkspaceShareVo>();
+    for (String userId : workspaceShareVo.getUserIds()) {
+      WorkspaceShareVo share = new WorkspaceShareVo();
+      share.setWrkspcId(workspaceShareVo.getWrkspcId());
       share.setUserId(userId);
       share.setUpdateUserId(userSession.getId());
       wsList.add(share);
     }
     WorkspaceVo workspace = new WorkspaceVo();
-    workspace.setWrkspcId(workspaceMember.getWrkspcId());
+    workspace.setWrkspcId(workspaceShareVo.getWrkspcId());
     int resultInt = workspaceService.insertMembers(workspace, wsList);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");
@@ -296,21 +295,21 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/removeMembers", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage removeMembers(@RequestBody WorkspaceMember workspaceMember, HttpSession session) {
-    logger.debug("id {}", workspaceMember.getWrkspcId());
+  public SimpleResultMessage removeMembers(@RequestBody WorkspaceShareVo workspaceShareVo, HttpSession session) {
+    logger.debug("id {}", workspaceShareVo.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 삭제를 실패하였습니다.");
     UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
     
-    List<WorkspaceShare> wsList = new ArrayList<WorkspaceShare>();
-    for (String userId : workspaceMember.getMembers()) {
-      WorkspaceShare share = new WorkspaceShare();
-      share.setWrkspcId(workspaceMember.getWrkspcId());
+    List<WorkspaceShareVo> wsList = new ArrayList<WorkspaceShareVo>();
+    for (String userId : workspaceShareVo.getUserIds()) {
+      WorkspaceShareVo share = new WorkspaceShareVo();
+      share.setWrkspcId(workspaceShareVo.getWrkspcId());
       share.setUserId(userId);
       share.setUpdateUserId(userSession.getId());
       wsList.add(share);
     }
     WorkspaceVo workspace = new WorkspaceVo();
-    workspace.setWrkspcId(workspaceMember.getWrkspcId());
+    workspace.setWrkspcId(workspaceShareVo.getWrkspcId());
     int resultInt = workspaceService.deleteMembers(workspace, wsList);
     if (resultInt > 0) {
       message.setRsCode("SUCCESS");

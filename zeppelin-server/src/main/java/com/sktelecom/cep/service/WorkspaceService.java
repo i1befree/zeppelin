@@ -10,6 +10,7 @@ import com.sktelecom.cep.vo.Notebook;
 import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.WorkspaceShareVo;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
@@ -89,7 +90,7 @@ public interface WorkspaceService {
    * @param workspace
    * @return
    */
-  WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace);
+  WorkspaceSummary getWorkspaceSummaryInfo(WorkspaceVo workspace);
 
   /**
    * 작업공간을 공유하는 멤버 목록 조회
@@ -103,13 +104,13 @@ public interface WorkspaceService {
    * @param wsList
    * @return
    */
-  int insertMembers(WorkspaceVo workspace, List<WorkspaceShare> wsList);
+  int insertMembers(WorkspaceVo workspace, List<WorkspaceShareVo> wsList);
 
   /**
    * 작업공간 공유 사용자를 삭제한다.
    * @param item
    */
-  int deleteMembers(WorkspaceVo workspaceVo, List<WorkspaceShare> wsList);
+  int deleteMembers(WorkspaceVo workspaceVo, List<WorkspaceShareVo> wsList);
 
   /**
    * 데이타 소스 목록 조회

@@ -19,6 +19,7 @@ import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.NotebookVo;
 import com.sktelecom.cep.vo.RoleVo;
 import com.sktelecom.cep.vo.UserVo;
+import com.sktelecom.cep.vo.WorkspaceSummary;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -89,7 +90,25 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     }
     return list;
   }
-  
+
+  public WorkspaceSummary getWorkspaceSummaryVoFromEntity(Workspace workspace) {
+    WorkspaceSummary workspaceSummary = mapEntityToVo(workspace, WorkspaceSummary.class);
+    workspaceSummary.setTotalOfMembers(workspace.getWorkspaceShares().size());
+    
+    List<WorkspaceAssign> assignList = workspace.getWorkspaceAssigns();
+    for (WorkspaceAssign assign : assignList) {
+      WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
+      if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.DATSRC) {
+        workspaceSummary.setTotalOfDatasource(workspaceSummary.getTotalOfDatasource() + 1);
+        
+      } else if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.NOTEBOOK) {
+        workspaceSummary.setTotalOfNotebooks(workspaceSummary.getTotalOfNotebooks() + 1);
+        
+      }
+    }
+    return workspaceSummary;
+  }
+
 
   @Override
   protected ModelMapper getModelMapper() {
@@ -99,6 +118,5 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
   protected void setModelMapper(ModelMapper modelMapper) {
     this.modelMapper = modelMapper;
   }
-
 }
 

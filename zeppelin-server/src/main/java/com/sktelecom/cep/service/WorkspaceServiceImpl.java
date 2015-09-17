@@ -24,6 +24,7 @@ import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserVo;
 import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceShare;
+import com.sktelecom.cep.vo.WorkspaceShareVo;
 import com.sktelecom.cep.vo.WorkspaceSummary;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
@@ -150,9 +151,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
-  public WorkspaceSummary getWorkspaceSummaryInfo(Workspace workspace) {
-    WorkspaceSummary info = workspaceDao.getWorkspaceSummaryInfo(workspace);
-    return info;
+  public WorkspaceSummary getWorkspaceSummaryInfo(WorkspaceVo workspace) {
+    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    
+    //convert from entity to vo 
+    return workspaceServiceMapper.getWorkspaceSummaryVoFromEntity(entity);
   }
 
   @Override
@@ -167,11 +170,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
-  public int insertMembers(WorkspaceVo workspaceVo, List<WorkspaceShare> wsList) {
+  public int insertMembers(WorkspaceVo workspaceVo, List<WorkspaceShareVo> wsList) {
     com.sktelecom.cep.entity.Workspace workspace = new com.sktelecom.cep.entity.Workspace();
     workspace.setWrkspcId(workspaceVo.getWrkspcId());
     
-    for (WorkspaceShare shareVo : wsList) {
+    for (WorkspaceShareVo shareVo : wsList) {
       com.sktelecom.cep.entity.User user = new com.sktelecom.cep.entity.User();
       user.setId(shareVo.getUserId());
       
@@ -186,8 +189,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   }
 
   @Override
-  public int deleteMembers(WorkspaceVo workspaceVo, List<WorkspaceShare> wsList) {
-    for (WorkspaceShare shareVo : wsList) {
+  public int deleteMembers(WorkspaceVo workspaceVo, List<WorkspaceShareVo> wsList) {
+    for (WorkspaceShareVo shareVo : wsList) {
       workspaceShareRepository.deleteByWorkspaceWrkspcIdAndUserId(workspaceVo.getWrkspcId(), shareVo.getUserId());
     }
     return 1;

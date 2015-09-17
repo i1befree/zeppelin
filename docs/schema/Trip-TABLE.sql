@@ -198,4 +198,6 @@ INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('5c9439ee-ca70-4878-
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('1eabc394-c29c-4a97-823c-770605d7aeaa','Workspace Admin','2');
 INSERT INTO trip.role (role_id, role_name, role_cd) VALUES ('d12b0fa9-3fad-4475-bac4-b3dcdfa623e6','User','3');
 INSERT INTO trip.workspace (wrkspc_id, wrkspc_name, description, wrkspc_type, admin_user_id, update_date, update_user_id) VALUES ('53af58da-d182-424f-bd3a-6c1cfb594535', 'admin', 'Admin Workspace', 'PERSONAL', 'admin', NOW(), 'admin');
-INSERT INTO trip.user (id,name,passwd,wrkspc_id,email,tel,user_grp_cd,update_user_id,update_date) VALUES ('admin','관리자',sha1('tripadmin'),'53af58da-d182-424f-bd3a-6c1cfb594535',NULL,NULL,'1','admin',NOW());
+/* id: admin, pw: tripadmin */
+INSERT INTO trip.user (id,name,passwd,wrkspc_id,email,tel,user_grp_cd,update_user_id,update_date) VALUES ('admin','관리자','0c8c019a9ee2759170e8814b7342ec0e2a5639bc82c347bb281db3d1383beb4d','53af58da-d182-424f-bd3a-6c1cfb594535',NULL,NULL,'1','admin',NOW());
+INSERT INTO trip.workspace_share (share_id,wrkspc_id,user_id,update_date,update_user_id) VALUES ('c2491637-59d3-11e5-bb39-063b17d52e29', '53af58da-d182-424f-bd3a-6c1cfb594535', 'admin', NOW(), 'admin');

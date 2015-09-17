@@ -134,15 +134,11 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserVo getCheckLoginUserInfo(UserVo user) {
-    LOG.debug(user.getPasswd() +":"+ CipherUtils.getSHA256(user.getPasswd()));
     com.sktelecom.cep.entity.User userEntity = userRepository.findByIdAndPasswd(user.getId(), CipherUtils.getSHA256(user.getPasswd()));
     
     //convert from entity to vo 
     UserVo userInfo = userServiceMapper.mapEntityToVo(userEntity);
     return userInfo;
-    
-//    User userInfo = userDao.getCheckLoginUserInfo(user);
-//    return userInfo;
   }
 
   @Override

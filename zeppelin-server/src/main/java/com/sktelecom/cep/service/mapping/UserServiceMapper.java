@@ -145,7 +145,9 @@ public class UserServiceMapper extends AbstractServiceMapper {
     // --- Generic mapping
     map(vo, entity);
     if (vo.getPasswd() == null) {
-      entity.setPasswd(CipherUtils.getSHA256(passwd));
+      entity.setPasswd(passwd);
+    } else {
+      entity.setPasswd(CipherUtils.getSHA256(vo.getPasswd()));
     }
   }
 

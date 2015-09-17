@@ -88,8 +88,8 @@
         SELECT wrkspc_id, wrkspc_name, wrkspc_type,
         			 (SELECT COUNT(nb.note_id)
 				        FROM notebook nb
-				             INNER JOIN workspace_object wo ON nb.note_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
-				             INNER JOIN workspace_assign wa ON nb.note_id = wa.wrkspc_obj_id 
+				             INNER JOIN workspace_object wo ON nb.wrkspc_obj_id = wo.wrkspc_obj_id AND wo.obj_status != 'DROPPED'
+				             INNER JOIN workspace_assign wa ON nb.wrkspc_obj_id = wa.wrkspc_obj_id 
                         WHERE wa.wrkspc_id = w.wrkspc_id
 				       ) AS total_of_notebooks,
 				       0 AS total_of_queries,

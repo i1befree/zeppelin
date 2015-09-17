@@ -74,12 +74,13 @@ CREATE TABLE trip.datastore_props
 
 CREATE TABLE trip.notebook
 (
+	wrkspc_obj_id varchar(36) NOT NULL COMMENT 'wrkspc_obj_id',
 	note_id varchar(36) NOT NULL COMMENT '노트 아이디',
 	note_name varchar(300) COMMENT '노드 이름',
 	note_content longtext COMMENT '노트 컨텐츠',
 	update_date datetime COMMENT '변경시각',
 	update_user_id varchar(45) COMMENT '변경자ID',
-	PRIMARY KEY (note_id)
+	PRIMARY KEY (wrkspc_obj_id)
 ) ENGINE = InnoDB COMMENT = '노트북' DEFAULT CHARACTER SET utf8;
 
 

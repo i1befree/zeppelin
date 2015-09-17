@@ -5,6 +5,11 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Hex;
 
+/**
+ * 
+ * @author Sangmin Park
+ *
+ */
 public class CipherUtils {
 
   public static String getSHA256(String source) {

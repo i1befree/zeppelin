@@ -3,7 +3,6 @@ package com.sktelecom.cep.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,7 +21,6 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "datasource")
-@DiscriminatorValue("DATSRC")
 @PrimaryKeyJoinColumn(name = "datasource_id")
 public class DataSource extends WorkspaceObject {
   

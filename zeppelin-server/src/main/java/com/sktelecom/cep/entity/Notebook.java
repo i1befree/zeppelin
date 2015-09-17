@@ -3,7 +3,6 @@ package com.sktelecom.cep.entity;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -16,7 +15,6 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "notebook")
-@DiscriminatorValue("NOTEBOOK")
 @PrimaryKeyJoinColumn(name = "wrkspc_obj_id")
 public class Notebook extends WorkspaceObject {
   @Column(name = "note_id")

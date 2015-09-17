@@ -66,7 +66,7 @@ public interface UserService {
    * @param loginInfo
    * @return
    */
-  User getCheckLoginUserInfo(User loginInfo);
+  UserVo getCheckLoginUserInfo(UserVo loginInfo);
 
   /**
    * 페이징 처리되는 사용자 목록 조회

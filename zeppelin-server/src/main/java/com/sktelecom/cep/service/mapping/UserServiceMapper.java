@@ -8,6 +8,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.sktelecom.cep.common.CipherUtils;
 import com.sktelecom.cep.entity.Role;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.Workspace;
@@ -144,7 +145,7 @@ public class UserServiceMapper extends AbstractServiceMapper {
     // --- Generic mapping
     map(vo, entity);
     if (vo.getPasswd() == null) {
-      entity.setPasswd(passwd);
+      entity.setPasswd(CipherUtils.getSHA256(passwd));
     }
   }
 

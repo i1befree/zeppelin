@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.common.CipherUtils;
 import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.dao.UserDao;
 import com.sktelecom.cep.dao.WorkspaceDao;
@@ -22,7 +23,6 @@ import com.sktelecom.cep.repository.WorkspaceShareRepository;
 import com.sktelecom.cep.service.mapping.UserServiceMapper;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.Role;
-import com.sktelecom.cep.vo.User;
 import com.sktelecom.cep.vo.UserVo;
 
 /**
@@ -133,9 +133,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User getCheckLoginUserInfo(User user) {
-    User userInfo = userDao.getCheckLoginUserInfo(user);
+  public UserVo getCheckLoginUserInfo(UserVo user) {
+    LOG.debug(user.getPasswd() +":"+ CipherUtils.getSHA256(user.getPasswd()));
+    com.sktelecom.cep.entity.User userEntity = userRepository.findByIdAndPasswd(user.getId(), CipherUtils.getSHA256(user.getPasswd()));
+    
+    //convert from entity to vo 
+    UserVo userInfo = userServiceMapper.mapEntityToVo(userEntity);
     return userInfo;
+    
+//    User userInfo = userDao.getCheckLoginUserInfo(user);
+//    return userInfo;
   }
 
   @Override

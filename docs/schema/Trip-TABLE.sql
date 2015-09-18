@@ -65,10 +65,11 @@ CREATE TABLE trip.datastore
 
 CREATE TABLE trip.datastore_props
 (
+	props_id varchar(36) NOT NULL COMMENT 'property ID',
 	datstore_id varchar(36) NOT NULL COMMENT 'Datastore ID',
 	prop_name varchar(30) NOT NULL COMMENT '속성명',
 	prop_value varchar(100) NOT NULL COMMENT '속성값',
-	PRIMARY KEY (datstore_id, prop_name)
+	PRIMARY KEY (props_id)
 ) ENGINE = InnoDB COMMENT = 'Datastore Properties' DEFAULT CHARACTER SET utf8;
 
 

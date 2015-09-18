@@ -1,5 +1,6 @@
 package com.sktelecom.cep.service.mapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.WorkspaceAssign;
 import com.sktelecom.cep.vo.DatasourceVo;
+import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -39,6 +41,11 @@ public class DatasourceServiceMapper extends AbstractServiceMapper {
     this.modelMapper = modelMapper;
   }
 
+  /**
+   * DataSource Entity 로 부터 DatasourceVo (DatastoreVo 포함) 로 매핑한다.
+   * @param datasource
+   * @return
+   */
   public DatasourceVo getDatasourceVoWithAssignedWorkspaceFromEntity(DataSource datasource) {
     DatasourceVo datasourceVo = mapEntityToVo(datasource, DatasourceVo.class);
     
@@ -47,6 +54,22 @@ public class DatasourceServiceMapper extends AbstractServiceMapper {
       datasourceVo.getWorkspaces().add(mapEntityToVo(assign.getWorkspace(), WorkspaceVo.class));
     }
     return datasourceVo;
+  }
+
+  /**
+   * DataSource Entity 로 부터 DatasourceVo (Assigned WorkspaceVo 포함) 로 매핑한다.
+   * @param datasourceList
+   * @return
+   */
+  public List<DatasourceVo> getDatasourceVoWithDatastoreFromEntity(List<DataSource> datasourceList) {
+    List<DatasourceVo> list = new ArrayList<DatasourceVo>(); 
+    
+    for (DataSource datasource : datasourceList) {
+      DatasourceVo datasourceVo = mapEntityToVo(datasource, DatasourceVo.class);
+      datasourceVo.setDatastore(mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
+      list.add(datasourceVo);
+    }
+    return list;
   }
 
 }

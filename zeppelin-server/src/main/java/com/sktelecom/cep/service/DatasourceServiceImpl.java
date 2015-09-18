@@ -84,9 +84,10 @@ public class DatasourceServiceImpl implements DatasourceService {
 
   @Override
   public List<DatasourceVo> getList(DatasourceVo datasource) {
-//    List<DatasourceVo> datasourceList = datasourceDao.getList(datasource);
-//    return datasourceList;
-    return null;
+    List<DataSource> datasourceList = dataSourceRepository.findAll();
+
+    //convert from entity to vo 
+    return datasourceServiceMapper.getDatasourceVoWithDatastoreFromEntity(datasourceList);
   }
 
   @Override

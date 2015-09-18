@@ -35,7 +35,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
     },
 		columnDefs : [
 		  {name:'datsrcName'    , displayName: 'Name'      , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
+		  {name:'datastore.type'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	
@@ -64,7 +64,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   };
   
   function getWorkspaceObjectInfo() {
-  	UtilService.httpPost('/datasource/getDatasourceObjectInfo', {wrkspcObjId : $scope.datasource.datasourceId}).then(function(result) {
+  	UtilService.httpPost('/datasource/getDatasourceObjectInfo', {wrkspcObjId : $scope.datasource.wrkspcObjId}).then(function(result) {
   		$scope.workspaceObject = result;
   		$scope.shareTypeAll = $scope.workspaceObject.shareType === 'ALL' ? true : false;
   		if($scope.shareTypeAll) {
@@ -82,7 +82,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   };
   
   $scope.assignWorkspace = function() {
-	  $location.path('/datasourceWorkspace/' + $scope.datasource.datasourceId);
+	  $location.path('/datasourceWorkspace/' + $scope.datasource.wrkspcObjId);
   };
   
 //  $scope.editMode = function() {

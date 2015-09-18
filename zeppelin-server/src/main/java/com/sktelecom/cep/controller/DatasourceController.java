@@ -76,8 +76,7 @@ public class DatasourceController {
   @ResponseBody
   // / @endcond
   public List<DatasourceVo> getList(@RequestBody DatasourceVo datasource) {
-    List<DatasourceVo> resultList = datasourceService.getList(datasource);
-    return resultList;
+    return datasourceService.getList(datasource);
   }
   
   /**

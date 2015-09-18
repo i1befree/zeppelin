@@ -107,8 +107,8 @@ public class DatasourceController {
   @RequestMapping(value = "/datasource/loadDatasourceMetadata", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<LayoutSchema> loadDatasourceMetadata(@RequestBody DatasourceVo datasource) throws Exception {
-    List<LayoutSchema> resultList = datasourceService.loadDatasourceMetadata(datasource);
+  public List<LayoutSchema> loadDatasourceMetadata(@RequestBody DatastoreVo datastoreVo) throws Exception {
+    List<LayoutSchema> resultList = datasourceService.loadDatasourceMetadata(datastoreVo);
     return resultList;
   }
 

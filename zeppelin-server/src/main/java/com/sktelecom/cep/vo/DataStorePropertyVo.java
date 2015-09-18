@@ -2,6 +2,7 @@ package com.sktelecom.cep.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sktelecom.cep.entity.DataStore;
 
 /**
@@ -10,7 +11,8 @@ import com.sktelecom.cep.entity.DataStore;
  * @author 박상민
  */
 @SuppressWarnings("serial")
-public class DataStorePropertyVo implements Serializable{
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class DataStorePropertyVo implements Serializable {
   private String id;
   private String name;
   private String value;

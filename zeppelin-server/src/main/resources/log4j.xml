@@ -36,9 +36,6 @@
 		<level value="info" />
 	</logger>
 	
-	<logger name="org.hibernate.type">
-		<level value="trace" />
-	</logger>
 	
 	<!-- Root Logger -->
 	<root>

@@ -51,10 +51,10 @@ public interface DatasourceService {
 
   /**
    * store 별로 스키마, 테이블, 컬럼 정보들을 가져온다.
-   * @param datasource
+   * @param datastoreVo
    * @return
    */
-  List<LayoutSchema> loadDatasourceMetadata(DatasourceVo datasource);
+  List<LayoutSchema> loadDatasourceMetadata(DatastoreVo datastoreVo);
 
   /**
    * 데이타 스토어 목록을 가져온다.

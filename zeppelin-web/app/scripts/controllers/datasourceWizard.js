@@ -107,7 +107,7 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 //  		return;
 //  	}
 		console.info('$scope.datasource', $scope.datasource);
-  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: $scope.datasource.datastore.id}).then(function(result) {
+  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {id: $scope.datasource.datastore.id}).then(function(result) {
   		$scope.schema[$scope.datasource.datastore.id] = result;
   		$scope.gridOptionsForSchema.data = $scope.schema[$scope.datasource.datastore.id];
   	}, function(error) {

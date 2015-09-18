@@ -31,7 +31,9 @@ import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataSourceRepository;
+import com.sktelecom.cep.repository.DataStoreRepository;
 import com.sktelecom.cep.service.mapping.DatasourceServiceMapper;
+import com.sktelecom.cep.service.mapping.DatastoreServiceMapper;
 import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutColumn;
@@ -51,9 +53,15 @@ public class DatasourceServiceImpl implements DatasourceService {
 
   @Inject
   private DataSourceRepository dataSourceRepository;
+    
+  @Inject
+  private DataStoreRepository dataStoreRepository;
   
   @Inject
   private DatasourceServiceMapper datasourceServiceMapper;
+
+  @Inject
+  private DatastoreServiceMapper datastoreServiceMapper;
 
   private Map<String, List<LayoutSchema>> layoutMap = new ConcurrentHashMap<String, List<LayoutSchema>>();
   
@@ -128,25 +136,24 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public List<LayoutSchema> loadDatasourceMetadata(DatasourceVo datasource) {
+  public List<LayoutSchema> loadDatasourceMetadata(DatastoreVo datastoreVo) {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
-//    DatastoreVo pDatastoreInfo = new DatastoreVo();
-//    pDatastoreInfo.setId(datasource.getDatstoreId());
-//    DatastoreVo datastoreInfo = datastoreDao.getInfo(pDatastoreInfo);
-//    
-//    schemas = layoutMap.get(datasource.getDatstoreId());
-//    if (schemas != null) {
-//      return schemas;
-//    }
-//    
-//    if (CommCode.DataStoreType.INTERNAL == datastoreInfo.getType()) {
-//      schemas = getElasticSearch(datastoreInfo);
-//    } else if (CommCode.DataStoreType.DATABASE == datastoreInfo.getType()) {
-//      schemas = getDatabase(datastoreInfo);
-//    } else if (CommCode.DataStoreType.HDFS == datastoreInfo.getType()) {
-//      
-//    }
+    DataStore dataStoreEntity = dataStoreRepository.findOne(datastoreVo.getId());
+    DatastoreVo datastoreInfo = datastoreServiceMapper.mapEntityToVo(dataStoreEntity, DatastoreVo.class);
+    
+    schemas = layoutMap.get(datastoreInfo.getId());
+    if (schemas != null) {
+      return schemas;
+    }
+    
+    if (CommCode.DataStoreType.INTERNAL == datastoreInfo.getType()) {
+      schemas = getElasticSearch(datastoreInfo);
+    } else if (CommCode.DataStoreType.DATABASE == datastoreInfo.getType()) {
+      schemas = getDatabase(datastoreInfo);
+    } else if (CommCode.DataStoreType.HDFS == datastoreInfo.getType()) {
+      
+    }
     return schemas;
   }
   
@@ -296,8 +303,8 @@ public class DatasourceServiceImpl implements DatasourceService {
 
   @Override
   public List<DatastoreVo> getDatastoreAllList(DatastoreVo dataStore) {
-    //return datastoreDao.getList(dataStore);
-    return null;
+    List<DataStore> dataStoreList = dataStoreRepository.findAll();
+    return datastoreServiceMapper.mapListEntityToVo(dataStoreList, DatastoreVo.class);
   }
   
 }

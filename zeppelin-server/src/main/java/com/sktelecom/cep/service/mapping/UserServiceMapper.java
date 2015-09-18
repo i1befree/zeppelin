@@ -3,22 +3,22 @@ package com.sktelecom.cep.service.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import com.sktelecom.cep.common.CipherUtils;
 import com.sktelecom.cep.common.CommCode;
-import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.Role;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceAssign;
 import com.sktelecom.cep.entity.WorkspaceObject;
 import com.sktelecom.cep.entity.WorkspaceShare;
-import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.NotebookVo;
 import com.sktelecom.cep.vo.PageVo;
 import com.sktelecom.cep.vo.RoleVo;
@@ -30,36 +30,27 @@ import com.sktelecom.cep.vo.UserVo;
 @Component
 public class UserServiceMapper extends AbstractServiceMapper {
 
-  /**
-   * ModelMapper : bean to bean mapping library.
-   */
-  private ModelMapper modelMapper;
-
+  @Inject
+  private NotebookServiceMapper notebookMapper;
+  
+  @Inject 
+  private RoleServiceMapper roleMapper;
+  
   /**
    * Constructor.
    */
   public UserServiceMapper() {
     modelMapper = new ModelMapper();
-    modelMapper.getConfiguration().setMatchingStrategy(
-        MatchingStrategies.STRICT);
-    
-    
-//    PropertyMap<User, UserVo> orderMap = new PropertyMap<User, UserVo>() {
-//      protected void configure() {
-//        skip().setWorkspace(null);
-//      }
-//    };
-//      
-//    modelMapper.addMappings(orderMap);
-  }
+    modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-  @Override
-  protected ModelMapper getModelMapper() {
-    return modelMapper;
-  }
-
-  protected void setModelMapper(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+    PropertyMap<User, UserVo> userMap = new PropertyMap<User, UserVo>() {
+      @Override
+      protected void configure() {
+        //skip().setWorkspace(null);
+        //skip().setRole(null);
+      }
+    };
+    modelMapper.addMappings(userMap);
   }
 
   /**
@@ -84,13 +75,15 @@ public class UserServiceMapper extends AbstractServiceMapper {
    * @param list
    * @return
    */
-  public PageVo<UserVo> mapListEntityToVo(Page<User> page) {
+  public PageVo<UserVo> mapListEntityToVo(Page<User> page, List<Role> roles) {
     PageVo<UserVo> pageVo = new PageVo<UserVo>();
     pageVo.setTotalCount(page.getTotalElements());
     pageVo.setPageSize(page.getSize());
     List<UserVo> listVo = new ArrayList<UserVo>();
     for (com.sktelecom.cep.entity.User entity : page.getContent()) {
-      listVo.add(mapEntityToVo(entity));
+      UserVo userVo = this.mapEntityToVo(entity);
+      userVo.setRole(getMatchRole(roles, userVo.getUserGrpCd()));
+      listVo.add(userVo);
     }
     pageVo.setContent(listVo);
 
@@ -141,7 +134,7 @@ public class UserServiceMapper extends AbstractServiceMapper {
   public RoleVo getMatchRole(List<Role> roles, String roleCode) {
     for (Role roleEntity : roles) {
       if (roleCode.equals(roleEntity.getCode())) {
-        return mapEntityToVo(roleEntity, RoleVo.class);
+        return roleMapper.mapEntityToVo(roleEntity, RoleVo.class);
       }
     }
     return null;
@@ -182,7 +175,7 @@ public class UserServiceMapper extends AbstractServiceMapper {
       for (WorkspaceAssign assign : assignList) {
         WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
         if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.NOTEBOOK) {
-          NotebookVo notebookVo = mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class);
+          NotebookVo notebookVo = notebookMapper.mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class);
           notebookVo.setWrkspcId(workspace.getWrkspcId());
           list.add(notebookVo);
         }

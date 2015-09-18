@@ -83,7 +83,7 @@ angular.module('zeppelinWebApp').controller('WorkspaceWizardCtrl', function($sco
   $scope.removeMembers = function() {
   	var members = getCheckedMembers();
   	console.info('members', members);
-  	UtilService.httpPost('/workspace/removeMembers', {members: members, wrkspcId: $scope.workspaceId}).then(function(result) {
+  	UtilService.httpPost('/workspace/removeMembers', {userIds: members, wrkspcId: $scope.workspaceId}).then(function(result) {
   		$scope.$emit('initWorkspaceMemberList', {});
   	}, function(error) {
   		alert(error);

@@ -1,5 +1,6 @@
 package com.sktelecom.cep.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,7 +20,7 @@ import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.UserSessionVo;
 import com.sktelecom.cep.vo.UserVo;
-import com.sktelecom.cep.vo.WorkspaceObjectVo;
+import com.sktelecom.cep.vo.WorkspaceAssignVo;
 
 /**
  * Datasource -  Controller.
@@ -52,9 +53,9 @@ public class DatasourceController {
   }
   
   /**
-   * workspaceObject 정보 조회.
+   * DatasourceVo 정보 조회.
    * 
-   * @param workspaceObject
+   * @param DatasourceVo
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
@@ -82,26 +83,27 @@ public class DatasourceController {
   /**
    * datasource 에 workspace 를 할당한다.
    * 
-   * @param workspaceObject
+   * @param DatasourceVo
    * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
    */
   // / @cond doxygen don't parsing in here
   @RequestMapping(value = "/datasource/saveAssignWorkspace", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage saveAssignWorkspace(@RequestBody WorkspaceObjectVo workspaceObject, HttpSession session) {
-    SimpleResultMessage message = new SimpleResultMessage("FAIL", "데이타소스를 작업공간에 할당하기를 실패하였습니다.");
-
+  public SimpleResultMessage saveAssignWorkspace(@RequestBody DatasourceVo datasourceVo, HttpSession session) {
     UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
-//    for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
-//      info.setUpdateUserId(userSession.getId());
-//    }
-//    int resultInt = datasourceService.saveAssignWorkspace(workspaceObject);
-//    if (resultInt > 0) {
-//      message.setRsCode("SUCCESS");
-//      message.setRsMessage("데이타소스를 작업공간에 할당하기를 성공하였습니다");
-//    }
-    return message;
+    
+    List<WorkspaceAssignVo> workspaceAssigns = new ArrayList<WorkspaceAssignVo>();
+    for (String wrkspcId : datasourceVo.getWrkspcIds()) {
+      WorkspaceAssignVo assign = new WorkspaceAssignVo();
+      assign.setWrkspcId(wrkspcId);
+      assign.setUpdateUserId(userSession.getId());
+      workspaceAssigns.add(assign);
+    }
+    datasourceVo.setWorkspaceAssigns(workspaceAssigns);
+    
+    datasourceService.saveAssignWorkspace(datasourceVo);
+    return new SimpleResultMessage("SUCCESS", "데이타소스를 작업공간에 할당하였습니다");
   }
    
   @RequestMapping(value = "/datasource/loadDatasourceMetadata", method = RequestMethod.POST)

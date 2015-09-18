@@ -124,11 +124,15 @@ angular.module('zeppelinWebApp').controller('DatasourceWorkspaceCtrl', function(
   	});
   };
 	
-  $scope.save = function() {  	
+  $scope.save = function() { 
+  	var workspaceIds = [];
+  	angular.forEach($scope.gridOptionsForAssignedWorkspace.data, function(info, idx) {
+			this.push(info.wrkspcId);
+		}, workspaceIds);
   	var jsonData = {
   			wrkspcObjId : $scope.datasourceId,
   			shareType : $scope.shareType === true ? 'ALL' : 'NONE',
-  			workspaceAssigns : $scope.gridOptionsForAssignedWorkspace.data
+  			wrkspcIds : workspaceIds
   	};
   	UtilService.httpPost('/datasource/saveAssignWorkspace', jsonData).then(function(result) {
   		if (result.rsCode === 'SUCCESS') {

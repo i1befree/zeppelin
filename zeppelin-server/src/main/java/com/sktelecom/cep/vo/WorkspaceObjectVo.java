@@ -1,6 +1,8 @@
 package com.sktelecom.cep.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sktelecom.cep.common.CommCode;
 
@@ -18,8 +20,27 @@ public abstract class WorkspaceObjectVo implements Serializable {
   private CommCode.WorkspaceObjectStatus objStatus;
   private UserVo creator;
   private UserVo owner;
+  private List<WorkspaceAssignVo> workspaceAssigns = new ArrayList<WorkspaceAssignVo>();
   
+  private List<String> wrkspcIds;
+
   
+  public List<String> getWrkspcIds() {
+    return wrkspcIds;
+  }
+
+  public void setWrkspcIds(List<String> wrkspcIds) {
+    this.wrkspcIds = wrkspcIds;
+  }
+
+  public List<WorkspaceAssignVo> getWorkspaceAssigns() {
+    return workspaceAssigns;
+  }
+
+  public void setWorkspaceAssigns(List<WorkspaceAssignVo> workspaceAssigns) {
+    this.workspaceAssigns = workspaceAssigns;
+  }
+
   public String getWrkspcObjId() {
     return wrkspcObjId;
   }

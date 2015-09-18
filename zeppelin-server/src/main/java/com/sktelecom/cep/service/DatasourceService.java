@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import com.sktelecom.cep.vo.DatasourceVo;
 import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutSchema;
-import com.sktelecom.cep.vo.WorkspaceObjectVo;
 
 /**
  * datasource관리 - datasource CRUD 담당 Service.
@@ -40,7 +39,7 @@ public interface DatasourceService {
    * @param workspaceObject
    * @return
    */
-  int saveAssignWorkspace(WorkspaceObjectVo workspaceObject);
+  void saveAssignWorkspace(DatasourceVo datasourceVo);
 
   /**
    * dataSourceVo 정보 조회 (할당 작업공간 목록 포함)

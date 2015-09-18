@@ -15,12 +15,7 @@ import org.modelmapper.ModelMapper;
  */
 public abstract class AbstractServiceMapper {
 
-  /**
-   * Get ModelMapper.
-   * 
-   * @return modelMapper
-   */
-  protected abstract ModelMapper getModelMapper();
+  protected ModelMapper modelMapper;
 
   /**
    * Map input bean to a new output bean.
@@ -32,7 +27,7 @@ public abstract class AbstractServiceMapper {
    * @return New output bean
    */
   protected <I, O> O map(I input, Class<O> outputClass) {
-    return getModelMapper().map(input, outputClass);
+    return modelMapper.map(input, outputClass);
   }
 
   /**
@@ -44,7 +39,7 @@ public abstract class AbstractServiceMapper {
    *          Output bean
    */
   protected <I, O> void map(I input, O output) {
-    getModelMapper().map(input, output);
+    modelMapper.map(input, output);
   }
 
   /**

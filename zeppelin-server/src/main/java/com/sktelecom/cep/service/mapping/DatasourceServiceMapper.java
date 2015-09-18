@@ -3,7 +3,10 @@ package com.sktelecom.cep.service.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
@@ -19,26 +22,31 @@ import com.sktelecom.cep.vo.WorkspaceVo;
 @Component
 public class DatasourceServiceMapper extends AbstractServiceMapper {
 
-  /**
-   * ModelMapper : bean to bean mapping library.
-   */
-  private ModelMapper modelMapper;
-
+  @Inject 
+  private DatastoreServiceMapper datastoreMapper;
+  
+  @Inject 
+  private WorkspaceServiceMapper workspaceMapper;
+  
   /**
    * Constructor.
    */
   public DatasourceServiceMapper() {
     modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-  }
 
-  @Override
-  protected ModelMapper getModelMapper() {
-    return modelMapper;
-  }
-
-  protected void setModelMapper(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+    PropertyMap<DataSource, DatasourceVo> datasourceMap = new PropertyMap<DataSource, DatasourceVo>() {
+      @Override
+      protected void configure() {
+        skip().setCreator(null);
+        skip().setOwner(null);
+        skip().setWorkspaceAssigns(null);
+        skip().setDatastore(null);
+        skip().setLastModifiedUser(null);
+        skip().setWorkspaces(null);
+      }
+    };
+    modelMapper.addMappings(datasourceMap);
   }
 
   /**
@@ -47,11 +55,12 @@ public class DatasourceServiceMapper extends AbstractServiceMapper {
    * @return
    */
   public DatasourceVo getDatasourceVoWithAssignedWorkspaceFromEntity(DataSource datasource) {
-    DatasourceVo datasourceVo = mapEntityToVo(datasource, DatasourceVo.class);
+    DatasourceVo datasourceVo = this.mapEntityToVo(datasource, DatasourceVo.class);
+    datasourceVo.setDatastore(datastoreMapper.mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
     
     List<WorkspaceAssign> assignList = datasource.getWorkspaceAssigns();
     for (WorkspaceAssign assign : assignList) {
-      datasourceVo.getWorkspaces().add(mapEntityToVo(assign.getWorkspace(), WorkspaceVo.class));
+      datasourceVo.getWorkspaces().add(workspaceMapper.mapEntityToVo(assign.getWorkspace(), WorkspaceVo.class));
     }
     return datasourceVo;
   }
@@ -65,8 +74,8 @@ public class DatasourceServiceMapper extends AbstractServiceMapper {
     List<DatasourceVo> list = new ArrayList<DatasourceVo>(); 
     
     for (DataSource datasource : datasourceList) {
-      DatasourceVo datasourceVo = mapEntityToVo(datasource, DatasourceVo.class);
-      datasourceVo.setDatastore(mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
+      DatasourceVo datasourceVo = this.mapEntityToVo(datasource, DatasourceVo.class);
+      datasourceVo.setDatastore(datastoreMapper.mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
       list.add(datasourceVo);
     }
     return list;

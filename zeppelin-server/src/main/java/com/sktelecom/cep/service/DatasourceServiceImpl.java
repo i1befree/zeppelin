@@ -29,9 +29,12 @@ import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.WorkspaceAssign;
+import com.sktelecom.cep.entity.WorkspaceObject;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataSourceRepository;
 import com.sktelecom.cep.repository.DataStoreRepository;
+import com.sktelecom.cep.repository.WorkspaceAssignRepository;
 import com.sktelecom.cep.service.mapping.DatasourceServiceMapper;
 import com.sktelecom.cep.service.mapping.DatastoreServiceMapper;
 import com.sktelecom.cep.vo.DatasourceVo;
@@ -39,6 +42,7 @@ import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
+import com.sktelecom.cep.vo.WorkspaceAssignVo;
 import com.sktelecom.cep.vo.WorkspaceObjectVo;
 
 /**
@@ -56,6 +60,9 @@ public class DatasourceServiceImpl implements DatasourceService {
     
   @Inject
   private DataStoreRepository dataStoreRepository;
+  
+  @Inject
+  private WorkspaceAssignRepository workspaceAssignRepository;
   
   @Inject
   private DatasourceServiceMapper datasourceServiceMapper;
@@ -99,33 +106,36 @@ public class DatasourceServiceImpl implements DatasourceService {
   }
 
   @Override
-  public int saveAssignWorkspace(WorkspaceObjectVo workspaceObject) {
-//    if ("ALL".equals(workspaceObject.getShareType())) {
-//      //remove all
-//      //update sharetype
-//      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
-//      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-//      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
-//      
-//      //데이타소스를 모든 갖업공간에 할당한다.
-//      workspaceObjectDao.updateForShareType(workspaceObject);
-//    } else {
-//      //remove all
-//      //add
-//      WorkspaceAssign workspaceAssign = new WorkspaceAssign();
-//      workspaceAssign.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-//      workspaceAssignDao.deleteByWrkspcObjId(workspaceAssign);
-//      
-//      for (WorkspaceAssign info : workspaceObject.getWorkspaceAssigns()) {
-//        info.setAssignId(UUID.randomUUID().toString());
-//        info.setWrkspcObjId(workspaceObject.getWrkspcObjId());
-//        workspaceAssignDao.create(info);
-//      }
-//      //데이타소스를 모든 갖업공간에 할당한다.
-//      workspaceObject.setShareType("NONE");
-//      workspaceObjectDao.updateForShareType(workspaceObject);
-//    }
-    return 1;
+  public void saveAssignWorkspace(DatasourceVo datasourceVo) {
+    DataSource dataSourceEntity = dataSourceRepository.findOne(datasourceVo.getWrkspcObjId());
+    
+    //remove all
+    workspaceAssignRepository.deleteByWorkspaceObjectWrkspcObjId(dataSourceEntity.getWrkspcObjId());
+    
+    if (datasourceVo.getShareType() == CommCode.WorkspaceObjectShareType.ALL) {
+      //update sharetype
+      dataSourceEntity.setShareType(datasourceVo.getShareType());
+    } else {      
+      //update sharetype
+      dataSourceEntity.setShareType(CommCode.WorkspaceObjectShareType.NONE);
+      
+      //add assign workspace
+      List<WorkspaceAssignVo> waList = datasourceVo.getWorkspaceAssigns();
+      for (WorkspaceAssignVo assignVo : waList) {
+        com.sktelecom.cep.entity.Workspace workspace = new com.sktelecom.cep.entity.Workspace();
+        workspace.setWrkspcId(assignVo.getWrkspcId());
+        
+        com.sktelecom.cep.entity.WorkspaceObject wObject = new com.sktelecom.cep.entity.DataSource();
+        wObject.setWrkspcObjId(datasourceVo.getWrkspcObjId());
+        
+        WorkspaceAssign assign = new WorkspaceAssign();
+        assign.setWorkspace(workspace);
+        assign.setWorkspaceObject(wObject);
+        assign.setUpdateUserId(assignVo.getUpdateUserId());
+        
+        workspaceAssignRepository.save(assign);
+      }
+    }
   }
 
   @Override

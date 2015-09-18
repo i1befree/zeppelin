@@ -143,8 +143,9 @@ public class UserServiceImpl implements UserService {
   public PageVo<UserVo> getListByPage(Pageable pageable) {
     Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);
     
+    List<com.sktelecom.cep.entity.Role> roles = roleRepository.findAll();
     //convert from entity to vo 
-    PageVo<UserVo> page = userServiceMapper.mapListEntityToVo(result);   
+    PageVo<UserVo> page = userServiceMapper.mapListEntityToVo(result, roles);   
     return page;
   }
 

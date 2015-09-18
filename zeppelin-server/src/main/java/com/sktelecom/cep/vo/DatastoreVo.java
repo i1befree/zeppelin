@@ -29,7 +29,7 @@ public class DatastoreVo implements Serializable {
   private String description;
   private Date updateDate;
   private UserVo updator;
-  //private List<DataStorePropertyVo> properties = new ArrayList<DataStorePropertyVo>();
+  private List<DataStorePropertyVo> properties = new ArrayList<DataStorePropertyVo>();
   
   public String getId() {
     return id;
@@ -97,11 +97,11 @@ public class DatastoreVo implements Serializable {
   public void setUpdator(UserVo updator) {
     this.updator = updator;
   }
-//  public List<DataStorePropertyVo> getProperties() {
-//    return properties;
-//  }
-//  public void setProperties(List<DataStorePropertyVo> properties) {
-//    this.properties = properties;
-//  }
+  public List<DataStorePropertyVo> getProperties() {
+    return properties;
+  }
+  public void setProperties(List<DataStorePropertyVo> properties) {
+    this.properties = properties;
+  }
     
 }

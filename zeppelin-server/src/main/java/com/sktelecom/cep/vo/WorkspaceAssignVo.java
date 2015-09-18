@@ -3,49 +3,62 @@ package com.sktelecom.cep.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * ValueObject.
  *
  * @author 박상민
  */
 @SuppressWarnings("serial")
+/// @cond doxygen don't parsing in here
+@JsonIgnoreProperties(ignoreUnknown = true)
+/// @endcond
 public class WorkspaceAssignVo implements Serializable {
-  private String id;
-  private WorkspaceObjectVo workspaceObject;
-  private WorkspaceVo workspace;
+  private String assignId;
+  private String wrkspcObjId;
+  private String wrkspcId;
   private Date updateDate;
   private String updateUserId;
   
-  public String getId() {
-    return id;
+  public String getAssignId() {
+    return assignId;
   }
-  public void setId(String id) {
-    this.id = id;
+
+  public void setAssignId(String assignId) {
+    this.assignId = assignId;
   }
-  public WorkspaceObjectVo getWorkspaceObject() {
-    return workspaceObject;
+
+  public String getWrkspcObjId() {
+    return wrkspcObjId;
   }
-  public void setWorkspaceObject(WorkspaceObjectVo workspaceObject) {
-    this.workspaceObject = workspaceObject;
+
+  public void setWrkspcObjId(String wrkspcObjId) {
+    this.wrkspcObjId = wrkspcObjId;
   }
-  public WorkspaceVo getWorkspace() {
-    return workspace;
+
+  public String getWrkspcId() {
+    return wrkspcId;
   }
-  public void setWorkspace(WorkspaceVo workspace) {
-    this.workspace = workspace;
+
+  public void setWrkspcId(String wrkspcId) {
+    this.wrkspcId = wrkspcId;
   }
+
   public Date getUpdateDate() {
     return updateDate;
   }
+
   public void setUpdateDate(Date updateDate) {
     this.updateDate = updateDate;
   }
+
   public String getUpdateUserId() {
     return updateUserId;
   }
+
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
   }
 
-  
 }

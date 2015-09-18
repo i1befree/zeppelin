@@ -1,10 +1,6 @@
 package com.sktelecom.cep.controller;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Controller;
-
-import com.sktelecom.cep.service.UserAccessLogService;
 
 /**
  * 사용자접속로그 - 사용자 접속 로그를 조회하는 Controller.
@@ -14,8 +10,8 @@ import com.sktelecom.cep.service.UserAccessLogService;
 @Controller
 public class UserAccessLogController {
 
-  @Inject
-  private UserAccessLogService userAccessLogService;
+//  @Inject
+//  private UserAccessLogService userAccessLogService;
 
 //  /**
 //   * 사용자 접속 로그 목록 조회.

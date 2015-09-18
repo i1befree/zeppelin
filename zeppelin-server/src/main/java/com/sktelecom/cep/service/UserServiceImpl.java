@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
   public int updateByManager(UserVo user) {
     com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
     userServiceMapper.mapVoToEntity(user, userEntity);
-    com.sktelecom.cep.entity.User userEntitySaved = userRepository.save(userEntity);
+    userRepository.save(userEntity);
     return 1;
   }
 

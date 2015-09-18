@@ -30,7 +30,6 @@ import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.WorkspaceAssign;
-import com.sktelecom.cep.entity.WorkspaceObject;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataSourceRepository;
 import com.sktelecom.cep.repository.DataStoreRepository;
@@ -43,7 +42,6 @@ import com.sktelecom.cep.vo.LayoutColumn;
 import com.sktelecom.cep.vo.LayoutSchema;
 import com.sktelecom.cep.vo.LayoutTable;
 import com.sktelecom.cep.vo.WorkspaceAssignVo;
-import com.sktelecom.cep.vo.WorkspaceObjectVo;
 
 /**
  * 데이타소스 - 데이타소스 CRUD 담당 Service 구현체.

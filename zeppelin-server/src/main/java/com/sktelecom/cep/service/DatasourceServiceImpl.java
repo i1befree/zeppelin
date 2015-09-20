@@ -29,7 +29,9 @@ import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataSource;
 import com.sktelecom.cep.entity.DataStore;
 import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceAssign;
+import com.sktelecom.cep.entity.WorkspaceObject;
 import com.sktelecom.cep.exception.BizException;
 import com.sktelecom.cep.repository.DataSourceRepository;
 import com.sktelecom.cep.repository.DataStoreRepository;
@@ -79,7 +81,7 @@ public class DatasourceServiceImpl implements DatasourceService {
     DataStore dataStore = new DataStore();
     dataStore.setId(datasource.getDatastore().getId());
     
-    com.sktelecom.cep.entity.DataSource dataSourceObject = new com.sktelecom.cep.entity.DataSource();    
+    DataSource dataSourceObject = new DataSource();    
     datasourceServiceMapper.mapVoToEntity(datasource, dataSourceObject);
     
     dataSourceObject.setCreator(user);
@@ -120,10 +122,10 @@ public class DatasourceServiceImpl implements DatasourceService {
       //add assign workspace
       List<WorkspaceAssignVo> waList = datasourceVo.getWorkspaceAssigns();
       for (WorkspaceAssignVo assignVo : waList) {
-        com.sktelecom.cep.entity.Workspace workspace = new com.sktelecom.cep.entity.Workspace();
+        Workspace workspace = new Workspace();
         workspace.setWrkspcId(assignVo.getWrkspcId());
         
-        com.sktelecom.cep.entity.WorkspaceObject wObject = new com.sktelecom.cep.entity.DataSource();
+        WorkspaceObject wObject = new DataSource();
         wObject.setWrkspcObjId(datasourceVo.getWrkspcObjId());
         
         WorkspaceAssign assign = new WorkspaceAssign();
@@ -169,6 +171,7 @@ public class DatasourceServiceImpl implements DatasourceService {
     List<LayoutSchema> schemas = new ArrayList<LayoutSchema>();
     
     Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", "cep").build();
+    @SuppressWarnings("resource")
     Client client = new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(datastoreInfo.getHostName(), datastoreInfo.getPortNum()));
     try {
       GetIndexResponse indexResponse = client.admin().indices().prepareGetIndex().get();
@@ -190,10 +193,12 @@ public class DatasourceServiceImpl implements DatasourceService {
           tables.add(table);
           
           Map<String, Object> source = mappingMetadata.sourceAsMap();
+          @SuppressWarnings("unchecked")
           Map<String, Object> properties = (Map<String, Object>) source.get("properties");
           if (properties != null) {
             List<LayoutColumn> columns = new ArrayList<LayoutColumn>();
             for (String propertyName : properties.keySet()) {
+              @SuppressWarnings("unchecked")
               Map<String, String> property = (Map<String, String>) properties.get(propertyName);
               LayoutColumn column = new LayoutColumn();
               column.setName(propertyName);

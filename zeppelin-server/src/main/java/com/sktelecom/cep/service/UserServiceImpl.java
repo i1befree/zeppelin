@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.common.CipherUtils;
 import com.sktelecom.cep.common.CommCode;
+import com.sktelecom.cep.entity.Role;
+import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.repository.RoleRepository;
@@ -68,15 +70,15 @@ public class UserServiceImpl implements UserService {
     workspace.setWrkspcType(CommCode.WorkspaceType.PERSONAL);
     workspace.setAdminUserId(userVo.getUpdateUserId());
     workspace.setUpdateUserId(userVo.getUpdateUserId());
-    com.sktelecom.cep.entity.Workspace savedWorkspace = workspaceRepository.save(workspace);
+    Workspace savedWorkspace = workspaceRepository.save(workspace);
          
-    //com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+    //Role role = roleRepository.findByCode(userVo.getRole().getCode());
     
-    com.sktelecom.cep.entity.User newUser = new com.sktelecom.cep.entity.User();
+    User newUser = new User();
     userServiceMapper.mapVoToEntity(userVo, newUser);
     newUser.setWorkspace(workspace);
     //newUser.setRole(role);
-    com.sktelecom.cep.entity.User savedUser = userRepository.save(newUser);
+    User savedUser = userRepository.save(newUser);
     
     WorkspaceShare workspaceShare = new WorkspaceShare();
     workspaceShare.setWorkspace(savedWorkspace);
@@ -89,22 +91,22 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserVo update(UserVo userVo) {    
-//    com.sktelecom.cep.entity.Role role = roleRepository.findByCode(userVo.getRole().getCode());
+//    Role role = roleRepository.findByCode(userVo.getRole().getCode());
 //    RoleVo updatableUserRole = new RoleVo();
 //    updatableUserRole.setId(role.getId());
 //    updatableUserRole.setName(role.getName());
 //    updatableUserRole.setCode(role.getCode());
 //    userVo.setRole(updatableUserRole);
     
-    com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
+    User user = userRepository.findOne(userVo.getId());
     userServiceMapper.mapVoToEntity(userVo, user);
-    com.sktelecom.cep.entity.User updatedUser = userRepository.save(user);
+    User updatedUser = userRepository.save(user);
     return userServiceMapper.mapEntityToVo(updatedUser);
   }
 
   @Override
   public int updateByManager(UserVo user) {
-    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
+    User userEntity = userRepository.findOne(user.getId());
     userServiceMapper.mapVoToEntity(user, userEntity);
     userRepository.save(userEntity);
     return 1;
@@ -114,7 +116,7 @@ public class UserServiceImpl implements UserService {
   public void delete(UserVo userVo) {
     workspaceShareRepository.deleteByUserId(userVo.getId());
     
-    com.sktelecom.cep.entity.User user = userRepository.findOne(userVo.getId());
+    User user = userRepository.findOne(userVo.getId());
     String wrkspcId = user.getWorkspace().getWrkspcId();    
     userRepository.delete(userVo.getId());
 
@@ -123,7 +125,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserVo getInfo(UserVo user) {
-    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(user.getId());
+    User userEntity = userRepository.findOne(user.getId());
     
     //convert from entity to vo 
     UserVo userInfo = userServiceMapper.mapEntityToVo(userEntity);
@@ -132,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserVo getCheckLoginUserInfo(UserVo user) {
-    com.sktelecom.cep.entity.User userEntity = userRepository.findByIdAndPasswd(user.getId(), CipherUtils.getSHA256(user.getPasswd()));
+    User userEntity = userRepository.findByIdAndPasswd(user.getId(), CipherUtils.getSHA256(user.getPasswd()));
     
     //convert from entity to vo 
     UserVo userInfo = userServiceMapper.mapEntityToVo(userEntity);
@@ -141,9 +143,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public PageVo<UserVo> getListByPage(Pageable pageable) {
-    Page<com.sktelecom.cep.entity.User> result = userRepository.findAll(pageable);
+    Page<User> result = userRepository.findAll(pageable);
     
-    List<com.sktelecom.cep.entity.Role> roles = roleRepository.findAll();
+    List<Role> roles = roleRepository.findAll();
     //convert from entity to vo 
     PageVo<UserVo> page = userServiceMapper.mapListEntityToVo(result, roles);   
     return page;
@@ -151,7 +153,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<RoleVo> getRole() {
-    List<com.sktelecom.cep.entity.Role> roleEntity = roleRepository.findAll();
+    List<Role> roleEntity = roleRepository.findAll();
     
     //convert from entity to vo 
     return roleServiceMapper.mapListEntityToVo(roleEntity, RoleVo.class);

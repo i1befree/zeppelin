@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.entity.Workspace;
+import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.repository.RoleRepository;
 import com.sktelecom.cep.repository.UserRepository;
 import com.sktelecom.cep.repository.WorkspaceRepository;
@@ -52,15 +54,15 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public List<WorkspaceVo> getWorkspaceList() {
-    List<com.sktelecom.cep.entity.Workspace> workspaceList = workspaceRepository.findAll();
-    
+    List<Workspace> workspaceList = workspaceRepository.findAll();
+
     //convert from entity to vo 
     return workspaceServiceMapper.mapListEntityToVo(workspaceList, WorkspaceVo.class);
   }
 
   @Override
   public List<WorkspaceVo> getWorkspaceListByUserId(String userId) {    
-    List<com.sktelecom.cep.entity.WorkspaceShare> shareList = workspaceShareRepository.findByUserId(userId);
+    List<WorkspaceShare> shareList = workspaceShareRepository.findByUserId(userId);
     
     //convert from entity to vo 
     return workspaceServiceMapper.getListWorkspaceVoFromEntity(shareList);
@@ -68,7 +70,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public List<NotebookVo> getNotebookList(WorkspaceVo workspace) {
-    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     //convert from entity to vo 
     return workspaceServiceMapper.mapListNotebookVoFromEntity(entity);
@@ -84,7 +86,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public WorkspaceSummaryVo getWorkspaceSummaryInfo(WorkspaceVo workspace) {
-    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     //convert from entity to vo 
     return workspaceServiceMapper.getWorkspaceSummaryVoFromEntity(entity);
@@ -92,7 +94,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public List<UserVo> getWorkspaceMemberList(WorkspaceVo workspace) {
-    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     List<com.sktelecom.cep.entity.Role> roles = roleRepository.findAll();
     //convert from entity to vo 
@@ -101,14 +103,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public int insertMembers(WorkspaceVo workspaceVo, List<WorkspaceShareVo> wsList) {
-    com.sktelecom.cep.entity.Workspace workspace = new com.sktelecom.cep.entity.Workspace();
+    Workspace workspace = new Workspace();
     workspace.setWrkspcId(workspaceVo.getWrkspcId());
     
     for (WorkspaceShareVo shareVo : wsList) {
       com.sktelecom.cep.entity.User user = new com.sktelecom.cep.entity.User();
       user.setId(shareVo.getUserId());
       
-      com.sktelecom.cep.entity.WorkspaceShare share = new com.sktelecom.cep.entity.WorkspaceShare();
+      WorkspaceShare share = new WorkspaceShare();
       share.setWorkspace(workspace);
       share.setUpdateUserId(shareVo.getUpdateUserId());
       share.setUser(user);
@@ -128,7 +130,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public List<DatasourceVo> getDatasourceList(WorkspaceVo workspace) {
-    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     //convert from entity to vo 
     return workspaceServiceMapper.mapListDatasourceVoFromEntity(entity);
@@ -136,7 +138,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
   
   @Override
   public WorkspaceVo getWorkspaceObject(WorkspaceVo workspace) {
-    com.sktelecom.cep.entity.Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
+    Workspace entity = workspaceRepository.findOne(workspace.getWrkspcId());
     
     //convert from entity to vo 
     return workspaceServiceMapper.mapWorkspaceVoFromEntity(entity);

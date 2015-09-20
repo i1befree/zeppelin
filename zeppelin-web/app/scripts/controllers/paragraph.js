@@ -2049,9 +2049,28 @@ console.info('data', data);
   	$scope.editor.moveCursorToPosition(cursor)
   });
     
-  $scope.onDroppedDatasoruce = function(event, ui) {
+  $scope.$on('onDragStart_columnFromSidebar', function(event, columns) {
+  	$scope.dragColumns = columns;
+  });
+  
+  $scope.$on('onDragging_columnFromSidebar', function(event, position) {
+  	var cursor = $scope.editor.renderer.screenToTextCoordinates(position.pageX, position.pageY);
+  	$scope.editor.moveCursorToPosition(cursor)
+  });
+    
+  $scope.onDroppedDatasoruceColumns = function(event, ui) {
+  	console.info('$scope.dragDatasource ', $scope.dragDatasource, '$scope.dragColumns', $scope.dragColumns );
+  	var dropText = '';
+  	if($scope.dragDatasource !== undefined) {
+  		dropText = " source:\"" + $scope.dragDatasource.datsrcName + "\" ";
+  		$scope.dragDatasource = undefined;
+    	
+  	} else if($scope.dragColumns !== undefined) {
+  		dropText = ' ' + $scope.dragColumns.toString() + ' ';
+  		$scope.dragColumns = undefined;
+  	}
   	var position = $scope.editor.getCursorPosition();
-  	$scope.editor.getSession().insert(position, " source:\"" + $scope.dragDatasource.datsrcName + "\" ");
+  	$scope.editor.getSession().insert(position, dropText);
   	$scope.$parent.toggleSidebar();
   };
   

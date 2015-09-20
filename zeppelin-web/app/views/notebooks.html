@@ -46,7 +46,12 @@ limitations under the License.
     <div ng-if="sidebarToggled" class="sidebar_content bg-info animate" style="width:280px;overflow-y: auto;">
     	<div ng-repeat="table in datasourceTableSchema">
 				<table ng-if="selectDatasource == table.name" class="table">
-					<tr ng-repeat="column in table.columns">
+					<tr ng-repeat="column in table.columns" 
+							ng-click="taggleSelectedColumnInfo(table.name, column.name)"
+							ng-class="selectionDatasourceColumn[table.name][column.name].selected ? 'row-selected' : ''"
+							data-drag="true"
+					    data-jqyoui-options="{appendTo: 'body', revert: 'invalid', helper: 'clone'}" 
+					    jqyoui-draggable="{onStart: 'onDragStartColumn(table.name)', onDrag: 'onDraggingColumn'}">
 						<td>{{column.name}}</td>
 						<td>{{column.type}}</td>
 						<td>{{column.size}}</td>

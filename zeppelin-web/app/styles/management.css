@@ -86,6 +86,9 @@
   background-color: #F6F6F6; 
   font-weight: bold;
 }
+.row-selected {
+	background-color: #ff8000; 
+}
 
 /* animation */
 .animate { 
@@ -199,3 +202,4 @@
     background-color: #080808;
   }
 }
+

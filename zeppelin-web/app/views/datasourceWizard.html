@@ -42,7 +42,7 @@ limitations under the License.
 			      <label for="datstoreType" class="col-sm-4 control-label text-left fixedFormLabel">DataStore</label>
 			      <div class="col-sm-8">
 			        <select class="form-control" name="datstoreType" id="datstoreType"
-									ng-model="datasource.datstoreId"
+									ng-model="datasource.datastore.id"
 									ng-options="option.id as ('[' + option.type + '] ' + option.name) for option in datastoreList"
 									ng-change="getLayoutSchemaList()" >
 							</select>

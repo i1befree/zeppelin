@@ -78,6 +78,8 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 //		]	
 	};	
   
+  $scope.selectionDatasourceColumn = {};
+  
   var angularObjectRegistry = {};
 
   $scope.getCronOptionNameFromValue = function(value) {
@@ -111,6 +113,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   }
   
   $scope.loadDatasourceMetadata = function(datasource) {
+  	$scope.selectionDatasourceColumn = {};
   	$scope.selectDatasource = datasource.srcObjName;
 		if($scope.schema[datasource.datastore.id] !== undefined) {
 			//$scope.gridOptionsForSchema.data = $scope.schema[datasource.datastore.id];
@@ -124,7 +127,7 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 				$scope.datasourceTableSchema.push({name:datasource.srcObjName, columns: getTableSchema(datasource)});
 			}
 		} else {
-	  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {datstoreId: datasource.datastore.id}).then(function(result) {
+	  	UtilService.httpPost('/datasource/loadDatasourceMetadata', {id: datasource.datastore.id}).then(function(result) {
 	  		$scope.schema[datasource.datastore.id] = result;
 	  		var isContain = false;
 				angular.forEach($scope.datasourceTableSchema, function(table, index) {
@@ -140,6 +143,16 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
 	  	});
 		}
   };
+  
+  $scope.taggleSelectedColumnInfo = function(tableName, columnName) {
+  	if($scope.selectionDatasourceColumn[tableName] === undefined) {
+  		$scope.selectionDatasourceColumn[tableName] = {};
+  	}
+  	if($scope.selectionDatasourceColumn[tableName][columnName] === undefined) {
+  		$scope.selectionDatasourceColumn[tableName][columnName] = {};
+  	}
+  	$scope.selectionDatasourceColumn[tableName][columnName].selected = !$scope.selectionDatasourceColumn[tableName][columnName].selected;
+  }
   
   function getTableSchema(datasource) {
   	var tableSchema = undefined;
@@ -187,13 +200,27 @@ angular.module('zeppelinWebApp').controller('NotebookCtrl', function($scope, $ro
   };
   
   $scope.onDragStartDatasoruce = function(event, ui, data) {
-  	console.info(event, ui, data);
   	$scope.$broadcast('onDragStart_datasourceFromSidebar', data);
   };
     
   $scope.onDraggingDatasoruce = function(event, ui) {
   	var position = {pageX: event.pageX, pageY: event.pageY}
   	$scope.$broadcast('onDragging_datasourceFromSidebar', position);
+  };
+  
+  $scope.onDragStartColumn = function(event, ui, tableName) {
+  	var columnNames = [];
+  	for(var columnName in $scope.selectionDatasourceColumn[tableName]) {
+  		if($scope.selectionDatasourceColumn[tableName][columnName]) {
+  			columnNames.push(columnName);
+  		}
+  	}
+  	$scope.$broadcast('onDragStart_columnFromSidebar', columnNames);
+  };
+    
+  $scope.onDraggingColumn = function(event, ui) {
+  	var position = {pageX: event.pageX, pageY: event.pageY}
+  	$scope.$broadcast('onDragging_columnFromSidebar', position);
   };
   
   $scope.toggleAllEditor = function() {

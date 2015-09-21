@@ -121,12 +121,12 @@ angular.module('zeppelinWebApp')
   $rootScope.$on('getTreeWorkspace', function(event, data) {
     console.info('getTreeWorkspace', event, data);
     
-    getListByUserId();
+    getWorkspaceListByUserId();
     getLastestNotebookList();
   });
   
-  function getListByUserId() {
-  	UtilService.httpPost('/workspace/getListByUserId', {}).then(function(result) {
+  function getWorkspaceListByUserId() {
+  	UtilService.httpPost('/workspace/getWorkspaceListByUserId', {}).then(function(result) {
       $scope.mainTreeData = UtilService.unflatten(result);
       //console.info('$scope.mainTreeData', $scope.mainTreeData);
     	//$scope.mainTreeData = result;

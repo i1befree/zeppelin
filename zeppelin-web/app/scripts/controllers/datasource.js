@@ -24,7 +24,6 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
       	if(row.isSelected) {
       		$scope.datasource = row.entity;
       		getWorkspaceObjectInfo();
-      		getAssignedWorkspaceList();
       	} else {
       		$scope.datasource = {};
       		$scope.workspaceObject = {};
@@ -36,7 +35,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
     },
 		columnDefs : [
 		  {name:'datsrcName'    , displayName: 'Name'      , enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}},
-		  {name:'datstoreType'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
+		  {name:'datastore.type'  , displayName: 'Store Type', enableColumnMenu: false, cellTooltip: function(row, col) {return row.entity[col.name];}}
 		]	
 	};	
 	
@@ -65,20 +64,14 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   };
   
   function getWorkspaceObjectInfo() {
-  	UtilService.httpPost('/datasource/getWorkspaceObjectInfo', {wrkspcObjId : $scope.datasource.datasourceId}).then(function(result) {
+  	UtilService.httpPost('/datasource/getDatasourceObjectInfo', {wrkspcObjId : $scope.datasource.wrkspcObjId}).then(function(result) {
   		$scope.workspaceObject = result;
   		$scope.shareTypeAll = $scope.workspaceObject.shareType === 'ALL' ? true : false;
-  	}, function(error) {
-  		alert(error);
-  	});
-  };
-  
-  function getAssignedWorkspaceList() {
-  	var formData = {
-        wrkspcObjId : $scope.datasource.datasourceId
-      };
-  	UtilService.httpPost('/datasource/getAssignedWorkspaceList', formData).then(function(result) {
-  		$scope.gridOptionsForAssignedWorkspace.data = result;
+  		if($scope.shareTypeAll) {
+  			$scope.gridOptionsForAssignedWorkspace.data = [];
+  		} else {
+  			$scope.gridOptionsForAssignedWorkspace.data = $scope.workspaceObject.workspaces;
+  		}
   	}, function(error) {
   		alert(error);
   	});
@@ -89,7 +82,7 @@ angular.module('zeppelinWebApp').controller('DatasourceCtrl', function($scope, $
   };
   
   $scope.assignWorkspace = function() {
-	  $location.path('/datasourceWorkspace/' + $scope.datasource.datasourceId);
+	  $location.path('/datasourceWorkspace/' + $scope.datasource.wrkspcObjId);
   };
   
 //  $scope.editMode = function() {

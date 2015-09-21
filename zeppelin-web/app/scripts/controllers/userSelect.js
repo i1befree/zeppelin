@@ -81,7 +81,7 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
       }
     }
   	console.info('members', members);
-  	UtilService.httpPost('/workspace/addMembers', {members: members, wrkspcId: $scope.wrkspcId}).then(function(result) {
+  	UtilService.httpPost('/workspace/addMembers', {userIds: members, wrkspcId: $scope.wrkspcId}).then(function(result) {
   		$scope.$emit('initWorkspaceMemberList', {});
     	$scope.close();
   	}, function(error) {
@@ -91,6 +91,7 @@ angular.module('zeppelinWebApp').controller('UserSelectCtrl', function($scope, $
   };
   
   $scope.close = function() {
+  	$scope.selected = {};
   	$scope.selectAll = false;
   	$scope.parentMemberIdsObject = {};
 		$scope.wrkspcId = undefined;

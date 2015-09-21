@@ -65,10 +65,11 @@ CREATE TABLE trip.datastore
 
 CREATE TABLE trip.datastore_props
 (
+	props_id varchar(36) NOT NULL COMMENT 'property ID',
 	datstore_id varchar(36) NOT NULL COMMENT 'Datastore ID',
 	prop_name varchar(30) NOT NULL COMMENT '속성명',
 	prop_value varchar(100) NOT NULL COMMENT '속성값',
-	PRIMARY KEY (datstore_id, prop_name)
+	PRIMARY KEY (props_id)
 ) ENGINE = InnoDB COMMENT = 'Datastore Properties' DEFAULT CHARACTER SET utf8;
 
 
@@ -134,13 +135,14 @@ CREATE TABLE trip.user
 
 
 CREATE TABLE trip.user_access_log (
-  	login_date datetime NOT NULL COMMENT '로그인일시',
-  	id varchar(45) NOT NULL COMMENT '아이디',
+  	id varchar(36) NOT NULL COMMENT 'log ID',
+	  login_date datetime NOT NULL COMMENT '로그인일시',
+  	user_id varchar(45) NOT NULL COMMENT '아이디',
   	name varchar(45) DEFAULT NULL COMMENT '이름',
   	email varchar(100) DEFAULT NULL COMMENT '이메일',
   	tel varchar(14) DEFAULT NULL COMMENT '전화번호',
   	user_grp_cd varchar(10) DEFAULT NULL COMMENT '사용자그룹코드',
-  	PRIMARY KEY (login_date,id)
+  	PRIMARY KEY (id)
 ) ENGINE=InnoDB COMMENT = '사용자 접속 로그' DEFAULT CHARACTER SET utf8;
 
 

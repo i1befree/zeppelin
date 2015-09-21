@@ -143,7 +143,7 @@ angular
         templateUrl: 'views/datastore.html',
         controller: 'DatastoreCtrl'
       })
-      .when('/datastoreWizard/:datastoreId', {
+      .when('/datastoreWizard', {
         templateUrl: 'views/datastoreWizard.html',
         controller: 'DatastoreWizardCtrl'
       })

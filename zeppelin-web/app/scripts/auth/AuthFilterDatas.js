@@ -23,7 +23,7 @@ angular.module('zeppelinWebApp')
   RouteFilter.register('admin', [ '/interpreter', 
                                   '/userMgr', 
                                   '/datastore',
-                                  '/datastoreWizard/:datastoreId',
+                                  '/datastoreWizard',
                                   '/datasource',
                                   '/datasourceWizard/:datasourceId'], function() {
     return Authentication.isAdmin();

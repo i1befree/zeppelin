@@ -32,89 +32,52 @@ limitations under the License.
 					</button>
 				</div>	
 	    	<h3 class="title">List</h3>
-	     	<!-- Table S -->
-				<table class="table table-striped table-hover">
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Type</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="info in list" class="btn-link" ng-click="viewMode(info)">
-							<td>{{info.name}}</td>
-							<td>{{info.type}}</td>
-						</tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-						<tr ng-click="viewMode(info)"><td>이름</td><td>타입</td></tr>
-					</tbody>
-				</table>
-				<!-- Table E -->
-			
-				<!-- Pagination S -->
-				<div id="pagingNav" class="text-center">
-					<pagination total-items="totalCount" ng-model="currentPage" ng-change="pageChanged()" max-size="maxPageSize" items-per-page="itemsPerPage" first-text="처음" previous-text="이전" next-text="다음" last-text="끝"></pagination>
-				</div>
-				<!-- Pagination E -->
-				      
-	    </div>
+
+	     	<br/>
+	     	<div ui-grid="gridOptionsForDatastore" ui-grid-selection style="width:100%; height:400px;"></div>
+			</div>
 	  </div>
 	  <div class="col-md-8">   
 	  	<div class="box" style="min-height:540px;">
 	  		<div class="pull-right">
-		  		<button class="btn btn-default" ng-click="editMode()">
+		  		<button class="btn btn-default" ng-click="assignWorkspace()" ng-disabled="!datastore.id">
 						<i class="ace-icon fa fa-pencil-square-o bigger-110"></i> Edit
 					</button>
 				</div>		
 	  		<h3 class="title">Detail Info</h3>
-	  		<b>Type</b>
+	  		<br/>
 	  		<table class="table table-striped">
 	        <tr>
 	          <th style="width:200px;">type</th>
-	          <td>Database</td>
+	          <td>{{datastore.type}}</td>
 	        </tr>
-	      </table>
-	      <b>접속정보</b>
-	      <table class="table table-striped">
 	        <tr>
-	          <th style="width:200px;">Name</th>
-	          <td>데이타베이스 접속정보</td>
+	          <th>Name</th>
+	          <td>{{datastore.type}}</td>
 	        </tr>
 	        <tr>
 	          <th>Database</th>
-	          <td>Mysql</td>
+	          <td>{{datastore.subType}}</td>
 	        </tr>
 	        <tr>
 	          <th>Driver class</th>
-	          <td>com.mysql.jdbc.Driver</td>
+	          <td>{{datastore.properties.DRIVER_CLASS.value}}</td>
 	        </tr>
 	        <tr>
 	          <th>username</th>
-	          <td>cep</td>
+	          <td>{{datastore.username}}</td>
 	        </tr>
 	        <tr>
 	          <th>password</th>
-	          <td>!Cep@2015</td>
+	          <td>{{datastore.password}}</td>
 	        </tr>
 	        <tr>
 	          <th>hostname</th>
-	          <td>52.68.186.228</td>
+	          <td>{{datastore.hostName}}</td>
 	        </tr>
 	        <tr>
 	          <th>port</th>
-	          <td>3306</td>
+	          <td>{{datastore.portNum}}</td>
 	        </tr>
 	        <tr>
 	          <th>URL</th>

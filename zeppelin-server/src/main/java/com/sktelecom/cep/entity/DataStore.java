@@ -1,6 +1,7 @@
 package com.sktelecom.cep.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -75,10 +76,9 @@ public class DataStore implements Serializable {
   @JoinColumn(name = "update_user_id", referencedColumnName = "id")
   private User updator;
 
-  @OneToMany
-  @JoinColumn(name = "datstore_id", referencedColumnName = "datstore_id")
-  private List<DataStoreProperty> properties;
-
+  @OneToMany(mappedBy = "dataStore", fetch = FetchType.LAZY)
+  private List<DataStoreProperty> properties = new ArrayList<DataStoreProperty>();
+    
   @OneToMany(mappedBy = "dataStore", fetch = FetchType.LAZY)
   private Set<DataSource> dataSources = new HashSet<>();
 

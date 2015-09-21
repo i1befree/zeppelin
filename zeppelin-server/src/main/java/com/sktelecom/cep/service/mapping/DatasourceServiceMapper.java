@@ -3,12 +3,18 @@ package com.sktelecom.cep.service.mapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 
 import com.sktelecom.cep.entity.DataSource;
+import com.sktelecom.cep.entity.WorkspaceAssign;
 import com.sktelecom.cep.vo.DatasourceVo;
+import com.sktelecom.cep.vo.DatastoreVo;
+import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
  * Mapping between entity beans and display beans.
@@ -16,69 +22,63 @@ import com.sktelecom.cep.vo.DatasourceVo;
 @Component
 public class DatasourceServiceMapper extends AbstractServiceMapper {
 
-  /**
-   * ModelMapper : bean to bean mapping library.
-   */
-  private ModelMapper modelMapper;
-
+  @Inject 
+  private DatastoreServiceMapper datastoreMapper;
+  
+  @Inject 
+  private WorkspaceServiceMapper workspaceMapper;
+  
   /**
    * Constructor.
    */
   public DatasourceServiceMapper() {
     modelMapper = new ModelMapper();
     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+    PropertyMap<DataSource, DatasourceVo> datasourceMap = new PropertyMap<DataSource, DatasourceVo>() {
+      @Override
+      protected void configure() {
+        skip().setCreator(null);
+        skip().setOwner(null);
+        skip().setWorkspaceAssigns(null);
+        skip().setDatastore(null);
+        skip().setLastModifiedUser(null);
+        skip().setWorkspaces(null);
+      }
+    };
+    modelMapper.addMappings(datasourceMap);
   }
 
   /**
-   * Mapping from entity to vo
-   * 
-   * @param DataSourceEntity
-   */
-  public DatasourceVo mapEntityToVo(DataSource entity) {
-    if (entity == null) {
-      return null;
-    }
-
-    // --- Generic mapping
-    DatasourceVo vo = map(entity, DatasourceVo.class);
-    return vo;
-  }
-
-  /**
-   * List Mapping from entity to vo
-   * 
-   * @param list
+   * DataSource Entity 로 부터 DatasourceVo (DatastoreVo 포함) 로 매핑한다.
+   * @param datasource
    * @return
    */
-  public List<DatasourceVo> mapListEntityToVo(List<DataSource> list) {
-    List<DatasourceVo> voList = new ArrayList<DatasourceVo>();
-    for (com.sktelecom.cep.entity.DataSource entity : list) {
-      voList.add(mapEntityToVo(entity));
+  public DatasourceVo getDatasourceVoWithAssignedWorkspaceFromEntity(DataSource datasource) {
+    DatasourceVo datasourceVo = this.mapEntityToVo(datasource, DatasourceVo.class);
+    datasourceVo.setDatastore(datastoreMapper.mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
+    
+    List<WorkspaceAssign> assignList = datasource.getWorkspaceAssigns();
+    for (WorkspaceAssign assign : assignList) {
+      datasourceVo.getWorkspaces().add(workspaceMapper.mapEntityToVo(assign.getWorkspace(), WorkspaceVo.class));
     }
-    return voList;
+    return datasourceVo;
   }
 
   /**
-   * Mapping from vo to entity
-   * 
-   * @param DataSource
-   * @param DataSourceEntity
+   * DataSource Entity 로 부터 DatasourceVo (Assigned WorkspaceVo 포함) 로 매핑한다.
+   * @param datasourceList
+   * @return
    */
-  public void mapVoToEntity(DatasourceVo vo, DataSource entity) {
-    if (vo == null) {
-      return;
+  public List<DatasourceVo> getDatasourceVoWithDatastoreFromEntity(List<DataSource> datasourceList) {
+    List<DatasourceVo> list = new ArrayList<DatasourceVo>(); 
+    
+    for (DataSource datasource : datasourceList) {
+      DatasourceVo datasourceVo = this.mapEntityToVo(datasource, DatasourceVo.class);
+      datasourceVo.setDatastore(datastoreMapper.mapEntityToVo(datasource.getDataStore(), DatastoreVo.class));
+      list.add(datasourceVo);
     }
-    // --- Generic mapping
-    map(vo, entity);
-  }
-
-  @Override
-  protected ModelMapper getModelMapper() {
-    return modelMapper;
-  }
-
-  protected void setModelMapper(ModelMapper modelMapper) {
-    this.modelMapper = modelMapper;
+    return list;
   }
 
 }

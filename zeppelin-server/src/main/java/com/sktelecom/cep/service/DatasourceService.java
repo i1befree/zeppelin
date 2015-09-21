@@ -5,12 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sktelecom.cep.vo.Datasource;
-import com.sktelecom.cep.vo.Datastore;
+import com.sktelecom.cep.vo.DatasourceVo;
+import com.sktelecom.cep.vo.DatastoreVo;
 import com.sktelecom.cep.vo.LayoutSchema;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceAssign;
-import com.sktelecom.cep.vo.WorkspaceObject;
 
 /**
  * datasource관리 - datasource CRUD 담당 Service.
@@ -27,7 +24,7 @@ public interface DatasourceService {
    * @param datasource
    * @return
    */
-  int create(Datasource datasource);
+  void create(DatasourceVo datasource);
 
   /**
    * datasource 목록 조회.
@@ -35,48 +32,34 @@ public interface DatasourceService {
    * @param datasource
    * @return
    */
-  List<Datasource> getList(Datasource datasource);
-
-  /**
-   * workspace 목록 조회
-   * @param workspace
-   * @return
-   */
-  List<Workspace> getWorkspaceList(Workspace workspace);
+  List<DatasourceVo> getList(DatasourceVo datasource);
 
   /**
    * datasource 를 작업공간에 할당하기
    * @param workspaceObject
    * @return
    */
-  int saveAssignWorkspace(WorkspaceObject workspaceObject);
+  void saveAssignWorkspace(DatasourceVo datasourceVo);
 
   /**
-   * 데이타소스에 할당된 workspace 조회
-   * @param workspaceAssign
+   * dataSourceVo 정보 조회 (할당 작업공간 목록 포함)
+   * @param dataSourceVo
    * @return
    */
-  List<Workspace> getAssignedWorkspaceList(WorkspaceAssign workspaceAssign);
-
-  /**
-   * workspaceObject 정보 조회
-   * @param workspaceObject
-   * @return
-   */
-  WorkspaceObject getWorkspaceObjectInfo(WorkspaceObject workspaceObject);
+  DatasourceVo getDatasourceObjectInfo(DatasourceVo datasourceVo);
 
   /**
    * store 별로 스키마, 테이블, 컬럼 정보들을 가져온다.
-   * @param datasource
+   * @param datastoreVo
    * @return
    */
-  List<LayoutSchema> loadDatasourceMetadata(Datasource datasource);
+  List<LayoutSchema> loadDatasourceMetadata(DatastoreVo datastoreVo);
 
   /**
    * 데이타 스토어 목록을 가져온다.
    * @param dataStore
    * @return
    */
-  List<Datastore> getDatastoreAllList(Datastore datastore);
+  List<DatastoreVo> getDatastoreAllList(DatastoreVo datastore);
 
 }

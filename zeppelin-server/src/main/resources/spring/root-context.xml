@@ -17,6 +17,5 @@
 	<!-- don't forget the DataSource -->
 	<context:property-placeholder location="classpath:datasource.properties" order="1" ignore-unresolvable="true"/>
 	   
-  <import resource="classpath:/spring/mybatis-context.xml" />
   <import resource="classpath:/spring/datasource-context.xml" />
 </beans>

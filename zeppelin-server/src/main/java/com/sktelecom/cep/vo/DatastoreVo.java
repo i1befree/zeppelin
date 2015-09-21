@@ -1,7 +1,9 @@
 package com.sktelecom.cep.vo;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sktelecom.cep.common.CommCode;
@@ -25,8 +27,9 @@ public class DatastoreVo implements Serializable {
   private String username;
   private String password;
   private String description;
-  private Timestamp updateTime;
+  private Date updateDate;
   private UserVo updator;
+  private List<DataStorePropertyVo> properties = new ArrayList<DataStorePropertyVo>();
   
   public String getId() {
     return id;
@@ -82,11 +85,11 @@ public class DatastoreVo implements Serializable {
   public void setDescription(String description) {
     this.description = description;
   }
-  public Timestamp getUpdateTime() {
-    return updateTime;
+  public Date getUpdateDate() {
+    return updateDate;
   }
-  public void setUpdateTime(Timestamp updateTime) {
-    this.updateTime = updateTime;
+  public void setUpdateDate(Date updateDate) {
+    this.updateDate = updateDate;
   }
   public UserVo getUpdator() {
     return updator;
@@ -94,5 +97,11 @@ public class DatastoreVo implements Serializable {
   public void setUpdator(UserVo updator) {
     this.updator = updator;
   }
-
+  public List<DataStorePropertyVo> getProperties() {
+    return properties;
+  }
+  public void setProperties(List<DataStorePropertyVo> properties) {
+    this.properties = properties;
+  }
+    
 }

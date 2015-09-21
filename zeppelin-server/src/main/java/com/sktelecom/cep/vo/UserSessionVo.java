@@ -5,7 +5,8 @@ package com.sktelecom.cep.vo;
  *
  * @author 박상민
  */
-public class UserSession {
+@SuppressWarnings("serial")
+public class UserSessionVo extends WorkspaceObjectVo {
   // 아이디 
   private String id;
   // 이름 

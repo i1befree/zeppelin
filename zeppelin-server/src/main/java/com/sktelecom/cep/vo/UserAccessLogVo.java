@@ -1,5 +1,6 @@
 package com.sktelecom.cep.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -11,24 +12,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 // / @cond doxygen don't parsing in here
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("serial")
 // / @endcond
-public class UserAccessLog extends Paging {
-  // 로그인 일시 
-  private Date loginDate;
-  // 아이디 
+public class UserAccessLogVo implements Serializable {
+  
   private String id;
-  // 이름 
+  private Date loginDate;
+  private String userId;
   private String name;
-  // 이메일 
   private String email;
-  // 전화번호 
   private String tel;
-  // 사용자그룹코드 
   private String userGrpCd;
-  // 사용자그룹명 
-  private String userGrpNm;
 
-  private String cnt;
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public Date getLoginDate() {
     return loginDate;
@@ -38,12 +40,12 @@ public class UserAccessLog extends Paging {
     this.loginDate = loginDate;
   }
 
-  public String getId() {
-    return id;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public String getName() {
@@ -77,21 +79,6 @@ public class UserAccessLog extends Paging {
   public void setUserGrpCd(String userGrpCd) {
     this.userGrpCd = userGrpCd;
   }
-
-  public String getUserGrpNm() {
-    return userGrpNm;
-  }
-
-  public void setUserGrpNm(String userGrpNm) {
-    this.userGrpNm = userGrpNm;
-  }
-
-  public String getCnt() {
-    return cnt;
-  }
-
-  public void setCnt(String cnt) {
-    this.cnt = cnt;
-  }
+  
 
 }

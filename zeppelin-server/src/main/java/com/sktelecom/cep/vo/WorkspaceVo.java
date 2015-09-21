@@ -28,6 +28,9 @@ public class WorkspaceVo implements Serializable {
   private List<DatasourceVo> datasources = new ArrayList<DatasourceVo>();
   private List<UserVo> users = new ArrayList<UserVo>();
   
+  //extra
+  private String pId;
+  
   public List<UserVo> getUsers() {
     return users;
   }
@@ -87,6 +90,12 @@ public class WorkspaceVo implements Serializable {
   }
   public void setDatasources(List<DatasourceVo> datasources) {
     this.datasources = datasources;
+  }
+  public String getpId() {
+    return pId;
+  }
+  public void setpId(String pId) {
+    this.pId = pId;
   }
   
   

@@ -6,12 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.Notebook;
+import com.sktelecom.cep.vo.NotebookVo;
 import com.sktelecom.cep.vo.UserVo;
-import com.sktelecom.cep.vo.Workspace;
-import com.sktelecom.cep.vo.WorkspaceShare;
 import com.sktelecom.cep.vo.WorkspaceShareVo;
-import com.sktelecom.cep.vo.WorkspaceSummary;
+import com.sktelecom.cep.vo.WorkspaceSummaryVo;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -23,52 +21,20 @@ public interface WorkspaceService {
 
   static final Logger LOG = LoggerFactory.getLogger(WorkspaceService.class);
 
-  /**
-   * 작업공간 생성.
-   * 
-   * @param workspace
-   * @return
-   */
-  int create(Workspace workspace);
 
   /**
-   * 작업공간 수정.
-   * 
+   * workspace 목록 조회
    * @param workspace
    * @return
    */
-  int update(Workspace workspace);
-
-  /**
-   * 작업공간 삭제.
-   * 
-   * @param workspace
-   * @return
-   */
-  int delete(Workspace workspace);
-
-  /**
-   * 작업공간 정보 조회.
-   * 
-   * @param workspace
-   * @return
-   */
-  Workspace getInfo(Workspace workspace);
-
-  /**
-   * 작업공간 목록 조회.
-   * 
-   * @param workspace
-   * @return
-   */
-  List<Workspace> getList(Workspace workspace);
+  List<WorkspaceVo> getWorkspaceList();
 
   /**
    * 사용자와 관련된 작업공간 조회
    * @param userId
    * @return
    */
-  List<Workspace> getListByUserId(String userId);
+  List<WorkspaceVo> getWorkspaceListByUserId(String userId);
 
   /**
    * 노트북 목록 조회.
@@ -76,21 +42,21 @@ public interface WorkspaceService {
    * @param workspace
    * @return
    */
-  List<Notebook> getNotebookList(Workspace workspace);
+  List<NotebookVo> getNotebookList(WorkspaceVo workspace);
 
   /**
    * 사용자의 최근 노트북 목록 조회
    * @param userId
    * @return
    */
-  List<Notebook> getLastestNotebookListByUserId(String userId);
+  List<NotebookVo> getLastestNotebookListByUserId(String userId);
 
   /**
    * 작업공간의 요약정보 조회
    * @param workspace
    * @return
    */
-  WorkspaceSummary getWorkspaceSummaryInfo(WorkspaceVo workspace);
+  WorkspaceSummaryVo getWorkspaceSummaryInfo(WorkspaceVo workspace);
 
   /**
    * 작업공간을 공유하는 멤버 목록 조회
@@ -119,5 +85,10 @@ public interface WorkspaceService {
    */
   List<DatasourceVo> getDatasourceList(WorkspaceVo workspace);
   
+  /**
+   * workspace 정보 조회 ( notebook목록, datasoruce 목록 포함)
+   * @param workspace
+   * @return
+   */
   WorkspaceVo getWorkspaceObject(WorkspaceVo workspace);
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,7 +31,6 @@ import com.sktelecom.cep.common.CommCode;
 @Entity
 @Table(name = "workspace_object")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "wrkspc_obj_type")
 public abstract class WorkspaceObject implements Serializable {
   
   @Id

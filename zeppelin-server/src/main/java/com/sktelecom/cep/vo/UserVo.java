@@ -21,7 +21,7 @@ public class UserVo implements Serializable {
   private String tel;
   private Date updateDate;
   private String updateUserId;
-  //private WorkspaceVo workspace;
+  private WorkspaceVo workspace;
   private String userGrpCd;
   private RoleVo role;
   
@@ -40,12 +40,6 @@ public class UserVo implements Serializable {
   public String getId() {
     return id;
   }
-//  public RoleVo getRole() {
-//    return role;
-//  }
-//  public void setRole(RoleVo role) {
-//    this.role = role;
-//  }
   public void setId(String id) {
     this.id = id;
   }
@@ -85,12 +79,12 @@ public class UserVo implements Serializable {
   public void setUpdateUserId(String updateUserId) {
     this.updateUserId = updateUserId;
   }
-//  public WorkspaceVo getWorkspace() {
-//    return workspace;
-//  }
-//  public void setWorkspace(WorkspaceVo workspace) {
-//    this.workspace = workspace;
-//  }
+  public WorkspaceVo getWorkspace() {
+    return workspace;
+  }
+  public void setWorkspace(WorkspaceVo workspace) {
+    this.workspace = workspace;
+  }
   
     
 }

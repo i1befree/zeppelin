@@ -1,16 +1,16 @@
 package com.sktelecom.cep.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.sktelecom.cep.dao.UserAccessLogDao;
-import com.sktelecom.cep.vo.UserAccessLog;
+import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.entity.UserAccessLog;
+import com.sktelecom.cep.repository.UserAccessLogRepository;
+import com.sktelecom.cep.repository.UserRepository;
+import com.sktelecom.cep.vo.UserAccessLogVo;
 
 /**
  * 사용자접속로그 - 사용자 접속 로그를 조회하는 Service 구현체.
@@ -24,30 +24,24 @@ public class UserAccessLogServiceImpl implements UserAccessLogService {
       .getLogger(UserAccessLogServiceImpl.class);
 
   @Inject
-  private UserAccessLogDao userAccessLogDao;
+  private UserAccessLogRepository userAccessLogRepository;
 
+  @Inject
+  private UserRepository userRepository;
+  
   @Override
-  public int create(UserAccessLog userAccessLog) {
-    int resultInt = userAccessLogDao.create(userAccessLog);
-    return resultInt;
-  }
-
-  @Override
-  public List<UserAccessLog> getList(UserAccessLog userAccessLog) {
-    if (userAccessLog.getQuery() != null
-        && !"".equals(userAccessLog.getQuery())) {
-      userAccessLog.setQuery(userAccessLog.getQuery() + "%");
-    }
-
-    List<UserAccessLog> userList = new ArrayList<UserAccessLog>();
-    long totalCount = userAccessLogDao.getListCount(userAccessLog);
-    if (totalCount > 0) {
-      userList = userAccessLogDao.getList(userAccessLog);
-      if (userList != null && userList.size() > 0) {
-        userList.get(0).setTotalCount(totalCount);
-      }
-    }
-    return userList;
+  public int create(UserAccessLogVo userAccessLog) {
+    User userEntity = userRepository.findOne(userAccessLog.getUserId());
+    
+    UserAccessLog logEntity = new UserAccessLog();
+    logEntity.setEmail(userEntity.getEmail());
+    logEntity.setName(userEntity.getName());
+    logEntity.setTel(userEntity.getTel());
+    logEntity.setUserGrpCd(userEntity.getUserGrpCd());
+    logEntity.setUserId(userEntity.getId());
+    
+    userAccessLogRepository.save(logEntity);
+    return 1;
   }
 
 }

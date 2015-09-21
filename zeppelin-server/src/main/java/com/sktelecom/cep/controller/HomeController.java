@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sktelecom.cep.common.CepConstant;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserSessionVo;
 
 /**
  * 메인페이지로 포워딩 작업을 처리하는 Controller.
@@ -47,8 +47,8 @@ public class HomeController {
   @RequestMapping(value = "/getUserSession", method = RequestMethod.GET)
   @ResponseBody
   // / @endcond
-  public UserSession login(HttpSession session) {
-    UserSession userSession = (UserSession) session
+  public UserSessionVo login(HttpSession session) {
+    UserSessionVo userSession = (UserSessionVo) session
         .getAttribute(CepConstant.USER_SESSION);
 
     return userSession;

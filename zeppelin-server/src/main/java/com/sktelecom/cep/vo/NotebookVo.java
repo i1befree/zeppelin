@@ -18,7 +18,14 @@ public class NotebookVo extends WorkspaceObjectVo {
   private String noteId;
   private String noteName;
   private Date updateDate;
+  private String wrkspcId;
   
+  public String getWrkspcId() {
+    return wrkspcId;
+  }
+  public void setWrkspcId(String wrkspcId) {
+    this.wrkspcId = wrkspcId;
+  }
   public String getNoteId() {
     return noteId;
   }

@@ -18,12 +18,11 @@ import com.sktelecom.cep.common.CepConstant;
 import com.sktelecom.cep.common.SimpleResultMessage;
 import com.sktelecom.cep.service.WorkspaceService;
 import com.sktelecom.cep.vo.DatasourceVo;
-import com.sktelecom.cep.vo.Notebook;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.NotebookVo;
+import com.sktelecom.cep.vo.UserSessionVo;
 import com.sktelecom.cep.vo.UserVo;
-import com.sktelecom.cep.vo.Workspace;
 import com.sktelecom.cep.vo.WorkspaceShareVo;
-import com.sktelecom.cep.vo.WorkspaceSummary;
+import com.sktelecom.cep.vo.WorkspaceSummaryVo;
 import com.sktelecom.cep.vo.WorkspaceVo;
 
 /**
@@ -41,147 +40,46 @@ public class WorkspaceController {
   private WorkspaceService workspaceService;
 
   /**
-   * 작업공간 생성.
+   * Workspace 목록 조회.
    * 
-   * @param Workspace
-   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
-   */
-  // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/workspace/create", method = RequestMethod.POST)
-  @ResponseBody
-  // / @endcond
-  public SimpleResultMessage create(@RequestBody Workspace workspace, HttpSession session) {
-    logger.debug("id {}", workspace.getWrkspcId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "작업공간이 존재 합니다.");
-
-    //같은레벨의 작업공간안에서 sibling
-    Workspace resultInfo = workspaceService.getInfo(workspace);
-    if (resultInfo != null) {
-      message.setRsCode("FAIL");
-      message.setRsMessage("작업공간이 존재 합니다.");
-      return message;
-    }
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUpdateUserId(userSession.getId());
-    int resultInt = workspaceService.create(workspace);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("작업공간을 생성하였습니다.");
-    }
-    return message;
-  }
-
-  /**
-   * 작업공간 수정.
-   * 
-   * @param Workspace
-   * @param session
-   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
-   */
-  // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/workspace/update", method = RequestMethod.POST)
-  @ResponseBody
-  // / @endcond
-  public SimpleResultMessage update(@RequestBody Workspace workspace, HttpSession session) {
-    logger.debug("id {}", workspace.getWrkspcId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "작업공간 정보 수정을 실패하였습니다.");
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUpdateUserId(userSession.getId());
-    int resultInt = workspaceService.update(workspace);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("작업공간 정보를 수정하였습니다.");
-    }
-    return message;
-  }
-
-  /**
-   * 작업공간 삭제.
-   * 
-   * @param Workspace
-   * @return SimpleResultMessage : rsCode[FAIL|SUCCESS]
-   */
-  // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/workspace/delete", method = RequestMethod.POST)
-  @ResponseBody
-  // / @endcond
-  public SimpleResultMessage delete(@RequestBody Workspace workspace) {
-    logger.debug("id {}", workspace.getWrkspcId());
-    SimpleResultMessage message = new SimpleResultMessage("FAIL",
-        "작업공간을 삭제 하였습니다.");
-
-    int resultInt = workspaceService.delete(workspace);
-    if (resultInt > 0) {
-      message.setRsCode("SUCCESS");
-      message.setRsMessage("작업공간을 생성하였습니다.");
-    }
-    return message;
-  }
-
-  /**
-   * 작업공간 정보 조회.
-   * 
-   * @param Workspace
-   * @return Workspace
-   */
-  // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/workspace/getInfo", method = RequestMethod.POST)
-  @ResponseBody
-  // / @endcond
-  public Workspace getInfo(@RequestBody Workspace workspace) {
-    Workspace resultInfo = workspaceService.getInfo(workspace);
-    return resultInfo;
-  }
-
-  /**
-   * 작업공간 목록 조회.
-   * 
-   * @param Workspace
-   * @param session
+   * @param workspace
    * @return List<Workspace>
    */
   // / @cond doxygen don't parsing in here
-  @RequestMapping(value = "/workspace/getList", method = RequestMethod.POST)
+  @RequestMapping(value = "/workspace/getWorkspaceList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Workspace> getList(@RequestBody Workspace workspace, HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    workspace.setUpdateUserId(userSession.getId());
-    List<Workspace> resultList = workspaceService.getList(workspace);
-    return resultList;
+  public List<WorkspaceVo> getWorkspaceList(@RequestBody WorkspaceVo workspace) {
+    return workspaceService.getWorkspaceList();
   }
-
+  
   /**
    * 사용자 아이디에 해당하는 작업공간 목록을 조회한다.
    * @param session
    * @return
    */
-  @RequestMapping(value = "/workspace/getListByUserId", method = RequestMethod.POST)
+  @RequestMapping(value = "/workspace/getWorkspaceListByUserId", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Workspace> getListByUserId(HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    List<Workspace> resultList = workspaceService.getListByUserId(userSession.getId());
-    return resultList;
+  public List<WorkspaceVo> getWorkspaceListByUserId(HttpSession session) {
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
+    return workspaceService.getWorkspaceListByUserId(userSession.getId());
   }
 
-//  /**
-//   * 노트북 목록 조회.
-//   * 
-//   * @param Workspace
-//   * @return List<Notebook>
-//   */
-//  // / @cond doxygen don't parsing in here
-//  @RequestMapping(value = "/workspace/getNotebookList", method = RequestMethod.POST)
-//  @ResponseBody
-//  // / @endcond
-//  public List<Notebook> getNotebookList(@RequestBody Workspace workspace) {
-//    List<Notebook> resultList = workspaceService.getNotebookList(workspace);
-//    return resultList;
-//  }
-//
+  /**
+   * 노트북 목록 조회.
+   * 
+   * @param Workspace
+   * @return List<Notebook>
+   */
+  // / @cond doxygen don't parsing in here
+  @RequestMapping(value = "/workspace/getNotebookList", method = RequestMethod.POST)
+  @ResponseBody
+  // / @endcond
+  public List<NotebookVo> getNotebookList(@RequestBody WorkspaceVo workspace) {
+    return workspaceService.getNotebookList(workspace);
+  }
+
 
   /**
    * 데이타소스 목록 조회.
@@ -215,10 +113,9 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/getLastestNotebookList", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public List<Notebook> getLastestNotebookList(HttpSession session) {
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
-    List<Notebook> resultList = workspaceService.getLastestNotebookListByUserId(userSession.getId());
-    return resultList;
+  public List<NotebookVo> getLastestNotebookList(HttpSession session) {
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
+    return workspaceService.getLastestNotebookListByUserId(userSession.getId());
   }
 
   /**
@@ -231,9 +128,8 @@ public class WorkspaceController {
   @RequestMapping(value = "/workspace/getWorkspaceSummaryInfo", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public WorkspaceSummary getWorkspaceSummaryInfo(@RequestBody WorkspaceVo workspace) {
-    WorkspaceSummary workspaceSummary = workspaceService.getWorkspaceSummaryInfo(workspace);
-    return workspaceSummary;
+  public WorkspaceSummaryVo getWorkspaceSummaryInfo(@RequestBody WorkspaceVo workspace) {
+    return workspaceService.getWorkspaceSummaryInfo(workspace);
   }
 
   /**
@@ -246,8 +142,7 @@ public class WorkspaceController {
   @ResponseBody
   // / @endcond
   public List<UserVo> getWorkspaceMemberList(@RequestBody WorkspaceVo workspace) {
-    List<UserVo> list = workspaceService.getWorkspaceMemberList(workspace);
-    return list;
+    return workspaceService.getWorkspaceMemberList(workspace);
   }
   
   /**
@@ -264,7 +159,7 @@ public class WorkspaceController {
   public SimpleResultMessage addMembers(@RequestBody WorkspaceShareVo workspaceShareVo, HttpSession session) {
     logger.debug("id {}", workspaceShareVo.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 추가를 실패하였습니다.");
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
     
     List<WorkspaceShareVo> wsList = new ArrayList<WorkspaceShareVo>();
     for (String userId : workspaceShareVo.getUserIds()) {
@@ -298,7 +193,7 @@ public class WorkspaceController {
   public SimpleResultMessage removeMembers(@RequestBody WorkspaceShareVo workspaceShareVo, HttpSession session) {
     logger.debug("id {}", workspaceShareVo.getWrkspcId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "작업공간 멤버 삭제를 실패하였습니다.");
-    UserSession userSession = (UserSession) session.getAttribute(CepConstant.USER_SESSION);
+    UserSessionVo userSession = (UserSessionVo) session.getAttribute(CepConstant.USER_SESSION);
     
     List<WorkspaceShareVo> wsList = new ArrayList<WorkspaceShareVo>();
     for (String userId : workspaceShareVo.getUserIds()) {

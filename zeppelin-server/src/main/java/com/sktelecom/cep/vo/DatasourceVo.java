@@ -1,6 +1,8 @@
 package com.sktelecom.cep.vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -22,6 +24,8 @@ public class DatasourceVo extends WorkspaceObjectVo {
   private Date updateDate;
   private UserVo lastModifiedUser;
   private DatastoreVo datastore;
+  private List<WorkspaceVo> workspaces = new ArrayList<WorkspaceVo>();
+  
   
   public DatastoreVo getDatastore() {
     return datastore;
@@ -64,6 +68,12 @@ public class DatasourceVo extends WorkspaceObjectVo {
   }
   public void setLastModifiedUser(UserVo lastModifiedUser) {
     this.lastModifiedUser = lastModifiedUser;
+  }
+  public List<WorkspaceVo> getWorkspaces() {
+    return workspaces;
+  }
+  public void setWorkspaces(List<WorkspaceVo> workspaces) {
+    this.workspaces = workspaces;
   }
    
 }

@@ -18,9 +18,9 @@ import com.sktelecom.cep.exception.AutyorityException;
 import com.sktelecom.cep.exception.SessionTimeoutException;
 import com.sktelecom.cep.service.UserAccessLogService;
 import com.sktelecom.cep.service.UserService;
-import com.sktelecom.cep.vo.User;
-import com.sktelecom.cep.vo.UserAccessLog;
-import com.sktelecom.cep.vo.UserSession;
+import com.sktelecom.cep.vo.UserAccessLogVo;
+import com.sktelecom.cep.vo.UserSessionVo;
+import com.sktelecom.cep.vo.UserVo;
 
 /**
  * 로그인처리를 담당, 로그아웃처리, 유효한세션인지 체크, 세션타임아웃예외를 발생시키는 Controller.
@@ -61,13 +61,13 @@ public class LoginoutController {
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   @ResponseBody
   // / @endcond
-  public SimpleResultMessage login(@RequestBody User loginInfo, HttpSession session) {
+  public SimpleResultMessage login(@RequestBody UserVo loginInfo, HttpSession session) {
     logger.debug("id {}", loginInfo.getId());
     SimpleResultMessage message = new SimpleResultMessage("FAIL", "사용자와 패스워드가 올바르지 않습니다.");
 
-    User user = userService.getCheckLoginUserInfo(loginInfo);
+    UserVo user = userService.getCheckLoginUserInfo(loginInfo);
     if (user != null) {
-      UserSession userSession = new UserSession();
+      UserSessionVo userSession = new UserSessionVo();
       userSession.setId(user.getId());
       userSession.setName(user.getName());
       userSession.setEmail(user.getEmail());
@@ -84,8 +84,8 @@ public class LoginoutController {
       // 접속로그 기록 시작
       logger.debug("접속로그 기록 시작");
       try {
-        UserAccessLog userAccessLog = new UserAccessLog();
-        userAccessLog.setId(user.getId());
+        UserAccessLogVo userAccessLog = new UserAccessLogVo();
+        userAccessLog.setUserId(user.getId());
         userAccessLogService.create(userAccessLog);
       } catch (Exception e) {
         // 로그 기록만 남기기 때문에, Exception 을 던지지 않는다.

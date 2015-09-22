@@ -30,6 +30,17 @@ public class NotebookServiceMapper extends AbstractServiceMapper {
       }
     };
     modelMapper.addMappings(notebookMap);
+
+    PropertyMap<NotebookVo, Notebook> notebookVoToEntityMap = new PropertyMap<NotebookVo, Notebook>() {
+      @Override
+      protected void configure() {
+        skip().setCreator(null);
+        skip().setOwner(null);
+        skip().setWorkspaceAssigns(null);
+      }
+    };
+    modelMapper.addMappings(notebookVoToEntityMap);
+
   }
 
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.sktelecom.cep.common.CommCode;
 import com.sktelecom.cep.entity.DataSource;
-import com.sktelecom.cep.entity.Notebook;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceAssign;
 import com.sktelecom.cep.entity.WorkspaceObject;
@@ -58,6 +57,16 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
       }
     };
     modelMapper.addMappings(workspaceMap);
+
+    PropertyMap<WorkspaceVo, Workspace> workspaceVoToEntityMap = new PropertyMap<WorkspaceVo, Workspace>() {
+      @Override
+      protected void configure() {
+        skip().setWorkspaceAssigns(null);
+        skip().setWorkspaceShares(null);
+      }
+    };
+    modelMapper.addMappings(workspaceVoToEntityMap);
+
   }
 
   /**
@@ -174,9 +183,10 @@ public class WorkspaceServiceMapper extends AbstractServiceMapper {
     for (WorkspaceAssign assign : assignList) {
       WorkspaceObject workspaceObjectEntity = assign.getWorkspaceObject();
       if (workspaceObjectEntity.getWrkspcObjType() == CommCode.WorkspaceObjectType.NOTEBOOK) {
-        Notebook notebook = (Notebook) workspaceObjectEntity.getTarget();
+        NotebookVo notebookVo = notebookMapper.mapEntityToVo(workspaceObjectEntity.getTarget(), NotebookVo.class);
+        notebookVo.setCreator(userMapper.mapEntityToVo(workspaceObjectEntity.getCreator(), UserVo.class));
         
-        list.add(notebookMapper.mapEntityToVo(notebook, NotebookVo.class));
+        list.add(notebookVo);
       }
     }
     return list;

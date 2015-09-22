@@ -41,7 +41,7 @@ angular.module('zeppelinWebApp').controller('DatastoreCtrl', function($scope, $r
   	UtilService.httpPost('/datastore/getList', {}).then(function(result) {
   		$scope.gridOptionsForDatastore.data = result;
   	}, function(error) {
-  		alert(error);
+  		alert(error.rsMessage);
   	});
   };
   
@@ -54,12 +54,28 @@ angular.module('zeppelinWebApp').controller('DatastoreCtrl', function($scope, $r
 	  $location.path('/datastoreWizard');
   };
   
-//  $scope.editMode = function() {
-//  	$scope.isEditMode = true;
-//  };
+  $scope.editMode = function() {
+  	$scope.saveDatastore = angular.copy($scope.datastore);
+  	$scope.isEditMode = true;
+  };
   
   $scope.update = function() {
-  	$scope.isEditMode = false;
+  	if($scope.form.username.$invalid
+		|| $scope.form.password.$invalid
+		|| $scope.form.hostName.$invalid
+		|| $scope.form.portNum.$invalid
+		|| $scope.form.description.$invalid) {
+			return;
+		}
+  	if(confirm('수정 하시겠습니까?')) {
+    	var jsonData = angular.copy($scope.saveDatastore);
+    	UtilService.httpPost('/datastore/update', jsonData).then(function(result) {
+  			$scope.isEditMode = false;
+  			getDatastoreList();
+    	}, function(error) {
+    		alert(error.rsMessage);
+    	});
+    }
   };
   
   $scope.cancel = function() {

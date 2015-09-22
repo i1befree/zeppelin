@@ -91,8 +91,10 @@ angular.module('zeppelinWebApp').controller('DatasourceWizardCtrl', function($sc
 	function getDatastoreAllList() {
   	UtilService.httpPost('/datasource/getDatastoreAllList', {}).then(function(result) {
   		$scope.datastoreList = result;
-      $scope.datasource.datastore.id = $scope.datastoreList[0].id;
-      $scope.getLayoutSchemaList();
+  		if($scope.datastoreList.length > 0) {
+  			$scope.datasource.datastore.id = $scope.datastoreList[0].id;
+        $scope.getLayoutSchemaList();	
+  		}
   	}, function(error) {
   		alert(error);
   	});

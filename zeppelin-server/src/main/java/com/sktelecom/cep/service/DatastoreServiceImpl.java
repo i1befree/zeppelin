@@ -1,6 +1,7 @@
 package com.sktelecom.cep.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -9,8 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.sktelecom.cep.entity.DataStore;
+import com.sktelecom.cep.entity.DataStoreProperty;
+import com.sktelecom.cep.entity.User;
+import com.sktelecom.cep.repository.DataStorePropsRepository;
 import com.sktelecom.cep.repository.DataStoreRepository;
 import com.sktelecom.cep.service.mapping.DatastoreServiceMapper;
+import com.sktelecom.cep.service.mapping.UserServiceMapper;
+import com.sktelecom.cep.vo.DatastorePropertyVo;
 import com.sktelecom.cep.vo.DatastoreVo;
 
 /**
@@ -27,23 +33,62 @@ public class DatastoreServiceImpl implements DatastoreService {
   private DataStoreRepository dataStoreRepository;
   
   @Inject
+  private DataStorePropsRepository dataStorePropsRepository;
+  
+  @Inject
   private DatastoreServiceMapper datastoreServiceMapper;
+  
+  @Inject
+  private UserServiceMapper userServiceMapper;
   
   @Override
   public void create(DatastoreVo datastore) {
-    //dataStoreRepository.save(entity)
+    DataStore dataStoreEntity = new DataStore();
+    datastoreServiceMapper.mapVoToEntity(datastore, dataStoreEntity);
+    
+    User userEntity = new User();
+    userServiceMapper.mapVoToEntity(datastore.getUpdator(), userEntity);
+    dataStoreEntity.setUpdator(userEntity);
+    
+    dataStoreRepository.save(dataStoreEntity);
+    
+    Map<String, DatastorePropertyVo> map = datastore.getProperties();
+    for(String key : map.keySet()) {
+      DataStoreProperty dataStoreProperty = new DataStoreProperty();
+      dataStoreProperty.setDataStore(dataStoreEntity);
+      dataStoreProperty.setName(key);
+      dataStoreProperty.setValue(map.get(key).getValue());
+      dataStorePropsRepository.save(dataStoreProperty);
+    }    
   }
 
   @Override
   public void update(DatastoreVo datastore) {
-    // dataStoreRepository.save(entity)
+    DataStore dataStoreEntity = dataStoreRepository.findOne(datastore.getId());
+    datastoreServiceMapper.mapVoToEntity(datastore, dataStoreEntity);
+
+    User userEntity = new User();
+    userServiceMapper.mapVoToEntity(datastore.getUpdator(), userEntity);
+    dataStoreEntity.setUpdator(userEntity);
     
+    dataStoreRepository.save(dataStoreEntity);
+    dataStorePropsRepository.delete(dataStoreEntity.getProperties());
+    
+   Map<String, DatastorePropertyVo> map = datastore.getProperties();
+    for(String key : map.keySet()) {
+      DataStoreProperty dataStoreProperty = new DataStoreProperty();
+      dataStoreProperty.setDataStore(dataStoreEntity);
+      dataStoreProperty.setName(key);
+      dataStoreProperty.setValue(map.get(key).getValue());
+      dataStorePropsRepository.save(dataStoreProperty);
+    }  
   }
 
   @Override
   public void delete(DatastoreVo datastore) {
-    //dataStoreRepository.delete(id);
-    
+    DataStore dataStoreEntity = dataStoreRepository.findOne(datastore.getId());
+    dataStorePropsRepository.delete(dataStoreEntity.getProperties());
+    dataStoreRepository.delete(dataStoreEntity);
   }
 
   @Override

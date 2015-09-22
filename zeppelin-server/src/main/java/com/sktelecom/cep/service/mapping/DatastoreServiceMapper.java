@@ -45,6 +45,25 @@ public class DatastoreServiceMapper extends AbstractServiceMapper {
       }
     };
     modelMapper.addMappings(datastorePropsMap);
+    
+    PropertyMap<DatastoreVo, DataStore> datastoreVoToEntityMap = new PropertyMap<DatastoreVo, DataStore>() {
+      @Override
+      protected void configure() {
+        skip().setUpdator(null);
+        skip().setProperties(null);
+        skip().setDataSources(null);
+      }
+    };
+    modelMapper.addMappings(datastoreVoToEntityMap);
+    
+    PropertyMap<DatastorePropertyVo, DataStoreProperty> datastorePropsVoToEntityMap = new PropertyMap<DatastorePropertyVo, DataStoreProperty>() {
+      @Override
+      protected void configure() {
+        skip().setDataStore(null);
+      }
+    };
+    modelMapper.addMappings(datastorePropsVoToEntityMap);
+    
   }
 
   public List<DatastoreVo> getDatastoreVoWithDatastorePropsFromEntity(List<DataStore> datastoreList) {

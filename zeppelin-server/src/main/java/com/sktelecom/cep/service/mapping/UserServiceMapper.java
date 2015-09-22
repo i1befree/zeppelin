@@ -51,6 +51,16 @@ public class UserServiceMapper extends AbstractServiceMapper {
       }
     };
     modelMapper.addMappings(userMap);
+
+    PropertyMap<UserVo, User> userVoToEntityMap = new PropertyMap<UserVo, User>() {
+      @Override
+      protected void configure() {
+        skip().setWorkspace(null);
+        skip().setWorkspaceShares(null);
+      }
+    };
+    modelMapper.addMappings(userVoToEntityMap);
+
   }
 
   /**

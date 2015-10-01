@@ -3,7 +3,9 @@ package com.sktelecom.cep.vo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sktelecom.cep.common.CommCode;
@@ -29,7 +31,8 @@ public class DatastoreVo implements Serializable {
   private String description;
   private Date updateDate;
   private UserVo updator;
-  private List<DataStorePropertyVo> properties = new ArrayList<DataStorePropertyVo>();
+  private Map<String, DatastorePropertyVo> properties = new HashMap<String, DatastorePropertyVo>();
+  private List<DatasourceVo> dataSources = new ArrayList<DatasourceVo>();
   
   public String getId() {
     return id;
@@ -97,11 +100,18 @@ public class DatastoreVo implements Serializable {
   public void setUpdator(UserVo updator) {
     this.updator = updator;
   }
-  public List<DataStorePropertyVo> getProperties() {
+  
+  public Map<String, DatastorePropertyVo> getProperties() {
     return properties;
   }
-  public void setProperties(List<DataStorePropertyVo> properties) {
+  public void setProperties(Map<String, DatastorePropertyVo> properties) {
     this.properties = properties;
+  }
+  public List<DatasourceVo> getDataSources() {
+    return dataSources;
+  }
+  public void setDataSources(List<DatasourceVo> dataSources) {
+    this.dataSources = dataSources;
   }
     
 }

@@ -47,6 +47,18 @@ public class DatasourceServiceMapper extends AbstractServiceMapper {
       }
     };
     modelMapper.addMappings(datasourceMap);
+
+    PropertyMap<DatasourceVo, DataSource> datasourceVoToEntityMap = new PropertyMap<DatasourceVo, DataSource>() {
+      @Override
+      protected void configure() {
+        skip().setCreator(null);
+        skip().setOwner(null);
+        skip().setWorkspaceAssigns(null);
+        skip().setLastModifiedUser(null);
+        skip().setDataStore(null);
+      }
+    };
+    modelMapper.addMappings(datasourceVoToEntityMap);
   }
 
   /**

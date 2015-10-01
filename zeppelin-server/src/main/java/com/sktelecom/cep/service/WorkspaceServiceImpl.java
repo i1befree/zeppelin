@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.sktelecom.cep.entity.User;
 import com.sktelecom.cep.entity.Workspace;
 import com.sktelecom.cep.entity.WorkspaceShare;
 import com.sktelecom.cep.repository.RoleRepository;
@@ -78,7 +79,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
   @Override
   public List<NotebookVo> getLastestNotebookListByUserId(String userId) {
-    com.sktelecom.cep.entity.User userEntity = userRepository.findOne(userId);
+    User userEntity = userRepository.findOne(userId);
     
     //convert from entity to vo 
     return userServiceMapper.mapListLastestNotebookFromUserEntity(userEntity);
@@ -107,7 +108,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     workspace.setWrkspcId(workspaceVo.getWrkspcId());
     
     for (WorkspaceShareVo shareVo : wsList) {
-      com.sktelecom.cep.entity.User user = new com.sktelecom.cep.entity.User();
+      User user = new User();
       user.setId(shareVo.getUserId());
       
       WorkspaceShare share = new WorkspaceShare();

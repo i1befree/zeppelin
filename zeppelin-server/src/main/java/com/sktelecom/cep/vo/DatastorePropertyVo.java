@@ -12,7 +12,7 @@ import com.sktelecom.cep.entity.DataStore;
  */
 @SuppressWarnings("serial")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DataStorePropertyVo implements Serializable {
+public class DatastorePropertyVo implements Serializable {
   private String id;
   private String name;
   private String value;

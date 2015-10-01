@@ -109,12 +109,12 @@ public class DatastoreController {
   @ResponseBody
   // / @endcond
   public SimpleResultMessage testConnection(@RequestBody DatastoreVo datastore) {
-    if(datastore.getType() == CommCode.DataStoreType.INTERNAL) {
+    if (datastore.getType() == CommCode.DataStoreType.INTERNAL) {
       Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", datastore.getProperties().get("CLUSTER_NAME").getValue()).build();
       @SuppressWarnings({ "unused", "resource" })
       Client client = new TransportClient(settings).addTransportAddress(new InetSocketTransportAddress(datastore.getHostName(), datastore.getPortNum()));
       
-    } else if(datastore.getType() == CommCode.DataStoreType.DATABASE) {
+    } else if (datastore.getType() == CommCode.DataStoreType.DATABASE) {
       Connection connection = null;
       try {
         Class.forName(datastore.getProperties().get("DRIVER_CLASS").getValue());
@@ -122,7 +122,7 @@ public class DatastoreController {
       } catch (Exception e) {
         throw new IllegalArgumentException(e.toString());
       } finally {
-        if(connection != null) {
+        if (connection != null) {
           try {
             connection.close();
           } catch (SQLException e) {

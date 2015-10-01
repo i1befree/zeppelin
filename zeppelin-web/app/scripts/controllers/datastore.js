@@ -43,12 +43,12 @@ angular.module('zeppelinWebApp').controller('DatastoreCtrl', function($scope, $r
   	}, function(error) {
   		alert(error.rsMessage);
   	});
-  };
+  }
   
   function getWorkspaceObjectInfo() {
   	
 
-  };
+  }
   
 	$scope.create = function() {
 	  $location.path('/datastoreWizard');
@@ -60,11 +60,7 @@ angular.module('zeppelinWebApp').controller('DatastoreCtrl', function($scope, $r
   };
   
   $scope.update = function() {
-  	if($scope.form.username.$invalid
-		|| $scope.form.password.$invalid
-		|| $scope.form.hostName.$invalid
-		|| $scope.form.portNum.$invalid
-		|| $scope.form.description.$invalid) {
+  	if($scope.form.username.$invalid || $scope.form.password.$invalid || $scope.form.hostName.$invalid || $scope.form.portNum.$invalid || $scope.form.description.$invalid) {
 			return;
 		}
   	if(confirm('수정 하시겠습니까?')) {

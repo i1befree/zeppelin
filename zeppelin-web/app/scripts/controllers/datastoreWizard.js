@@ -41,7 +41,7 @@ angular.module('zeppelinWebApp').controller('DatastoreWizardCtrl', function($sco
   		$scope.messageTestConnection = '접속 테스트를 실패하였습니다. 접속 정보를 확인해주세요.';
   	  alert(error.rsMessage);
   	});
-  };
+  }
   
 	
 	$scope.previous = function() {
@@ -71,18 +71,13 @@ angular.module('zeppelinWebApp').controller('DatastoreWizardCtrl', function($sco
 				}
 				break;
 			case 2:
-				if($scope.form.name.$invalid
-				|| $scope.form.hostName.$invalid
-				|| $scope.form.portNum.$invalid
-				|| $scope.form.description.$invalid) {
+				if($scope.form.name.$invalid || $scope.form.hostName.$invalid || $scope.form.portNum.$invalid || $scope.form.description.$invalid) {
 					return;
 				}
 				if($scope.datastore.type === 'INTERNAL') {
 					
 				} else if($scope.datastore.type === 'DATABASE') {
-					if($scope.form.username.$invalid
-					|| $scope.form.password.$invalid
-					|| $scope.form.subtype.$invalid) {
+					if($scope.form.username.$invalid || $scope.form.password.$invalid || $scope.form.subtype.$invalid) {
 						return;
 					}
 				} else {
@@ -124,15 +119,15 @@ angular.module('zeppelinWebApp').controller('DatastoreWizardCtrl', function($sco
     	switch(newValue.subType) {
     	case 'MYSQL' :
     		$scope.datastore.properties.DRIVER_CLASS = {value : $scope.datastoreSubTypeList[0].driver};
-    		$scope.datastore.properties.URL = {value : "jdbc:mysql://" + $scope.datastore.hostName + ":" + $scope.datastore.portNum + "/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8"};
+    		$scope.datastore.properties.URL = {value : 'jdbc:mysql://' + $scope.datastore.hostName + ':' + $scope.datastore.portNum + '/?useInformationSchema=true&useUnicode=true&characterEncoding=utf8'};
     		break;
     	case 'MSSQL' :
     		$scope.datastore.properties.DRIVER_CLASS = {value : $scope.datastoreSubTypeList[1].driver};
-    		$scope.datastore.properties.URL = {value : "jdbc:microsoft:sqlserver:" + $scope.datastore.hostName + ":" + $scope.datastore.portNum};
+    		$scope.datastore.properties.URL = {value : 'jdbc:microsoft:sqlserver:' + $scope.datastore.hostName + ':' + $scope.datastore.portNum};
     		break;
     	case 'ORACLE' :
     		$scope.datastore.properties.DRIVER_CLASS = {value : $scope.datastoreSubTypeList[2].driver};
-    		$scope.datastore.properties.URL = {value : "jdbc:oracle:thin:@" + $scope.datastore.hostName + ":" + $scope.datastore.portNum};
+    		$scope.datastore.properties.URL = {value : 'jdbc:oracle:thin:@' + $scope.datastore.hostName + ':' + $scope.datastore.portNum};
     		break;
       default:	
     	}

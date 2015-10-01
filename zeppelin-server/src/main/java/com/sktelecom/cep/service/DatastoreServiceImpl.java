@@ -53,7 +53,7 @@ public class DatastoreServiceImpl implements DatastoreService {
     dataStoreRepository.save(dataStoreEntity);
     
     Map<String, DatastorePropertyVo> map = datastore.getProperties();
-    for(String key : map.keySet()) {
+    for (String key : map.keySet()) {
       DataStoreProperty dataStoreProperty = new DataStoreProperty();
       dataStoreProperty.setDataStore(dataStoreEntity);
       dataStoreProperty.setName(key);
@@ -74,8 +74,8 @@ public class DatastoreServiceImpl implements DatastoreService {
     dataStoreRepository.save(dataStoreEntity);
     dataStorePropsRepository.delete(dataStoreEntity.getProperties());
     
-   Map<String, DatastorePropertyVo> map = datastore.getProperties();
-    for(String key : map.keySet()) {
+    Map<String, DatastorePropertyVo> map = datastore.getProperties();
+    for (String key : map.keySet()) {
       DataStoreProperty dataStoreProperty = new DataStoreProperty();
       dataStoreProperty.setDataStore(dataStoreEntity);
       dataStoreProperty.setName(key);
